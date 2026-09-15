@@ -1,0 +1,26 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="timer" data-ia-timer data-mode="{{ answer.mode }}" data-seconds="{{ answer.seconds }}">
+  <div class="ia-pad">
+    <div class="ia-head">
+      <div class="ia-tabs" data-ia-timer-tabs>
+        <button type="button" class="ia-tab" data-mode="timer">⏲ {% trans "Timer" %}</button>
+        <button type="button" class="ia-tab" data-mode="stopwatch">⏱ {% trans "Stopwatch" %}</button>
+      </div>
+    </div>
+    <div style="text-align:center;padding:.4rem 0;">
+      <div class="ia-timer-display" data-ia-timer-display>00:00</div>
+    </div>
+    <div class="ia-timer-presets" data-ia-timer-presets hidden>
+      <button type="button" class="ia-chip" data-secs="60">1 min</button>
+      <button type="button" class="ia-chip" data-secs="300">5 min</button>
+      <button type="button" class="ia-chip" data-secs="600">10 min</button>
+      <button type="button" class="ia-chip" data-secs="1500">25 min</button>
+    </div>
+    <div class="ia-timer-controls">
+      <button type="button" class="ia-btn ia-btn-primary" data-ia-timer-start>{% trans "Start" %}</button>
+      <button type="button" class="ia-btn" data-ia-timer-pause hidden>{% trans "Pause" %}</button>
+      <button type="button" class="ia-btn" data-ia-timer-reset>{% trans "Reset" %}</button>
+    </div>
+    {% include 'instant/_nojs.html' %}
+  </div>
+</section>

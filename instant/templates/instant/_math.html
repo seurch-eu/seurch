@@ -1,0 +1,13 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="math">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🧮 {% trans "Calculator" %}</span></div>
+    <div class="ia-muted ia-mono" style="font-size:.9rem;margin-bottom:.35rem;">{{ answer.expr }} =</div>
+    <div class="ia-result">
+      <span class="ia-result-value">{{ answer.result }}</span>
+      <button class="ia-copy" data-ia-copy="{{ answer.result }}" title="{% trans "Copy" %}" aria-label="{% trans "Copy result" %}" style="margin-left:auto;">
+        <i class="fa-solid fa-copy" aria-hidden="true"></i>
+      </button>
+    </div>
+  </div>
+</section>

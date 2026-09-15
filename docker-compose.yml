@@ -1,0 +1,38 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: search
+      POSTGRES_USER: search
+      POSTGRES_PASSWORD: search
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mailpit:
+    image: axllent/mailpit
+    ports:
+      - "1025:1025"   # SMTP
+      - "8025:8025"   # Web UI
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+  # Translate tab, set LIBRETRANSLATE_URL=http://localhost:5000 in .env to use it.
+  libretranslate:
+    image: libretranslate/libretranslate:latest
+    ports:
+      - "5000:5000"
+    environment:
+      LT_DISABLE_WEB_UI: "true"
+      # Restrict loaded language models to keep memory/startup time down;
+      # keep in sync with translate.services.FALLBACK_LANGUAGES.
+      LT_LOAD_ONLY: en,fr,de,es,it,pt,nl,ru,ar,zh,ja,ko,pl,tr,uk
+    volumes:
+      - libretranslate_data:/home/libretranslate/.local
+
+volumes:
+  postgres_data:
+  libretranslate_data:

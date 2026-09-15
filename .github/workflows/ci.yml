@@ -1,0 +1,120 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+    branches: ["**"]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+jobs:
+  commits:
+    name: Commit messages
+    # Only a pull request has a well-defined range of new commits to check.
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # cz walks the range, so the PR's commits have to be present.
+          fetch-depth: 0
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Check the commit messages are Conventional Commits
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          # Off the merge base rather than the base branch's head, so a branch
+          # that has merged main back in is not asked to answer for main's
+          # older, pre-commitizen history.
+          base=$(git merge-base "$BASE_SHA" "$HEAD_SHA")
+          echo "Checking $base..$HEAD_SHA"
+          uv run cz check --rev-range "$base..$HEAD_SHA"
+
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: search
+          POSTGRES_USER: search
+          POSTGRES_PASSWORD: search
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URL: postgres://search:search@localhost:5432/search
+      SECRET_KEY: ci-test-secret-key-not-for-production
+      # DEBUG defaults to False (fail-closed for production); CI runs the
+      # suite in the same dev mode a local checkout uses (.env.example).
+      DEBUG: "True"
+      BRAVE_API_KEY: ""
+      BRAVE_SUGGEST_API_KEY: ""
+      MOJEEK_API_KEY: ""
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: "latest"
+
+      - name: Install dependencies
+        run: uv sync --locked
+
+      - name: Install gettext (for compilemessages)
+        run: sudo apt-get update && sudo apt-get install -y gettext
+
+      - name: Lint with ruff
+        run: uv run ruff check .
+
+      - name: Compile translation catalogs
+        run: uv run python manage.py compilemessages
+
+      - name: Apply migrations
+        run: uv run python manage.py migrate --run-syncdb
+
+      - name: Run tests
+        run: uv run python manage.py test search accounts instant api --verbosity=2
+
+  css:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install Tailwind toolchain
+        run: npm ci
+
+      - name: Compile Tailwind sources
+        run: npm run build:css
+
+      - name: Verify the committed CSS matches the source
+        run: |
+          if ! git diff --quiet -- search/static/search/tailwind.css instant/static/instant/instant.css; then
+            echo "::error::Compiled CSS is stale. Run 'make css' and commit the result."
+            git --no-pager diff --stat -- search/static/search/tailwind.css instant/static/instant/instant.css
+            exit 1
+          fi
+          echo "Compiled CSS is up to date."

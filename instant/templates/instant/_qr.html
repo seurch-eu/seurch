@@ -1,0 +1,16 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="qr" data-ia-qr data-qr-url="{% url 'instant:qr_svg' %}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🔳 {% trans "QR code" %}</span></div>
+    <div class="ia-qr">
+      <div class="ia-qr-img" data-ia-qr-img>{{ answer.svg|safe }}</div>
+      <div class="ia-qr-side">
+        <textarea class="ia-textarea" data-ia-qr-text style="min-height:64px;font-family:inherit;" aria-label="{% trans "QR content" %}" spellcheck="false">{{ answer.text }}</textarea>
+        <div class="ia-row">
+          <a class="ia-btn ia-btn-primary" data-ia-qr-download download="qrcode.svg" href="#">{% trans "Download SVG" %}</a>
+        </div>
+        <p class="ia-hint">{% trans "Generated locally, nothing is sent to a third party." %}</p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="currency">
+  <div class="ia-pad">
+    <div class="ia-head">
+      <span class="ia-eyebrow">💱 {% trans "Currency" %}</span>
+      <span class="ia-head-meta">{% if answer.stale %}{% trans "Cached rate" %}{% else %}ECB{% if answer.date %} · {{ answer.date }}{% endif %}{% endif %}</span>
+    </div>
+    <div class="ia-row" style="margin-bottom:.75rem;">
+      <span class="ia-muted" style="font-size:.85rem;">{{ answer.amount }} {{ answer.from_code }} =</span>
+      <span style="font-size:1.2rem;font-weight:700;">{{ answer.to_flag }} {{ answer.result }} {{ answer.to_code }}</span>
+      <span class="ia-muted" style="font-size:.74rem;margin-left:auto;">1 {{ answer.from_code }} = {{ answer.unit_rate }} {{ answer.to_code }}</span>
+    </div>
+    <div class="ia-convert" data-ia-currency
+         data-from="{{ answer.from_code }}" data-to="{{ answer.to_code }}">
+      <div class="ia-field">
+        <input class="ia-input" type="number" inputmode="decimal" step="any" value="{{ answer.amount_raw }}" data-ia-amount aria-label="{% trans "Amount" %}">
+        <select class="ia-select" data-ia-from aria-label="{% trans "From currency" %}"></select>
+      </div>
+      <button type="button" class="ia-swap" data-ia-swap title="{% trans "Swap" %}" aria-label="{% trans "Swap currencies" %}">⇄</button>
+      <div class="ia-field">
+        <input class="ia-input" type="number" inputmode="decimal" step="any" value="{{ answer.result_raw }}" data-ia-to-amount aria-label="{% trans "Converted amount" %}">
+        <select class="ia-select" data-ia-to aria-label="{% trans "To currency" %}"></select>
+      </div>
+    </div>
+    <div class="ia-row" style="margin-top:.75rem;gap:.4rem;" data-ia-quotes>
+      {% for c in answer.popular %}<span class="ia-chip" data-ia-quote="{{ c }}">{{ c }}&nbsp;<strong data-ia-quote-val>–</strong></span>{% endfor %}
+    </div>
+    {{ answer.data|json_script:"ia-currency-data" }}
+  </div>
+</section>

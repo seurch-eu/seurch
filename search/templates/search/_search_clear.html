@@ -1,0 +1,24 @@
+{% load i18n %}
+{% comment %}
+Clear button for the main search bar, shared by the homepage box and the compact
+results-header one. It only wipes the field: the input is emptied and the caret
+handed back, it does NOT submit or navigate (hence `type="button"`), so a cleared
+bar is the same "type a new query" state a fresh homepage visit gives you.
+
+Progressive enhancement. The button ships `hidden` and only ever becomes visible
+through search/static/search/clear.js, which reveals it while the field holds
+text and hides it again when the field empties. So without scripting there is
+nothing broken to see: no dead control, and the native
+::-webkit-search-cancel-button stays suppressed (assets/app.css) for everyone,
+WebKit-only and unstyleable as it is. That also means the Font Awesome glyph is
+only ever asked to paint on a page where scripting ran, which is exactly the
+condition the icon webfont needs.
+
+The `flex` half of the visibility toggle lives in clear.js rather than here
+because `hidden` and a display utility on the same element would race in the
+compiled stylesheet; the class list below carries only the flex *alignment*.
+{% endcomment %}
+<button type="button" data-search-clear aria-label="{% trans "Clear search" %}" title="{% trans "Clear search" %}"
+        class="hidden shrink-0 items-center justify-center w-8 h-8 sm:w-9 sm:h-9 mr-1 rounded-full text-ink-muted hover:bg-edge hover:text-ink transition-colors">
+  <i class="fa-solid fa-xmark text-[15px]" aria-hidden="true"></i>
+</button>

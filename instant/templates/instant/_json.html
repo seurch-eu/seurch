@@ -1,0 +1,18 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="json" data-ia-json>
+  <div class="ia-pad">
+    <div class="ia-head">
+      <span class="ia-eyebrow">📋 {% trans "JSON formatter" %}</span>
+      <span class="ia-head-meta" data-ia-json-status></span>
+    </div>
+    <textarea class="ia-textarea" data-ia-json-input spellcheck="false" placeholder="{% trans 'Paste JSON here, e.g. {"hello": "world"}' %}" aria-label="{% trans "JSON input" %}">{{ answer.input }}</textarea>
+    <div class="ia-row" style="margin:.6rem 0;gap:.4rem;">
+      <button type="button" class="ia-btn ia-btn-primary" data-ia-json-format>{% trans "Beautify" %}</button>
+      <button type="button" class="ia-btn" data-ia-json-minify>{% trans "Minify" %}</button>
+      <button class="ia-copy" data-ia-copy-target="[data-ia-json-output]" title="{% trans "Copy" %}" aria-label="{% trans "Copy" %}"><i class="fa-solid fa-copy" aria-hidden="true"></i></button>
+    </div>
+    <textarea class="ia-textarea" data-ia-json-output readonly aria-label="{% trans "Formatted JSON" %}">{{ answer.formatted }}</textarea>
+    <div class="ia-error-text" data-ia-json-error hidden></div>
+    {% include 'instant/_nojs.html' %}
+  </div>
+</section>

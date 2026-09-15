@@ -1,0 +1,114 @@
+{% extends "search/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Provider status - Seurch" %}{% endblock %}
+
+{% block body_class %}bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased min-h-screen{% endblock %}
+
+{% block body %}
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 flex h-17 items-center gap-3 px-4 sm:px-6 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur">
+    <a href="{% url 'search:index' %}" class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 shrink-0" aria-label="Seurch home">
+      <img src="{% static 'search/logo.svg' %}" width="28" height="28" alt="" aria-hidden="true">
+      <span class="text-[1.2rem] font-extrabold tracking-[-0.5px] wordmark-gradient">Seurch</span>
+    </a>
+    <span class="text-base font-semibold text-slate-500 dark:text-slate-400 ml-1 hidden sm:inline">{% trans "Provider status" %}</span>
+    <div class="flex items-center gap-2 ml-auto">
+      <a href="{% url 'search:index' %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 text-[0.82rem] font-semibold text-slate-600 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-white transition-colors">&larr; {% trans "Back" %}</a>
+      </div>
+  </header>
+
+  <main class="max-w-[720px] mx-auto px-6 py-10 max-[700px]:px-4 max-[700px]:py-6 w-full">
+
+    <!-- OVERALL SUMMARY -->
+    {% if summary.total %}
+      {% if summary.state == 'issues' %}
+      <div class="flex items-center gap-4 rounded-2xl border border-red-200 dark:border-red-500/30 bg-red-50 dark:bg-red-500/10 px-5 py-4 mb-9">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600 dark:bg-red-400/15 dark:text-red-300">
+          <i class="fa-solid fa-triangle-exclamation text-[20px]" aria-hidden="true"></i>
+        </span>
+        <div class="min-w-0">
+          <strong class="block text-[1rem] font-bold text-red-900 dark:text-red-200">{% trans "Some providers are reporting issues" %}</strong>
+          <span class="text-[0.82rem] text-red-700 dark:text-red-300/80">{% blocktrans with operational=summary.operational total=summary.total %}{{ operational }} of {{ total }} operational{% endblocktrans %}</span>
+        </div>
+      </div>
+      {% elif summary.state == 'operational' %}
+      <div class="flex items-center gap-4 rounded-2xl border border-emerald-200 dark:border-emerald-500/30 bg-emerald-50 dark:bg-emerald-500/10 px-5 py-4 mb-9">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-400/15 dark:text-emerald-300">
+          <i class="fa-solid fa-circle-check text-[20px]" aria-hidden="true"></i>
+        </span>
+        <div class="min-w-0">
+          <strong class="block text-[1rem] font-bold text-emerald-900 dark:text-emerald-200">{% trans "All providers operational" %}</strong>
+          <span class="text-[0.82rem] text-emerald-700 dark:text-emerald-300/80">{% blocktrans with operational=summary.operational total=summary.total %}{{ operational }} of {{ total }} operational{% endblocktrans %}</span>
+        </div>
+      </div>
+      {% else %}
+      <div class="flex items-center gap-4 rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-5 py-4 mb-9">
+        <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-300">
+          <i class="fa-solid fa-clock text-[20px]" aria-hidden="true"></i>
+        </span>
+        <div class="min-w-0">
+          <strong class="block text-[1rem] font-bold text-slate-800 dark:text-slate-100">{% trans "Awaiting provider data" %}</strong>
+          <span class="text-[0.82rem] text-slate-500 dark:text-slate-400">{% blocktrans with operational=summary.operational total=summary.total %}{{ operational }} of {{ total }} operational{% endblocktrans %}</span>
+        </div>
+      </div>
+      {% endif %}
+    {% endif %}
+
+    <!-- PROVIDER GROUPS -->
+    {% for group in groups %}
+    <section class="mb-7">
+      <h2 class="text-[0.7rem] font-bold uppercase tracking-[0.08em] text-slate-400 dark:text-slate-500 mb-2 px-1">{{ group.label }}</h2>
+      <div class="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 divide-y divide-slate-100 dark:divide-slate-800 overflow-hidden">
+        {% for item in group.items %}
+        <div class="flex items-center justify-between gap-4 px-4 py-3.5">
+          <div class="flex items-center gap-3 min-w-0">
+            <span class="text-xl leading-none shrink-0 w-7 text-center" aria-hidden="true">{{ item.flag }}</span>
+            <div class="min-w-0">
+              <strong class="block text-[0.92rem] font-semibold text-slate-800 dark:text-slate-100 truncate">{{ item.name }}</strong>
+              <span class="text-[0.74rem] text-slate-400 dark:text-slate-500">
+                {% if item.monitor == 'probe' %}{% trans "Checked via health endpoint" %}{% else %}{% trans "Checked from searches" %}{% endif %}
+              </span>
+            </div>
+          </div>
+          <div class="flex flex-col items-end gap-1 shrink-0 text-right">
+            {% if item.state == 'up' %}
+            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.74rem] font-semibold ring-1 ring-inset bg-emerald-50 text-emerald-700 ring-emerald-600/20 dark:bg-emerald-400/10 dark:text-emerald-300 dark:ring-emerald-400/25">
+              <span class="h-1.5 w-1.5 rounded-full bg-emerald-500 dark:bg-emerald-400"></span>{% trans "Operational" %}
+            </span>
+            {% elif item.state == 'down' %}
+            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.74rem] font-semibold ring-1 ring-inset bg-red-50 text-red-700 ring-red-600/20 dark:bg-red-400/10 dark:text-red-300 dark:ring-red-400/25">
+              <span class="h-1.5 w-1.5 rounded-full bg-red-500 dark:bg-red-400"></span>{% trans "Down" %}
+            </span>
+            {% else %}
+            <span class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[0.74rem] font-semibold ring-1 ring-inset bg-slate-100 text-slate-600 ring-slate-500/15 dark:bg-slate-400/10 dark:text-slate-300 dark:ring-slate-400/20">
+              <span class="h-1.5 w-1.5 rounded-full bg-slate-400 dark:bg-slate-500"></span>{% trans "No recent data" %}
+            </span>
+            {% endif %}
+            <span class="text-[0.72rem] text-slate-400 dark:text-slate-500">
+              {% if item.state == 'down' and item.last_ok_at %}
+                {% blocktrans with t=item.last_ok_at|timesince %}last worked {{ t }} ago{% endblocktrans %}
+              {% elif item.checked_at %}
+                {% blocktrans with t=item.checked_at|timesince %}checked {{ t }} ago{% endblocktrans %}
+              {% else %}
+                {% trans "not checked yet" %}
+              {% endif %}
+            </span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endfor %}
+
+    <!-- METHODOLOGY NOTE -->
+    <p class="text-[0.78rem] leading-relaxed text-slate-400 dark:text-slate-500 mt-9 pt-5 border-t border-slate-200 dark:border-slate-800">
+      {% trans "Providers with a public health endpoint are checked directly every few minutes. The others reflect the outcome of recent searches, so a provider that hasn't been queried recently may show no recent data." %}
+    </p>
+
+  </main>
+
+  {% include 'search/_footer.html' %} 
+
+{% endblock %}

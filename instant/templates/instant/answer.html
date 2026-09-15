@@ -1,0 +1,27 @@
+{% load static %}
+<div class="ia-wrap">
+  {% if answer.type == 'map' %}{% include 'instant/_map.html' %}
+  {% elif answer.type == 'weather' %}{% include 'instant/_weather.html' %}
+  {% elif answer.type == 'currency' %}{% include 'instant/_currency.html' %}
+  {% elif answer.type == 'unit' %}{% include 'instant/_units.html' %}
+  {% elif answer.type == 'math' %}{% include 'instant/_math.html' %}
+  {% elif answer.type == 'base' %}{% include 'instant/_base.html' %}
+  {% elif answer.type == 'color' %}{% include 'instant/_color.html' %}
+  {% elif answer.type == 'ip' %}{% include 'instant/_ip.html' %}
+  {% elif answer.type == 'qr' %}{% include 'instant/_qr.html' %}
+  {% elif answer.type == 'worldclock' %}{% include 'instant/_worldclock.html' %}
+  {% elif answer.type == 'regex' %}{% include 'instant/_regex.html' %}
+  {% elif answer.type == 'uuid' %}{% include 'instant/_uuid.html' %}
+  {% elif answer.type == 'password' %}{% include 'instant/_password.html' %}
+  {% elif answer.type == 'timestamp' %}{% include 'instant/_timestamp.html' %}
+  {% elif answer.type == 'hash' %}{% include 'instant/_hash.html' %}
+  {% elif answer.type == 'encode' %}{% include 'instant/_encode.html' %}
+  {% elif answer.type == 'json' %}{% include 'instant/_json.html' %}
+  {% elif answer.type == 'http' %}{% include 'instant/_http.html' %}
+  {% elif answer.type == 'port' %}{% include 'instant/_port.html' %}
+  {% elif answer.type == 'random' %}{% include 'instant/_random.html' %}
+  {% elif answer.type == 'dice' %}{% include 'instant/_dice.html' %}
+  {% elif answer.type == 'coin' %}{% include 'instant/_coin.html' %}
+  {% elif answer.type == 'timer' %}{% include 'instant/_timer.html' %}
+  {% endif %}
+</div>

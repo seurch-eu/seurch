@@ -1,0 +1,33 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" class="scroll-smooth{% if theme_pref == 'dark' %} dark{% elif theme_pref == 'system' %} theme-system{% endif %}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{% trans "Seurch - European privacy-first search engine" %}">
+  {# TripAdvisor's Master Terms (3.4.3) require pages showing its content to be excluded from search indexes. #}
+  {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
+  <title>{% block title %}Seurch{% endblock %}</title>
+  {# No-FOUC theme paint. The server already stamped the class from the cookie (so it works with JS off); when JS is on, reconcile both classes definitively here, covering a cookie changed by import/cloud sync. #}
+  <script nonce="{{ csp_nonce }}">(function(){var t;try{var m=document.cookie.match(/(?:^|; )seurch_prefs=([^;]*)/);t=m&&JSON.parse(decodeURIComponent(m[1])).theme;}catch(e){}t=t||'system';var e=document.documentElement,s=t==='system';e.classList.toggle('theme-system',s);e.classList.toggle('dark',t==='dark'||(s&&window.matchMedia('(prefers-color-scheme: dark)').matches));})();</script>
+  {# 'js=1' lets the server confirm JS is on so results can lazy-load the cards (absent → render them inline). #}
+  {# The '.js' class flips on JS-only affordances before first paint (e.g. Settings auto-saves and hides its Save buttons). #}
+  <script nonce="{{ csp_nonce }}">document.cookie='js=1;path=/;SameSite=Lax';document.documentElement.classList.add('js');</script>
+  <link rel="stylesheet" href="{% static 'search/tailwind.css' %}">
+  {# Self-hosted Font Awesome Free (solid), vendored from npm into static, see scripts/copy-fontawesome.mjs #}
+  <link rel="stylesheet" href="{% static 'search/vendor/fontawesome/css/fontawesome.min.css' %}">
+  <link rel="stylesheet" href="{% static 'search/vendor/fontawesome/css/solid.min.css' %}">
+  <link rel="icon" href="{% static 'search/logo.svg' %}" type="image/svg+xml">
+  <link rel="search" type="application/opensearchdescription+xml" title="Seurch" href="{% url 'search:opensearch_xml' %}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 min-h-screen flex flex-col font-sans antialiased{% endblock %}">
+{% block body %}{% endblock %}
+{# User bangs ride along as an inert JSON data block: json_script escapes <,>,& so a hostile url_template can never break out into markup. bangs.js/about.js parse it by id. #}
+{{ user_bangs|json_script:"user-bangs" }}
+<script nonce="{{ csp_nonce }}">var BANGS_URL="{% static 'search/bangs.min.json' %}";</script>
+<script src="{% static 'search/bangs.js' %}"></script>
+<script src="{% static 'search/theme.js' %}"></script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

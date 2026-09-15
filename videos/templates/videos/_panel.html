@@ -1,0 +1,48 @@
+{% load i18n image_extras %}
+{% if not video_results %}
+  {% comment %}Empty tab: an invitation before anything is searched (switching
+  over from another tab lands here with no query), the operator notice when no
+  provider can serve it, and only otherwise "nothing matched".{% endcomment %}
+  {% if not query %}
+    {% trans "Search for videos" as empty_title %}
+    {% trans "Type a query above and matching videos appear here." as empty_sub %}
+    {% include 'search/_empty.html' with icon="🎬" title=empty_title sub=empty_sub only %}
+  {% elif brave_key_missing %}
+    {% blocktrans asvar empty_sub %}Brave API key not configured. Set <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">BRAVE_API_KEY</code> in <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">.env</code>.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="⚙️" sub=empty_sub only %}
+  {% else %}
+    {% trans "No videos found" as empty_title %}
+    {% blocktrans asvar empty_sub %}Nothing matched <strong>"{{ query }}"</strong>. Check the spelling, or try different keywords.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="🔎" title=empty_title sub=empty_sub only %}
+  {% endif %}
+{% else %}
+<div class="md:pr-[120px]">
+  <div class="grid grid-cols-[repeat(auto-fill,minmax(260px,1fr))] gap-5" role="list" aria-label="{% trans "Video results" %}">
+    {% for video in video_results %}
+    <article class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all" role="listitem">
+      <a href="{{ video.url }}" {% if open_links_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %} class="block">
+        <div class="relative aspect-video bg-slate-100 dark:bg-slate-700 overflow-hidden">
+          {% if video.thumbnail.src %}
+            <img src="{% img_src video.thumbnail.src %}" alt="" class="w-full h-full object-cover" loading="lazy">
+          {% endif %}
+          <div class="absolute inset-0 flex items-center justify-center bg-black/20 hover:bg-black/40 transition-colors">
+            <div class="w-[48px] h-[48px] bg-white/90 rounded-full flex items-center justify-center">
+              <i class="fa-solid fa-play text-[20px] ml-0.5 text-slate-700" aria-hidden="true"></i>
+            </div>
+          </div>
+          {% if video.video.duration %}<span class="absolute bottom-1.5 right-1.5 bg-black/75 text-white text-xs font-semibold px-1.5 py-0.5 rounded">{{ video.video.duration }}</span>{% endif %}
+          {% if video.source %}
+            <span class="absolute top-1 right-1 max-w-[85%] px-1.5 py-0.5 rounded bg-black/60 text-white text-[0.62rem] font-medium leading-none truncate">{{ video.source }}</span>
+          {% endif %}
+        </div>
+        <div class="p-3">
+          <h3 class="text-[0.92rem] font-semibold leading-snug mb-1.5 line-clamp-2 text-slate-900 dark:text-slate-100">{{ video.title }}</h3>
+          <div class="text-[0.78rem] text-slate-500 dark:text-slate-400">{{ video.meta_url.hostname }}{% if video.age %} · {{ video.age }}{% endif %}</div>
+        </div>
+      </a>
+    </article>
+    {% endfor %}
+  </div>
+  {% include 'search/_pagination.html' %}
+</div>
+{% endif %}

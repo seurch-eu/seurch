@@ -1,0 +1,24 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="unit">
+  <div class="ia-pad">
+    <div class="ia-head">
+      <span class="ia-eyebrow">📐 {% blocktrans with cat=answer.category_label %}{{ cat }} converter{% endblocktrans %}</span>
+    </div>
+    <div class="ia-row" style="margin-bottom:.75rem;">
+      <span style="font-size:1.15rem;font-weight:700;">{{ answer.amount }} {{ answer.from_symbol }} = {{ answer.result }} {{ answer.to_symbol }}</span>
+    </div>
+    <div class="ia-convert" data-ia-units
+         data-from="{{ answer.from_key }}" data-to="{{ answer.to_key }}">
+      <div class="ia-field">
+        <input class="ia-input" type="number" inputmode="decimal" step="any" value="{{ answer.amount_raw }}" data-ia-amount aria-label="{% trans "From value" %}">
+        <select class="ia-select" data-ia-from aria-label="{% trans "From unit" %}"></select>
+      </div>
+      <span class="ia-conv-eq" aria-hidden="true">=</span>
+      <div class="ia-field">
+        <input class="ia-input" type="number" inputmode="decimal" step="any" value="{{ answer.result_raw }}" data-ia-to-amount aria-label="{% trans "To value" %}">
+        <select class="ia-select" data-ia-to aria-label="{% trans "To unit" %}"></select>
+      </div>
+    </div>
+    {{ answer.payload|json_script:"ia-unit-data" }}
+  </div>
+</section>

@@ -1,0 +1,20 @@
+{% load i18n %}
+<nav class="flex items-center justify-between pt-6 pb-2" aria-label="{% trans "Pagination" %}">
+  {% if prev_page_url %}
+    <a href="{{ prev_page_url }}" rel="prev" class="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+      <i class="fa-solid fa-chevron-left text-[16px]" aria-hidden="true"></i>
+      {% trans "Previous" %}
+    </a>
+  {% else %}
+    <span></span>
+  {% endif %}
+  <span class="text-xs font-medium text-slate-500 dark:text-slate-400" aria-current="page">{% blocktrans %}Page {{ page }}{% endblocktrans %}</span>
+  {% if next_page_url %}
+    <a href="{{ next_page_url }}" rel="next" class="flex items-center gap-1.5 px-4 py-2 rounded-lg border border-slate-200 dark:border-slate-700 text-sm font-medium text-slate-600 dark:text-slate-400 hover:border-indigo-400 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">
+      {% trans "Next" %}
+      <i class="fa-solid fa-chevron-right text-[16px]" aria-hidden="true"></i>
+    </a>
+  {% else %}
+    <span></span>
+  {% endif %}
+</nav>

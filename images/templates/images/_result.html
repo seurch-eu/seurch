@@ -1,0 +1,21 @@
+{% load i18n image_extras %}
+{# One image result, shared by the results grid (images/_panel.html) and the detail page's similar-images grid (images/detail.html). On the results page images.js intercepts the .js-img-open link to open the lightbox; without JS (or on the detail page) the link lands on the server-rendered detail page. #}
+<figure class="break-inside-avoid mb-3 cursor-pointer group relative" role="listitem" tabindex="0" data-img-card data-source="{{ img.source }}" data-page="{{ img.url }}">
+  <a href="{% url 'search:image_detail' %}?q={{ img.title|urlencode }}&amp;query={{ query|urlencode }}&amp;img={{ img.thumbnail.src|urlencode }}&amp;src={{ img.url|urlencode }}&amp;source={{ img.source|urlencode }}&amp;lang={{ qs_lang|urlencode }}&amp;safe={{ qs_safe|urlencode }}{% for key in scope_keys %}&amp;scope={{ key }}{% endfor %}" class="js-img-open block rounded-md overflow-hidden relative">
+    <img src="{% img_src img.thumbnail.src %}" alt="{{ img.title }}" class="w-full block object-cover" loading="lazy">
+    <span class="absolute bottom-0 left-0 right-0 px-2 pt-6 pb-1.5 bg-linear-to-t from-black/60 to-transparent text-white text-[0.75rem] opacity-0 group-hover:opacity-100 transition-opacity line-clamp-2">{{ img.title }}</span>
+  </a>
+  {% if img.source %}
+    {# Source badge links straight to the source page, a direct link kept outside the intercepted anchor so it still satisfies Pixabay's API attribution terms. #}
+    <a href="{{ img.url }}" target="_blank" rel="noopener noreferrer" class="absolute top-1 right-1 max-w-[85%] px-1.5 py-0.5 rounded bg-black/60 hover:bg-black/80 text-white text-[0.62rem] font-medium leading-none truncate no-underline transition-colors">{{ img.source }}</a>
+  {% endif %}
+  {# Direct actions: open the source page or the image itself straight from the gallery, without opening the lightbox. Kept outside the intercepted .js-img-open anchor so they navigate directly; revealed on hover. The image link honours the proxy-images preference, like the displayed thumbnail. Classes mirror the source badge so they're already in the compiled CSS. #}
+  <div class="absolute top-1 left-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+    <a href="{{ img.url }}" target="_blank" rel="noopener noreferrer" title="{% trans "Visit page" %}" aria-label="{% trans "Visit page" %}" class="px-1.5 py-0.5 rounded bg-black/60 hover:bg-black/80 text-white text-xs leading-none no-underline transition-colors">
+      <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+    </a>
+    <a href="{% img_src img.thumbnail.src %}" target="_blank" rel="noopener noreferrer" title="{% trans "Open image" %}" aria-label="{% trans "Open image" %}" class="px-1.5 py-0.5 rounded bg-black/60 hover:bg-black/80 text-white text-xs leading-none no-underline transition-colors">
+      <i class="fa-solid fa-image" aria-hidden="true"></i>
+    </a>
+  </div>
+</figure>

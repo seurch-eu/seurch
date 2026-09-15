@@ -1,0 +1,27 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="color" data-ia-color>
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🎨 {% trans "Colour" %}</span></div>
+    <div class="ia-color-top">
+      <div class="ia-swatch" data-ia-swatch style="background:{{ answer.hex }};"></div>
+      <div class="ia-color-fields">
+        <div class="ia-color-line">
+          <input type="color" class="ia-color-native" value="{{ answer.hex }}" data-ia-native aria-label="{% trans "Pick colour" %}">
+          <span class="ia-label">HEX</span>
+          <input type="text" data-ia-hex value="{{ answer.hex }}" spellcheck="false" autocomplete="off" aria-label="{% trans "Hex value" %}">
+          {% include 'instant/_copybtn.html' %}
+        </div>
+        <div class="ia-color-line">
+          <span class="ia-label">RGB</span>
+          <input type="text" data-ia-rgb value="{{ answer.rgb }}" spellcheck="false" autocomplete="off" aria-label="{% trans "RGB value" %}">
+          {% include 'instant/_copybtn.html' %}
+        </div>
+        <div class="ia-color-line">
+          <span class="ia-label">HSL</span>
+          <input type="text" data-ia-hsl value="{{ answer.hsl }}" spellcheck="false" autocomplete="off" aria-label="{% trans "HSL value" %}">
+          {% include 'instant/_copybtn.html' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

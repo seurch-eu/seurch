@@ -1,0 +1,769 @@
+/* ============================================================
+   SEURCH, Tailwind CSS v4 source (global stylesheet)
+
+   Built by `make css` → search/static/search/tailwind.css (committed).
+
+   STYLING RULE (see AGENT.md): do as much as possible with Tailwind.
+   Hand-written CSS is allowed ONLY for things Tailwind cannot express;
+   every such block below is grouped and labelled with the reason.
+   When a utility exists, use it (in the template, or via `@apply` here),
+   do not hand-roll CSS that Tailwind already covers.
+   ============================================================ */
+
+/* Declare the cascade-layer order up front so the project's own component
+   layer (`app`) sits AFTER Tailwind's `utilities`. These component/state rules
+   must beat utility classes placed on the same element (e.g. the maps tab
+   zeroes the `.site-main` padding utilities, the active tab label recolours
+   over `text-slate-500`). In v3 this was free, the custom stylesheet loaded
+   after Tailwind, but cascade layers ignore source order, so make it explicit. */
+@layer theme, base, components, utilities, app;
+
+@import "tailwindcss" source(none);
+
+/* Explicit, deterministic content sources (so the build never depends on
+   auto-detection scanning the committed output or Python files). */
+@source "../search/**/*.{html,js}";
+@source "../accounts/**/*.html";
+@source "../instant/**/*.{html,js}";
+@source "../cards/**/*.{html,js}";
+@source "../web/**/*.html";
+@source "../images/**/*.html";
+@source "../news/**/*.{html,js}";
+@source "../videos/**/*.html";
+@source "../maps/**/*.{html,js}";
+
+/* The app toggles `.dark` on <html>; wire the `dark:` variant to that class.
+   It ALSO honours `.theme-system` + the OS `prefers-color-scheme` so the
+   "System" theme renders dark with no JavaScript: the server stamps
+   `.theme-system` on <html> (from the saved preference) and this media query
+   does the rest. With JS, theme.js resolves system → `.dark` directly; the two
+   never disagree because both read the same OS preference. */
+@custom-variant dark {
+  &:where(.dark, .dark *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(.theme-system, .theme-system *) {
+      @slot;
+    }
+  }
+}
+
+/* The <head> adds `.js` to <html> the instant scripting is available; wire a
+   `js:` variant to it so JS-only affordances render as plain utilities. Used by
+   Settings, whose toggles auto-save, to hide their now-redundant "Save changes"
+   buttons (`js:hidden`) while keeping them for visitors without JavaScript. */
+@custom-variant js (&:where(.js, .js *));
+
+/* Inverse of `js:`, applied only while scripting hasn't run, whether JavaScript
+   is disabled, blocked by an extension (e.g. NoScript, via CSP), or threw before
+   the bootstrap. The `.js` class is added by an inline <head> snippet the instant
+   scripting executes, so its ABSENCE is the reliable no-JS signal. `<noscript>`
+   is NOT, a CSP-based blocker stops scripts from running yet leaves scripting
+   "enabled", so `<noscript>` never renders, which is why icon/text fallbacks use
+   this variant instead. */
+@custom-variant nojs (html:not(.js) &);
+
+/* Knowledge cards ship trimmed on mobile: the panel stacks ABOVE the web
+   results there, so a full-height card would push the answer off-screen. Every
+   part the templates drop on small screens (hero image, cast, crew, tagline,
+   the clamp on the summary) is marked `hidden card-open:… sm:…`, and the card's
+   "Show more" button — itself JS-only, `js:max-sm:` — puts `.card-open` on the
+   card root to bring it back. A variant, not a component rule, so the expanded
+   display type sits in the template right next to the `sm:` one it mirrors. */
+@custom-variant card-open (&:where(.card-open, .card-open *));
+
+/* ------------------------------------------------------------
+   Design tokens → first-class Tailwind colour utilities.
+   `bg-surface`, `text-ink`, `border-edge`, `text-brand`, … all exist
+   and flip automatically in dark mode (see the `.dark` overrides below,
+   which re-point the same custom properties the utilities read).
+   ------------------------------------------------------------ */
+@theme {
+  --color-surface: #ffffff;
+  --color-elevated: #f8fafc;
+  --color-edge: #e2e8f0;
+  --color-ink: #1e293b;
+  --color-ink-muted: #64748b;
+  --color-ink-soft: #94a3b8;
+  --color-brand: #4f46e5;
+  --color-brand-soft: #eef2ff;
+}
+
+@layer base {
+  /* Dark-mode token overrides + non-colour design vars + legacy aliases.
+     The aliases keep existing inline styles (a few instant templates) and
+     the JS-injected autocomplete box working without renaming anything. */
+  :root {
+    --bg-card: var(--color-surface);
+    --bg-alt: var(--color-elevated);
+    --border: var(--color-edge);
+    --text: var(--color-ink);
+    --text-muted: var(--color-ink-muted);
+    --text-light: var(--color-ink-soft);
+    --accent: var(--color-brand);
+    --accent-soft: var(--color-brand-soft);
+    --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.12);
+    --radius: 12px;
+    --transition: 0.18s ease;
+  }
+  .dark {
+    --color-surface: #1e293b;
+    --color-elevated: #1e293b;
+    --color-edge: #334155;
+    --color-ink: #e2e8f0;
+    --color-ink-muted: #94a3b8;
+    --color-ink-soft: #475569;
+    --color-brand: #818cf8;
+    --color-brand-soft: #1e1b4b;
+    --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.5);
+  }
+  /* No-JS "System" theme: when the OS asks for dark and the server stamped
+     `.theme-system` on <html> (from the saved preference), re-point the same
+     tokens so the page is fully dark without any JavaScript. Keep these values
+     in sync with `.dark` above. */
+  @media (prefers-color-scheme: dark) {
+    .theme-system {
+      --color-surface: #1e293b;
+      --color-elevated: #1e293b;
+      --color-edge: #334155;
+      --color-ink: #e2e8f0;
+      --color-ink-muted: #94a3b8;
+      --color-ink-soft: #475569;
+      --color-brand: #818cf8;
+      --color-brand-soft: #1e1b4b;
+      --shadow-lg: 0 8px 24px rgb(0 0 0 / 0.5);
+    }
+  }
+
+  /* --- Tailwind v3 → v4 compatibility shims (not Tailwind-expressible) ---
+     v4 changed three Preflight defaults; restore the v3 behaviour the
+     templates were written against. */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor); /* was gray-200 in v3 */
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer; /* v4 drops the default button pointer cursor */
+  }
+  input::placeholder,
+  textarea::placeholder {
+    color: var(--color-gray-400); /* v4 default is currentColor @ 50% */
+  }
+
+  /* --- Bare-element styling Tailwind utilities can't target --- */
+  /* Pseudo-element: hide the native search-clear affordance. WebKit-only and
+     unstyleable, so the search bar ships its own instead, on every browser
+     (search/templates/search/_search_clear.html + search/static/search/clear.js). */
+  input[type="search"]::-webkit-search-cancel-button {
+    display: none;
+  }
+  mark {
+    @apply bg-transparent font-semibold text-ink;
+  }
+  kbd {
+    @apply rounded-sm border border-edge bg-elevated px-1.5 py-0.5 font-mono text-[0.72rem] text-ink;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 0.1);
+  }
+}
+
+/* ------------------------------------------------------------
+   Custom utilities, genuinely outside Tailwind's vocabulary.
+   ------------------------------------------------------------ */
+
+/* No scrollbar-hide utility ships with Tailwind v4. */
+@utility scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* `app` layer, ordered after `utilities` (see the @layer declaration up top),
+   so these component + CSS-only-state rules win over utility classes that also
+   sit on the same elements. */
+@layer app {
+  /* No-JS: Font Awesome glyphs are a webfont (font-display:block) that never
+     paints when scripting or webfonts are blocked, leaving icon-only controls
+     invisible. Hide every icon when scripting hasn't run and let the text
+     fallbacks (the `nojs:` variant) carry the meaning. !important beats FA's own
+     non-important `display:var(--fa-display,inline-block)`. */
+  html:not(.js) :is(.fa, .fa-solid, .fa-regular, .fa-brands) {
+    display: none !important;
+  }
+
+  /* Gradient wordmark: Tailwind handles the clip/transparent fill; the
+     gradient paint and the Safari -webkit fill are the custom part. */
+  .wordmark-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(135deg, #4f46e5 0%, #8b5cf6 100%);
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Masonry image grid: CSS multi-column has no Tailwind equivalent
+     (the `columns: <count> <width>` shorthand isn't a utility). */
+  .images-grid {
+    columns: 4 180px;
+    gap: 8px;
+  }
+  .image-card {
+    @apply mb-2 break-inside-avoid;
+  }
+
+  /* ===== CSS-ONLY UI STATE (no JS) =====
+     The interactivity below is pure CSS: hidden checkboxes/radios drive
+     `:checked ~ sibling` and `:has()` selectors. Those selectors are not
+     expressible as Tailwind utilities, but every *property* they set uses
+     `@apply` so the styling itself still flows through Tailwind. */
+
+  /* Visually-hidden state inputs (tabs / settings panes / auth toggles). */
+  #tab-web,
+  #tab-images,
+  #tab-news,
+  #tab-videos,
+  #tab-maps,
+  #tab-translate,
+  #settings-general,
+  #settings-appearance,
+  #settings-language,
+  #settings-engine,
+  #settings-bangs,
+  #settings-blocked,
+  #settings-browser,
+  #settings-account,
+  #settings-apikeys,
+  #settings-backup,
+  #show-signin,
+  #show-signup {
+    @apply pointer-events-none absolute h-0 w-0 opacity-0;
+  }
+
+  /* --- Results: search-type tab panels --- */
+  .tab-panel {
+    @apply hidden;
+  }
+  #tab-web:checked ~ .site-main #panel-web {
+    @apply block;
+  }
+  #tab-images:checked ~ .site-main #panel-images {
+    @apply block;
+  }
+  #tab-news:checked ~ .site-main #panel-news {
+    @apply block;
+  }
+  #tab-videos:checked ~ .site-main #panel-videos {
+    @apply block;
+  }
+  #tab-maps:checked ~ .site-main #panel-maps {
+    @apply flex min-h-0 flex-col;
+  }
+  #tab-translate:checked ~ .site-main #panel-translate {
+    @apply block;
+  }
+
+  /* Active tab label (token-driven colour flips in dark mode). The tabs are
+     now links keyed by `data-tab`; the radios remain only to carry this
+     server-set active state into CSS. */
+  body:has(#tab-web:checked) .tab-label[data-tab="web"],
+  body:has(#tab-images:checked) .tab-label[data-tab="images"],
+  body:has(#tab-news:checked) .tab-label[data-tab="news"],
+  body:has(#tab-videos:checked) .tab-label[data-tab="videos"],
+  body:has(#tab-maps:checked) .tab-label[data-tab="maps"],
+  body:has(#tab-translate:checked) .tab-label[data-tab="translate"] {
+    @apply text-brand;
+    border-bottom-color: var(--color-brand);
+  }
+
+  /* --- Web panel: results + knowledge-panel grid ---
+     (Previously hand-written "because the shipped tailwind.css is purged";
+     now plain Tailwind utilities via @apply.) */
+  .panel-web-grid {
+    @apply grid grid-cols-1 items-start gap-6 lg:grid-cols-[minmax(0,700px)_400px] lg:gap-10;
+  }
+  .panel-web-grid > .qa-bar {
+    @apply order-1 lg:order-none lg:col-start-1 lg:row-start-1;
+  }
+  .panel-web-grid > .knowledge-panel {
+    @apply order-2 lg:order-none lg:col-start-2 lg:row-start-1;
+  }
+  .panel-web-grid > .search-results {
+    @apply order-3 max-w-[700px] lg:order-none lg:col-start-1 lg:row-start-1;
+  }
+  .search-results {
+    @apply max-w-[700px];
+  }
+  /* An empty web panel has no knowledge panel to line up beside, so its message
+     centres on the whole panel — the same box the other tabs' empty states
+     centre in — instead of inside the 700px results column, which sat it ~190px
+     to the left of where switching tabs puts the next one. Two `:has()`
+     conditions, both load-bearing: `:only-child` keeps the column (and its
+     width) whenever an instant answer or a "did you mean" shares the space, and
+     the knowledge-panel test can only be made at match time, since a deferred
+     panel is a placeholder cards.js drops once it knows there are no cards. */
+  .panel-web-grid:not(:has(.knowledge-panel)):has(.search-results > .results-empty:only-child) {
+    @apply lg:grid-cols-1;
+  }
+  .panel-web-grid:not(:has(.knowledge-panel)) > .search-results:has(> .results-empty:only-child) {
+    @apply max-w-none;
+  }
+
+  /* --- Shared empty states (every result panel) ---
+     One look for "nothing here yet" and "nothing matched", wherever the user
+     lands (search/templates/search/_empty.html). The `strong` rule is here
+     rather than on the element because that markup sits inside a translated
+     string, which carries no template classes of its own. */
+  .results-empty {
+    @apply flex w-full flex-col items-center px-6 py-14 text-center text-ink-muted;
+  }
+  .results-empty-icon {
+    @apply mb-4 text-[3.5rem] leading-none;
+  }
+  .results-empty-title {
+    @apply mb-1 text-base font-semibold text-ink;
+  }
+  .results-empty-sub {
+    @apply max-w-96 text-sm leading-normal;
+  }
+  .results-empty-sub strong {
+    @apply font-semibold text-ink;
+  }
+
+  /* --- Settings panes --- */
+  .settings-pane {
+    @apply hidden;
+  }
+  #settings-general:checked ~ .settings-layout .settings-content #pane-general,
+  #settings-appearance:checked ~ .settings-layout .settings-content #pane-appearance,
+  #settings-language:checked ~ .settings-layout .settings-content #pane-language,
+  #settings-engine:checked ~ .settings-layout .settings-content #pane-engine,
+  #settings-bangs:checked ~ .settings-layout .settings-content #pane-bangs,
+  #settings-blocked:checked ~ .settings-layout .settings-content #pane-blocked,
+  #settings-browser:checked ~ .settings-layout .settings-content #pane-browser,
+  #settings-account:checked ~ .settings-layout .settings-content #pane-account,
+  #settings-apikeys:checked ~ .settings-layout .settings-content #pane-apikeys,
+  #settings-backup:checked ~ .settings-layout .settings-content #pane-backup {
+    @apply block;
+  }
+
+  /* Settings sidebar link. One class rather than the same dozen utilities on
+     all eleven <a>s; the styling is still plain Tailwind, via @apply. */
+  .settings-nav-link {
+    @apply flex items-center gap-2.5 whitespace-nowrap border-l-[3px] border-l-transparent px-5 py-2.5 text-[0.88rem] font-medium text-ink-muted no-underline transition-all hover:bg-elevated hover:text-ink;
+  }
+  @media (max-width: 700px) {
+    .settings-nav-link {
+      @apply border-b-[3px] border-b-transparent border-l-0 px-3.5 py-2.5;
+    }
+  }
+
+  /* Active settings nav link. `aria-current` is the marker either way: the
+     server sets it on the rendered pane, and settings.js moves it when a pane
+     is switched client-side, so one selector covers both paths. */
+  .settings-nav-link[aria-current="page"] {
+    @apply bg-brand-soft text-brand;
+    border-left-color: var(--color-brand);
+  }
+  @media (max-width: 700px) {
+    .settings-nav-link[aria-current="page"] {
+      border-left-color: transparent;
+      border-bottom-color: var(--color-brand);
+    }
+  }
+
+  /* --- Auth (sign in / sign up) tabbed forms --- */
+  .auth-form {
+    @apply hidden flex-col gap-[14px] px-7 py-6;
+  }
+  body:has(#show-signin:checked) .auth-form-signin {
+    @apply flex;
+  }
+  body:has(#show-signup:checked) .auth-form-signup {
+    @apply flex;
+  }
+  body:has(#show-signin:checked) label[for="show-signin"],
+  body:has(#show-signup:checked) label[for="show-signup"] {
+    @apply text-brand;
+    border-bottom-color: var(--color-brand);
+  }
+
+  /* ===== CSS toggle switch =====
+     Structure/colours via @apply; the sliding knob is a pseudo-element
+     (::after), not expressible as a utility, so it stays custom. */
+  .toggle-switch {
+    @apply relative inline-block h-6 w-[42px] shrink-0;
+  }
+  .toggle-switch input {
+    @apply absolute h-0 w-0 opacity-0;
+  }
+  .toggle-track {
+    @apply absolute inset-0 cursor-pointer rounded-xl bg-slate-300;
+    transition: background 0.18s ease;
+  }
+  .dark .toggle-track {
+    @apply bg-slate-600;
+  }
+  @media (prefers-color-scheme: dark) {
+    .theme-system .toggle-track {
+      @apply bg-slate-600;
+    }
+  }
+  .toggle-switch input:checked + .toggle-track {
+    @apply bg-brand;
+  }
+  .toggle-track::after {
+    content: "";
+    @apply absolute top-[3px] left-[3px] h-[18px] w-[18px] rounded-full bg-white;
+    transition: transform 0.18s ease;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.2);
+  }
+  .toggle-switch input:checked + .toggle-track::after {
+    @apply translate-x-[18px];
+  }
+  .toggle-switch input:disabled + .toggle-track {
+    @apply cursor-not-allowed;
+  }
+
+  /* ===== Colour swatches (appearance settings) =====
+     Selection ring driven by `:has(input:checked)` (custom selector). */
+  .color-swatch {
+    @apply relative inline-block h-[30px] w-[30px] cursor-pointer rounded-full outline-2 outline-offset-[3px] outline-transparent;
+    transition: transform 0.18s ease;
+  }
+  .color-swatch:hover {
+    @apply scale-110;
+  }
+  .color-swatch input {
+    @apply absolute inset-0 cursor-pointer opacity-0;
+  }
+  .color-swatch:has(input:checked) {
+    @apply scale-110;
+    outline-color: var(--color-ink);
+  }
+
+  /* ============================================================
+     MAPS TAB (OpenStreetMap)
+     The `body:has(#tab-maps:checked)` layout switch and `100svh` are
+     custom (state selector + small-viewport unit); everything visual
+     is plain Tailwind via @apply.
+     ============================================================ */
+  body:has(#tab-maps:checked) {
+    @apply flex flex-col overflow-y-auto overflow-x-hidden;
+    height: 100vh;
+    /* `100svh`, not `100dvh`: this shell disables page scrolling, so the
+       browser toolbar never auto-hides and dvh can't update to it. Some
+       mobile browsers also compute dvh against the *large* (toolbar-hidden)
+       viewport on first paint while the toolbar is still shown, so the shell
+       can overflow below the visible screen. `svh` always matches the
+       toolbar-visible viewport, so this should never overflow in practice. */
+    height: 100svh;
+    /* Belt-and-suspenders: `overflow-y: auto`, not `hidden`. If a browser
+       still gets the height calculation above wrong by a few pixels, the
+       user can recover with an ordinary scroll instead of being stuck behind
+       `overflow: hidden` with no way back except pinch-zooming (which pans
+       the page independently of CSS overflow). `.maps-controls` is `fixed`
+       so it stays reachable either way. */
+  }
+  body:has(#tab-maps:checked) .site-main {
+    @apply flex flex-auto min-h-0 p-0;
+  }
+  body:has(#tab-maps:checked) footer {
+    @apply hidden;
+  }
+  #panel-maps {
+    @apply min-h-0 min-w-0 flex-auto;
+  }
+
+  .maps-shell {
+    @apply flex flex-auto flex-col min-h-0 bg-elevated md:flex-row;
+  }
+  /* Cap the sidebar height only on mobile (`max-md:`); on desktop it has no
+     max-height so it fills the row and the result list scrolls full-height.
+     (Don't write a raw `max-height` + `md:max-h-none`: the responsive reset
+     gets hoisted above the raw value, which then wins on desktop.) */
+  .maps-sidebar {
+    @apply flex min-h-0 flex-col border-b border-edge bg-surface max-md:max-h-[42svh] md:w-90 md:shrink-0 md:border-r md:border-b-0;
+  }
+  .maps-sidebar-head {
+    @apply shrink-0 border-b border-edge px-5 py-4;
+    background: linear-gradient(135deg, var(--color-brand-soft) 0%, var(--color-surface) 70%);
+  }
+  .maps-eyebrow {
+    @apply mb-1.5 flex items-center gap-1.5 text-[0.64rem] font-bold uppercase tracking-[0.14em] text-brand;
+  }
+  .maps-title {
+    @apply block overflow-hidden text-ellipsis whitespace-nowrap text-[1.05rem] font-bold leading-[1.2] text-ink;
+  }
+  .maps-meta {
+    @apply text-[0.8rem] text-ink-muted;
+  }
+  .maps-list {
+    @apply min-h-0 flex-1 overflow-y-auto;
+  }
+  /* The sidebar's other face: no place to list, so the empty state takes the
+     whole column. Centred with the `-safe` variant so a short viewport (the
+     sidebar is capped at 42svh on mobile) scrolls to the top of the message
+     instead of clipping it beyond reach. */
+  .maps-sidebar-empty {
+    @apply flex min-h-0 flex-1 flex-col justify-center-safe overflow-y-auto;
+  }
+
+  .map-result {
+    @apply flex w-full cursor-pointer gap-3 border-0 border-b border-edge bg-transparent px-5 py-3.5 text-left;
+    transition: background 0.15s ease;
+  }
+  .map-result:hover {
+    @apply bg-slate-100;
+  }
+  /* Bespoke dark hover (between slate-800 and slate-700), keep exact. */
+  .dark .map-result:hover {
+    background: #273449;
+  }
+  @media (prefers-color-scheme: dark) {
+    .theme-system .map-result:hover {
+      background: #273449;
+    }
+  }
+  .map-result-active,
+  .map-result-active:hover {
+    @apply bg-brand-soft;
+    box-shadow: inset 3px 0 0 var(--color-brand);
+  }
+  .map-pin-tile {
+    @apply flex h-10 w-10 shrink-0 items-center justify-center rounded-[0.625rem] text-white;
+    background: linear-gradient(135deg, #4f46e5, #8b5cf6);
+    box-shadow: 0 1px 3px rgb(0 0 0 / 0.18);
+  }
+  .map-result-body {
+    @apply min-w-0 flex-1;
+  }
+  .map-result-name {
+    @apply mb-0.5 block overflow-hidden text-ellipsis whitespace-nowrap text-[0.92rem] font-semibold text-ink;
+    transition: color 0.15s ease;
+  }
+  .map-result:hover .map-result-name {
+    @apply text-brand;
+  }
+  .map-result-type {
+    @apply mb-1 inline-block rounded-sm bg-brand-soft px-[0.4rem] py-[0.1rem] text-[0.62rem] font-semibold uppercase tracking-[0.04em] text-brand;
+  }
+  .map-result-addr {
+    @apply overflow-hidden text-[0.78rem] leading-[1.35] text-ink-muted line-clamp-2;
+  }
+
+  .maps-area {
+    @apply relative min-h-0 flex-1 bg-elevated;
+  }
+  .maps-area iframe {
+    @apply block h-full w-full border-0;
+  }
+  /* `fixed`, not `absolute`: anchoring to the viewport instead of `.maps-area`
+     means the buttons stay reachable even if an upstream height calculation
+     (flexbox chain back to the `100svh` body shell) ends up a few pixels off
+     on some mobile browser, instead of landing wherever `.maps-area`'s own
+     box happened to be computed. */
+  .maps-controls {
+    @apply fixed right-4 bottom-4 flex flex-wrap justify-end gap-2;
+    max-width: calc(100% - 2rem);
+  }
+  .maps-btn {
+    @apply inline-flex items-center gap-[0.4rem] whitespace-nowrap rounded-xl border border-edge px-[0.85rem] py-2 text-[0.8rem] font-semibold text-brand no-underline;
+    background: rgb(255 255 255 / 0.95);
+    box-shadow: var(--shadow-lg);
+    transition: transform 0.15s ease, background 0.15s ease;
+  }
+  .dark .maps-btn {
+    background: rgb(15 23 42 / 0.92);
+  }
+  @media (prefers-color-scheme: dark) {
+    .theme-system .maps-btn {
+      background: rgb(15 23 42 / 0.92);
+    }
+  }
+  .maps-btn:hover {
+    @apply -translate-y-0.5;
+  }
+  .maps-btn-primary {
+    @apply border-transparent bg-indigo-600 text-white;
+  }
+  .maps-btn-primary:hover {
+    @apply bg-indigo-700;
+  }
+
+  /* ============================================================
+     TRANSLATE TAB (LibreTranslate)
+     ============================================================ */
+  .translate-shell {
+    @apply mx-auto flex max-w-[840px] flex-col gap-4 py-2 lg:max-w-[1200px];
+  }
+  .translate-controls {
+    @apply flex items-center gap-2;
+  }
+  .translate-lang-select {
+    @apply min-w-0 flex-1 rounded-xl border border-edge bg-surface px-3 py-2 text-sm text-ink cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400;
+  }
+  .translate-swap-btn {
+    @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-edge bg-surface text-ink-muted hover:text-brand hover:border-brand transition-colors;
+  }
+  .translate-panes {
+    @apply grid grid-cols-1 gap-4 md:grid-cols-2;
+  }
+  .translate-pane {
+    @apply flex min-h-64 flex-col rounded-xl border border-edge bg-surface p-4;
+  }
+  .translate-pane-label {
+    @apply mb-2 text-[0.7rem] font-bold uppercase tracking-[0.1em] text-ink-muted;
+  }
+  .translate-text {
+    @apply whitespace-pre-wrap text-[1.05rem] leading-relaxed text-ink;
+  }
+  .translate-pane-placeholder {
+    @apply text-[1.05rem] leading-relaxed text-ink-muted;
+  }
+  .translate-textarea {
+    @apply min-h-0 flex-1 resize-none border-0 bg-transparent p-0 text-[1.05rem] leading-relaxed text-ink placeholder:text-ink-muted focus:outline-hidden;
+  }
+  .translate-submit-btn {
+    @apply mt-3 self-end shrink-0 rounded-full bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 text-sm font-semibold transition-colors;
+  }
+  .translate-error {
+    @apply text-sm text-ink-muted;
+  }
+
+  /* ===== Filter row (language / safe-search / date) =====
+     Mobile: full-width second row; desktop: inline with the tabs.
+     (Previously hand-written; now Tailwind via @apply.) */
+  .search-filters {
+    @apply flex w-full items-center gap-2 border-t border-edge py-1.5 md:ml-2 md:w-auto md:shrink-0 md:border-t-0 md:border-l md:pl-3;
+  }
+  .search-filters select {
+    @apply min-w-0 flex-1 md:max-w-[110px] md:flex-none;
+  }
+  .search-nav {
+    @apply md:flex-nowrap;
+  }
+
+  /* ===== Stack Exchange answer card =====
+     The answer body is sanitized HTML injected with |safe, so its child
+     elements (p, pre, code, lists…) carry no template classes, they're
+     styled here. The clamp + fade + "Read more" is progressive enhancement:
+     collapsed by default, JS expands it in place; without JS the link is a
+     plain anchor to the answer on the original site. */
+  .se-answer {
+    @apply text-[0.85rem] leading-relaxed text-slate-600 dark:text-slate-300;
+  }
+  .se-answer > :first-child {
+    @apply mt-0;
+  }
+  .se-answer > :last-child {
+    @apply mb-0;
+  }
+  .se-answer p {
+    @apply my-2;
+  }
+  .se-answer ul,
+  .se-answer ol {
+    @apply my-2 pl-5;
+  }
+  .se-answer ul {
+    @apply list-disc;
+  }
+  .se-answer ol {
+    @apply list-decimal;
+  }
+  .se-answer li {
+    @apply my-0.5;
+  }
+  .se-answer a {
+    @apply text-indigo-600 hover:underline dark:text-indigo-400;
+  }
+  .se-answer blockquote {
+    @apply my-2 border-l-2 border-slate-200 pl-3 text-slate-500 dark:border-slate-600 dark:text-slate-400;
+  }
+  /* Inline code. */
+  .se-answer code {
+    @apply rounded bg-slate-100 px-1 py-0.5 font-mono text-[0.8em] text-slate-800 dark:bg-slate-700 dark:text-slate-100;
+  }
+  /* Fenced code block, scrolls horizontally rather than wrapping, and resets
+     the inline-code chrome on the nested <code>. */
+  .se-answer pre {
+    @apply my-2 overflow-x-auto rounded-lg bg-slate-50 p-3 font-mono text-[0.78rem] leading-relaxed dark:bg-slate-900;
+    border: 1px solid var(--color-edge);
+  }
+  .se-answer pre code {
+    @apply block bg-transparent p-0 text-slate-800 dark:text-slate-100;
+  }
+  /* Collapsed preview: cap the height and fade the cut-off edge into the card.
+     Tighter cap on mobile, where the card stacks above the web results. */
+  .se-answer--clamp {
+    @apply relative max-h-28 overflow-hidden sm:max-h-44;
+  }
+  .se-answer--clamp::after {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 bottom-0 h-12;
+    background: linear-gradient(to bottom, transparent, var(--color-surface));
+  }
+
+  /* ===== Autocomplete dropdown =====
+     Built and populated entirely by autocomplete.js, so its classes can't
+     live on a template element, styled here. Properties use @apply where
+     Tailwind has them; the 1.5px border / shadow / offset are custom. */
+  .ac-box {
+    @apply absolute top-[calc(100%+6px)] right-0 left-0 z-[300] list-none overflow-hidden rounded-xl bg-surface py-1;
+    border: 1.5px solid var(--color-edge);
+    box-shadow: var(--shadow-lg);
+  }
+  .ac-box:empty {
+    @apply hidden;
+  }
+  .ac-box li {
+    @apply flex cursor-pointer items-center gap-2.5 overflow-hidden text-ellipsis whitespace-nowrap px-4 py-[9px] text-[0.9rem] text-ink;
+    transition: background var(--transition);
+  }
+  .ac-box li:hover {
+    @apply bg-elevated;
+  }
+  .ac-box li.ac-active {
+    @apply bg-brand-soft;
+    box-shadow: inset 3px 0 0 var(--color-brand);
+  }
+  .ac-box li i {
+    @apply shrink-0 text-ink-soft;
+    font-size: 0.8125rem;
+  }
+  .ac-box li.ac-active i {
+    @apply text-brand;
+  }
+  .ac-box li strong {
+    @apply font-bold;
+  }
+
+  /* ===== Per-result actions menu (Cached / Block site) + search-scope picker =====
+     Both are native <details>/<summary> disclosures (no JS required); the
+     search-scope picker (`.scope-menu`, results filter row) reuses the same
+     marker reset. The only thing Tailwind can't express is resetting the
+     <summary>'s default disclosure marker (pseudo-element + cross-browser); each
+     menu's appearance and positioning are utility classes in the template. */
+  .result-menu > summary,
+  .scope-menu > summary {
+    list-style: none;
+  }
+  .result-menu > summary::-webkit-details-marker,
+  .scope-menu > summary::-webkit-details-marker {
+    display: none;
+  }
+  /* Touch reveal: the kebab is hover-revealed (`opacity-0 group-hover:opacity-100`)
+     for pointer devices, but coarse-pointer devices have no hover, so the menu —
+     and with it "Cached" / "Block site" — would be permanently invisible. Show it
+     by default wherever hover isn't available. (App layer beats the `opacity-0`
+     utility; see the layer order declared up top.) */
+  @media (hover: none) {
+    .result-menu {
+      @apply opacity-100;
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{% load i18n %}
+{% if not image_results %}
+  {% comment %}Empty tab: an invitation before anything is searched (switching
+  over from another tab lands here with no query), the operator notice when no
+  provider can serve it, and only otherwise "nothing matched".{% endcomment %}
+  {% if not query %}
+    {% trans "Search for images" as empty_title %}
+    {% trans "Type a query above and matching images appear here." as empty_sub %}
+    {% include 'search/_empty.html' with icon="🖼️" title=empty_title sub=empty_sub only %}
+  {% elif brave_key_missing and pixabay_key_missing %}
+    {% blocktrans asvar empty_sub %}No image provider configured. Set <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">BRAVE_API_KEY</code> or <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">PIXABAY_API_KEY</code> in <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">.env</code>.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="⚙️" sub=empty_sub only %}
+  {% else %}
+    {% trans "No images found" as empty_title %}
+    {% blocktrans asvar empty_sub %}Nothing matched <strong>"{{ query }}"</strong>. Check the spelling, or try different keywords.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="🔎" title=empty_title sub=empty_sub only %}
+  {% endif %}
+{% else %}
+<div class="md:pr-[120px]">
+  <div class="columns-[180px_4] gap-2" role="list" aria-label="{% trans "Image results" %}">
+    {% for img in image_results %}{% include 'images/_result.html' %}{% endfor %}
+  </div>
+  {% include 'search/_pagination.html' %}
+</div>
+
+{# Image lightbox: opened by images.js on a result click, the image larger plus its similar images (real thumbnails, loaded lazily from image-similar). Clicking a similar thumbnail focuses it. Hidden until JS opens it; the no-JS path uses the image detail page instead. #}
+<div id="img-lightbox"
+     class="hidden fixed inset-0 z-[100] items-center justify-center p-4 bg-black/70 backdrop-blur-sm"
+     role="dialog" aria-modal="true" aria-labelledby="img-lightbox-title" aria-hidden="true"
+     data-similar-url="{% url 'search:image_similar' %}" data-lang="{{ qs_lang }}" data-safe="{{ qs_safe }}"
+     data-scope="{{ scope_keys|join:',' }}"
+     data-similar-enabled="{% if similar_images %}1{% else %}0{% endif %}">
+  <div class="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
+    <div class="flex items-start justify-between gap-4 px-5 py-4 border-b border-slate-200 dark:border-slate-800 shrink-0">
+      <div class="min-w-0">
+        <h2 id="img-lightbox-title" class="text-base font-semibold text-slate-900 dark:text-slate-100 truncate"></h2>
+        <p id="img-lightbox-source" class="text-xs text-slate-500 dark:text-slate-400 truncate"></p>
+      </div>
+      <button type="button" id="img-lightbox-close" class="shrink-0 w-9 h-9 flex items-center justify-center rounded-full text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="{% trans "Close" %}">
+        <i class="fa-solid fa-xmark text-[18px]" aria-hidden="true"></i>
+      </button>
+    </div>
+    <div id="img-lightbox-body" class="flex flex-col gap-6 p-5 overflow-y-auto">
+      <div class="flex flex-col md:flex-row gap-5">
+        <div class="md:w-3/5 flex items-center justify-center bg-slate-50 dark:bg-slate-800/50 rounded-lg overflow-hidden min-h-[160px]">
+          <img id="img-lightbox-img" src="" alt="" class="max-h-[55vh] w-auto object-contain">
+        </div>
+        <div class="md:w-2/5 flex flex-wrap content-start gap-2">
+          <a id="img-lightbox-visit" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full px-4 py-1.5 text-sm font-semibold no-underline transition-colors">
+            <i class="fa-solid fa-arrow-up-right-from-square text-[13px]" aria-hidden="true"></i>{% trans "Visit page" %}
+          </a>
+          <a id="img-lightbox-open" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 border-[1.5px] border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:border-indigo-500 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-full px-4 py-1.5 text-sm font-semibold no-underline transition-colors">
+            <i class="fa-solid fa-image text-[13px]" aria-hidden="true"></i>{% trans "Open image" %}
+          </a>
+        </div>
+      </div>
+      {# Similar-image grid: opt-out feature (Settings -> General -> Similar images). When off, the lightbox still shows the image and its visit/open links, just no similar grid (and images.js skips the lookup). #}
+      {% if similar_images %}
+      <div>
+        <div class="flex items-center justify-between gap-3 mb-3">
+          <h3 class="flex items-center gap-2 text-sm font-semibold text-slate-900 dark:text-slate-100">
+            <i class="fa-solid fa-images text-indigo-500 text-[14px]" aria-hidden="true"></i>{% trans "Similar images" %}
+          </h3>
+          <a id="img-lightbox-more" href="#" class="hidden shrink-0 text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:underline no-underline">{% trans "See all results" %} &rarr;</a>
+        </div>
+        <div id="img-lightbox-similar" class="grid grid-cols-3 sm:grid-cols-4 gap-2" aria-live="polite"
+             data-loading="{% trans "Finding similar images…" %}"
+             data-empty="{% trans "No similar images found." %}"></div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% if similar_images %}
+  {# Cloned per thumbnail by images.js so the classes stay in a Tailwind-scanned template. #}
+  <template id="img-similar-tpl">
+    <button type="button" class="block rounded-md overflow-hidden relative hover:opacity-90 transition-opacity focus:outline-none focus:ring-2 focus:ring-indigo-500">
+      <img class="w-full aspect-square object-cover bg-slate-100 dark:bg-slate-800" loading="lazy" alt="">
+    </button>
+  </template>
+  {# Skeleton tile, cloned by images.js to fill the grid while similar images load. #}
+  <template id="img-skeleton-tpl">
+    <div class="aspect-square rounded-md bg-slate-200 dark:bg-slate-700 animate-pulse" aria-hidden="true"></div>
+  </template>
+  {% endif %}
+</div>
+{% endif %}

@@ -1,0 +1,5 @@
+{
+  "projectId": "165806b3-7f6a-4c27-886d-249245996e5c",
+  "shape": "styling-only",
+  "note": "Off-script sync: this repo is a Django + Tailwind app, not a JS/React component library. There are no bundleable components, so only the styling layer (Tailwind tokens, compiled CSS, Font Awesome fonts) is synced. No _ds_bundle.js, no _ds_sync.json anchor (future syncs re-verify from scratch)."
+}

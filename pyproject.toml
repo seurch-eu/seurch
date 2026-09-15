@@ -1,0 +1,45 @@
+[project]
+name = "seurch"
+version = "0.0.0"
+description = "An opensource metasearch engine"
+readme = "README.md"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+requires-python = ">=3.13"
+dependencies = [
+    "django>=6.1",
+    "django-environ>=0.14.0",
+    "djangorestframework>=3.18.0",
+    "gunicorn>=26.0.0",
+    "httpx>=0.28.1",
+    "lingua-language-detector>=2.1.1",
+    "psycopg[binary]>=3.3.4",
+    "segno>=1.6.6",
+    "tzdata>=2026.3",
+    "whitenoise>=6.12.0",
+]
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.0",
+    "ruff>=0.16.1",
+]
+
+[tool.ruff.lint]
+ignore = [
+    # Needed for providers call 
+    "BLE001",
+    # Django class bodies are declarative
+    "RUF012",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+# The version lives in [project] above; commitizen reads and rewrites it there.
+version_provider = "pep621"
+# Matches the tag pattern .github/workflows/docker.yml builds images for.
+tag_format = "v$version"
+annotated_tag = true
+update_changelog_on_bump = true
+# Pre-1.0: a breaking change bumps the minor, never to 1.0.0.
+major_version_zero = true

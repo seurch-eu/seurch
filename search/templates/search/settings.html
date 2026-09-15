@@ -1,0 +1,716 @@
+{% extends "search/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Settings - Seurch" %}{% endblock %}
+
+{% block body_class %}bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 font-sans antialiased{% endblock %}
+
+{% block body %}
+
+  <input type="radio" id="settings-general"    name="settings-tab" {% if active_pane == 'general' %}checked{% endif %}>
+  <input type="radio" id="settings-appearance" name="settings-tab" {% if active_pane == 'appearance' %}checked{% endif %}>
+  <input type="radio" id="settings-language"   name="settings-tab" {% if active_pane == 'language' %}checked{% endif %}>
+  <input type="radio" id="settings-engine"     name="settings-tab" {% if active_pane == 'engine' %}checked{% endif %}>
+  <input type="radio" id="settings-bangs"      name="settings-tab" {% if active_pane == 'bangs' %}checked{% endif %}>
+  <input type="radio" id="settings-blocked"    name="settings-tab" {% if active_pane == 'blocked' %}checked{% endif %}>
+  <input type="radio" id="settings-browser"    name="settings-tab" {% if active_pane == 'browser' %}checked{% endif %}>
+  <input type="radio" id="settings-account"    name="settings-tab" {% if active_pane == 'account' %}checked{% endif %}>
+  <input type="radio" id="settings-apikeys"    name="settings-tab" {% if active_pane == 'apikeys' %}checked{% endif %}>
+  <input type="radio" id="settings-backup"     name="settings-tab" {% if active_pane == 'backup' %}checked{% endif %}>
+
+  <!-- HEADER -->
+  <header class="sticky top-0 z-50 flex h-17 items-center gap-3 px-4 sm:px-6 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur">
+    <a href="{% url 'search:index' %}" class="flex items-center gap-2 text-indigo-600 dark:text-indigo-400 shrink-0" aria-label="Seurch home">
+      <img src="{% static 'search/logo.svg' %}" width="28" height="28" alt="" aria-hidden="true">
+      <span class="text-[1.2rem] font-extrabold tracking-[-0.5px] wordmark-gradient">Seurch</span>
+    </a>
+    <span class="text-base font-semibold text-slate-500 dark:text-slate-400 ml-1 hidden sm:inline">{% trans "Settings" %}</span>
+    <div class="flex items-center gap-2 ml-auto">
+      <a href="{% url 'search:index' %}" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 text-[0.82rem] font-semibold text-slate-600 dark:text-slate-400 hover:border-slate-300 dark:hover:border-slate-600 hover:text-slate-800 dark:hover:text-slate-200 transition-colors">&larr; {% trans "Back" %}</a>
+    </div>
+  </header>
+
+  {% if messages %}
+  <div class="px-6 py-2.5 border-b border-green-200 dark:border-green-800 bg-green-50 dark:bg-green-950/40">
+    {% for message in messages %}
+    <p class="text-[0.85rem] {% if message.tags == 'error' %}text-red-600 dark:text-red-400{% else %}text-green-700 dark:text-green-400{% endif %}">{{ message }}</p>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- SETTINGS LAYOUT: sidebar nav + content panes -->
+  <div class="settings-layout flex min-h-[calc(100vh-131px)] max-[700px]:flex-col">
+
+    <!-- Sidebar navigation -->
+    <nav class="settings-nav w-[260px] max-[700px]:w-full shrink-0 border-r dark:border-r-slate-800 border-slate-200 max-[700px]:border-r-0 max-[700px]:border-b max-[700px]:border-slate-200 max-[700px]:dark:border-slate-800 bg-slate-50 dark:bg-slate-900/50 py-5 max-[700px]:flex max-[700px]:overflow-x-auto max-[700px]:py-0" aria-label="{% trans "Settings" %}">
+
+      <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-400 px-5 pt-3 pb-1.5 max-[700px]:hidden">{% trans "Search" %}</div>
+
+      <a href="{% url 'search:settings' %}" data-pane="general"{% if active_pane == 'general' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-magnifying-glass text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "General" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='appearance' %}" data-pane="appearance"{% if active_pane == 'appearance' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-gear text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Appearance" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='language' %}" data-pane="language"{% if active_pane == 'language' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-language text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Language" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='engines' %}" data-pane="engine"{% if active_pane == 'engine' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-code text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Engines" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='shortcuts' %}" data-pane="bangs"{% if active_pane == 'bangs' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-bolt text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Custom bangs" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='blocked' %}" data-pane="blocked"{% if active_pane == 'blocked' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-ban text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Blocked sites" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='browser' %}" data-pane="browser"{% if active_pane == 'browser' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-globe text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Browser" %}
+      </a>
+
+      <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-400 px-5 pt-4 pb-1.5 max-[700px]:hidden">{% trans "Account" %}</div>
+
+      <a href="{% url 'search:settings_pane' pane='account' %}" data-pane="account"{% if active_pane == 'account' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-user text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Account" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='api-keys' %}" data-pane="apikeys"{% if active_pane == 'apikeys' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-key text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "API keys" %}
+      </a>
+
+      <a href="{% url 'search:settings_pane' pane='backup' %}" data-pane="backup"{% if active_pane == 'backup' %} aria-current="page"{% endif %} class="settings-nav-link">
+        <i class="fa-solid fa-cloud text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Backup & sync" %}
+      </a>
+
+      {% if status_page_enabled %}
+      <a href="{% url 'search:provider_status' %}" class="settings-nav-link">
+        <i class="fa-solid fa-signal text-[16px] shrink-0" aria-hidden="true"></i>
+        {% trans "Provider status" %}
+      </a>
+      {% endif %}
+    </nav>
+
+    <!-- Settings content panes -->
+    <main class="settings-content flex-1 px-10 py-8 max-w-[760px] overflow-y-auto max-[700px]:px-4 max-[700px]:py-5">
+
+      <!-- ============ GENERAL ============ -->
+      <section class="settings-pane" id="pane-general" aria-labelledby="pane-general-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-general-title">{% trans "General" %}</h1>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Safe search" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="safe_search">
+            <input type="hidden" name="pane" value="general">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Filter explicit content" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Hide explicit results and knowledge-panel cards from search" %}</span>
+              </div>
+              <label class="toggle-switch" aria-label="{% trans "Filter explicit content" %}"><input type="checkbox" name="safe_search" value="on" {% if safe_search != 'off' %}checked{% endif %}><span class="toggle-track"></span></label>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Results" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="open_links_new_tab">
+            <input type="hidden" name="pane" value="general">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Open links in new tab" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Result links open in a new browser tab" %}</span>
+              </div>
+              <label class="toggle-switch" aria-label="{% trans "Open links in new tab" %}"><input type="checkbox" name="open_links_new_tab" value="on" {% if open_links_new_tab %}checked{% endif %}><span class="toggle-track"></span></label>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="similar_images">
+            <input type="hidden" name="pane" value="general">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Similar images" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "When you open an image, show a grid of visually similar pictures. Each lookup runs an image search and counts towards your monthly search total." %}</span>
+              </div>
+              <label class="toggle-switch" aria-label="{% trans "Similar images" %}"><input type="checkbox" name="similar_images" value="on" {% if similar_images %}checked{% endif %}><span class="toggle-track"></span></label>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Privacy" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="proxy_images">
+            <input type="hidden" name="pane" value="general">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Proxy images" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Load result thumbnails and icons through this site instead of fetching them directly from third-party servers, hiding your IP address from them. May be slower." %}</span>
+              </div>
+              <label class="toggle-switch" aria-label="{% trans "Proxy images" %}"><input type="checkbox" name="proxy_images" value="on" {% if proxy_images %}checked{% endif %}><span class="toggle-track"></span></label>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+
+      </section>
+
+      <!-- ============ APPEARANCE ============ -->
+      <section class="settings-pane" id="pane-appearance" aria-labelledby="pane-appearance-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-appearance-title">{% trans "Appearance" %}</h1>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Theme" %}</div>
+          <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Color theme" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Light, dark, or system default" %}</span>
+            </div>
+            {# No-JS: each button is a real form submit (POST → set cookie → redirect back). theme.js intercepts the submit to apply instantly without a reload. #}
+            <form method="post" action="{% url 'search:settings_theme' %}" data-theme-form class="flex gap-1.5 flex-wrap">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{% url 'search:settings_pane' pane='appearance' %}">
+              <button id="btn-system" type="submit" name="theme" value="system" class="flex items-center gap-1.5 px-3 py-[5px] border rounded-full text-[0.82rem] cursor-pointer transition-all">&#128187; {% trans "System" %}</button>
+              <button id="btn-light" type="submit" name="theme" value="light" class="flex items-center gap-1.5 px-3 py-[5px] border rounded-full text-[0.82rem] cursor-pointer transition-all">&#9728;&#65039; {% trans "Light" %}</button>
+              <button id="btn-dark" type="submit" name="theme" value="dark" class="flex items-center gap-1.5 px-3 py-[5px] border rounded-full text-[0.82rem] cursor-pointer transition-all">&#127769; {% trans "Dark" %}</button>
+            </form>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============ LANGUAGE ============ -->
+      <section class="settings-pane" id="pane-language" aria-labelledby="pane-language-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-language-title">{% trans "Language" %}</h1>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Interface language" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="ui_lang">
+            <input type="hidden" name="pane" value="language">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Interface language" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Sets the language of this interface. 'Auto' follows your browser settings." %}</span>
+              </div>
+              <select name="ui_lang" aria-label="{% trans "Interface language" %}" class="shrink-0 text-[0.85rem] border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+                <option value="auto" {% if ui_lang == 'auto' or not ui_lang %}selected{% endif %}>{% trans "Auto-detect" %}</option>
+                <option value="en" {% if ui_lang == 'en' %}selected{% endif %}>English</option>
+                <option value="fr" {% if ui_lang == 'fr' %}selected{% endif %}>Français</option>
+                <option value="de" {% if ui_lang == 'de' %}selected{% endif %}>Deutsch</option>
+                <option value="es" {% if ui_lang == 'es' %}selected{% endif %}>Español</option>
+                <option value="it" {% if ui_lang == 'it' %}selected{% endif %}>Italiano</option>
+                <option value="pt" {% if ui_lang == 'pt' %}selected{% endif %}>Português</option>
+                <option value="nl" {% if ui_lang == 'nl' %}selected{% endif %}>Nederlands</option>
+              </select>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Search" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="search_lang">
+            <input type="hidden" name="pane" value="language">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Default search language" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Auto-detect the language of each query, or always search in one language. You can still override it per search from the results page." %}</span>
+              </div>
+              <select name="search_lang" aria-label="{% trans "Default search language" %}" class="shrink-0 text-[0.85rem] border border-slate-200 dark:border-slate-700 rounded-md px-2.5 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+                <option value="auto" {% if search_lang == 'auto' or not search_lang %}selected{% endif %}>{% trans "Auto-detect" %}</option>
+                <option value="en" {% if search_lang == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+                <option value="fr" {% if search_lang == 'fr' %}selected{% endif %}>{% trans "French" %}</option>
+                <option value="de" {% if search_lang == 'de' %}selected{% endif %}>{% trans "German" %}</option>
+                <option value="es" {% if search_lang == 'es' %}selected{% endif %}>{% trans "Spanish" %}</option>
+                <option value="it" {% if search_lang == 'it' %}selected{% endif %}>{% trans "Italian" %}</option>
+                <option value="pt" {% if search_lang == 'pt' %}selected{% endif %}>{% trans "Portuguese" %}</option>
+                <option value="nl" {% if search_lang == 'nl' %}selected{% endif %}>{% trans "Dutch" %}</option>
+              </select>
+            </div>
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- ============ ENGINE ============ -->
+      <section class="settings-pane" id="pane-engine" aria-labelledby="pane-engine-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-engine-title">{% trans "Engines" %}</h1>
+
+        <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-6 leading-snug">
+          {% trans "Pick the providers behind each kind of search. Every search type keeps its own selection, so an engine can power your web results without touching Images or News. Results from all the providers enabled for a search type are interleaved and deduplicated." %}
+        </p>
+
+        {% for type in search_types %}
+        <div class="mb-8">
+          <div class="flex items-center gap-2 text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">
+            <i class="fa-solid {{ type.icon }} text-[13px] shrink-0" aria-hidden="true"></i>
+            {{ type.label }}
+          </div>
+          <form method="post" action="{% url 'search:settings' %}" data-autosave>
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="providers">
+            <input type="hidden" name="search_type" value="{{ type.key }}">
+            <input type="hidden" name="pane" value="engine">
+
+            {% if type.extras %}<div class="text-[0.72rem] font-semibold uppercase tracking-[0.05em] text-slate-400 dark:text-slate-500 mt-2 mb-1">{% trans "Search engines" %}</div>{% endif %}
+            {% for provider in type.engines %}{% include "search/_provider_toggle.html" %}{% endfor %}
+
+            {% if type.extras %}
+            <div class="text-[0.72rem] font-semibold uppercase tracking-[0.05em] text-slate-400 dark:text-slate-500 mt-5 mb-1">{% trans "Data sources" %}</div>
+            {% for provider in type.extras %}{% include "search/_provider_toggle.html" %}{% endfor %}
+            {% endif %}
+
+            {% if not type.enabled_count %}
+            <p class="mt-3 px-3 py-2.5 rounded-md text-[0.8rem] leading-snug bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300">
+              {% blocktrans with label=type.label %}Nothing is enabled for {{ label }}, so that tab is hidden from the results page.{% endblocktrans %}
+            </p>
+            {% endif %}
+
+            <div class="flex gap-2.5 mt-6 js:hidden">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save changes" %}</button>
+            </div>
+          </form>
+        </div>
+        {% endfor %}
+      </section>
+
+      <!-- ============ CUSTOM BANGS ============ -->
+      <section class="settings-pane" id="pane-bangs" aria-labelledby="pane-bangs-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-bangs-title">{% trans "Custom bangs" %}</h1>
+
+        <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-5 leading-snug">
+          {% blocktrans trimmed with token="{{{s}}}" %}Bangs let you jump straight to another site by prefixing your query with <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">!trigger</code>. Define your own to override the generic shortcuts. Use <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">{{ token }}</code> in the URL where the query should go.{% endblocktrans %}
+        </p>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Add a custom bang" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" class="space-y-3">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="add_custom_bang">
+            <input type="hidden" name="pane" value="bangs">
+            <div class="flex gap-3 max-[700px]:flex-col">
+              <div class="w-32 shrink-0">
+                <label class="block text-[0.78rem] font-medium text-slate-500 dark:text-slate-400 mb-1" for="custom-bang-trigger">{% trans "Trigger" %}</label>
+                <div class="flex items-center bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md focus-within:border-indigo-500">
+                  <span class="pl-2.5 text-slate-400 dark:text-slate-500 font-mono text-[0.85rem]">!</span>
+                  <input id="custom-bang-trigger" type="text" name="trigger" required pattern="[a-zA-Z0-9][a-zA-Z0-9._-]*" maxlength="32" placeholder="gh" class="flex-1 min-w-0 px-2 py-2 bg-transparent text-[0.85rem] outline-hidden">
+                </div>
+              </div>
+              <div class="flex-1 min-w-0">
+                <label class="block text-[0.78rem] font-medium text-slate-500 dark:text-slate-400 mb-1" for="custom-bang-url">{% trans "URL template" %}</label>
+                <input id="custom-bang-url" type="url" name="url_template" required placeholder="{% verbatim %}https://github.com/search?q={{{s}}}{% endverbatim %}" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+              </div>
+            </div>
+            <div>
+              <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Add bang" %}</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Your custom bangs" %}</div>
+          {% if custom_bangs %}
+            <ul class="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden">
+              {% for bang in custom_bangs %}
+              <li class="flex items-center gap-3 px-3 py-2.5">
+                <code class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-[0.85rem] shrink-0">!{{ bang.trigger }}</code>
+                <span class="flex-1 min-w-0 truncate text-[0.82rem] text-slate-500 dark:text-slate-400" title="{{ bang.url_template }}">{{ bang.url_template }}</span>
+                <form method="post" action="{% url 'search:settings' %}" class="shrink-0">
+                  {% csrf_token %}
+                  <input type="hidden" name="setting" value="delete_custom_bang">
+                  <input type="hidden" name="pane" value="bangs">
+                  <input type="hidden" name="bang_id" value="{{ bang.id }}">
+                  <button type="submit" class="px-2.5 py-1 text-[0.78rem] text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors" aria-label="{% blocktrans with trigger=bang.trigger %}Remove !{{ trigger }}{% endblocktrans %}">{% trans "Remove" %}</button>
+                </form>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400">{% trans "You haven't defined any custom bangs yet." %}</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ============ BLOCKED SITES ============ -->
+      <section class="settings-pane" id="pane-blocked" aria-labelledby="pane-blocked-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-blocked-title">{% trans "Blocked sites" %}</h1>
+
+        <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-5 leading-snug">
+          {% blocktrans %}Results from these domains never appear in your search. Subdomains are blocked automatically, adding <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">example.com</code> also blocks <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">www.example.com</code> and <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">blog.example.com</code>.{% endblocktrans %}
+        </p>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Add a domain" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" class="flex gap-2 max-[700px]:flex-col">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="add_blocked_site">
+            <input type="hidden" name="pane" value="blocked">
+            <input type="text" name="domain" required placeholder="example.com" class="flex-1 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+            <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Block site" %}</button>
+          </form>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Your blocked sites" %}</div>
+          {% if blocked_sites %}
+            <ul class="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden">
+              {% for site in blocked_sites %}
+              <li class="flex items-center gap-3 px-3 py-2.5">
+                <span class="flex-1 min-w-0 truncate font-mono text-[0.85rem] text-slate-700 dark:text-slate-300">{{ site.domain }}</span>
+                <form method="post" action="{% url 'search:settings' %}" class="shrink-0">
+                  {% csrf_token %}
+                  <input type="hidden" name="setting" value="delete_blocked_site">
+                  <input type="hidden" name="pane" value="blocked">
+                  <input type="hidden" name="site_id" value="{{ site.id }}">
+                  <button type="submit" class="px-2.5 py-1 text-[0.78rem] text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors" aria-label="{% blocktrans with domain=site.domain %}Unblock {{ domain }}{% endblocktrans %}">{% trans "Unblock" %}</button>
+                </form>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400">{% blocktrans %}You haven't blocked any sites yet. Use the small "Block" link next to each result to add one quickly.{% endblocktrans %}</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ============ BROWSER ============ -->
+      <section class="settings-pane" id="pane-browser" aria-labelledby="pane-browser-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-browser-title">{% trans "Browser integration" %}</h1>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-3">{% trans "Add Seurch to your browser" %}</div>
+
+          <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-5 leading-snug">
+            {% trans "Make Seurch your browser's default search engine so you can search straight from the address bar. Follow the steps for your browser below." %}
+          </p>
+
+          <div class="text-[0.8rem] text-slate-500 dark:text-slate-400 space-y-3 pl-1">
+
+            <div>
+              <p class="font-medium text-slate-600 dark:text-slate-300 mb-1.5">Firefox:</p>
+              <ol class="list-decimal pl-4 space-y-1 text-[0.78rem]">
+                <li>{% blocktrans %}Go to <strong>Settings → Search</strong> (or type <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">about:preferences#search</code> in the address bar){% endblocktrans %}</li>
+                <li>{% blocktrans %}Scroll down to <strong>"Search Shortcuts"</strong>{% endblocktrans %}</li>
+                <li>{% blocktrans %}Click <strong>"Find more search engines"</strong>, or look for Seurch if it's already listed{% endblocktrans %}</li>
+                <li>{% blocktrans %}If Seurch is not listed, right-click the search bar on the Seurch homepage and select <strong>"Add Search Engine"</strong>{% endblocktrans %}</li>
+              </ol>
+            </div>
+
+            <div>
+              <p class="font-medium text-slate-600 dark:text-slate-300 mb-1.5">Chrome / Edge:</p>
+              <ol class="list-decimal pl-4 space-y-1 text-[0.78rem]">
+                <li>{% blocktrans %}Perform any search on Seurch (Chrome auto-discovers search engines you use){% endblocktrans %}</li>
+                <li>{% blocktrans %}Go to <strong>Settings → Search engine → Manage search engines</strong>{% endblocktrans %}</li>
+                <li>{% blocktrans %}Find <strong>Seurch</strong> under "Site search" and click <strong>Make default</strong>{% endblocktrans %}</li>
+              </ol>
+            </div>
+
+            <div>
+              <p class="font-medium text-slate-600 dark:text-slate-300 mb-1.5">{% trans "Any browser (manual URL):" %}</p>
+              <p class="text-[0.78rem]">{% trans "Add a custom search engine with this URL:" %}</p>
+              <div class="flex items-center gap-2 mt-1">
+                <code id="manual-search-url" class="flex-1 px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 rounded text-indigo-600 dark:text-indigo-400 text-[0.78rem] select-all break-all">{{ manual_search_url }}</code>
+                <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('manual-search-url').textContent)" class="shrink-0 px-2.5 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-[0.78rem] text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors js:inline-flex hidden">{% trans "Copy" %}</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============ ACCOUNT ============ -->
+      <section class="settings-pane" id="pane-account" aria-labelledby="pane-account-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-account-title">{% trans "Account" %}</h1>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Profile" %}</div>
+          <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Signed in as" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{{ request.user.username }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Email" %}</div>
+          <form method="post" action="{% url 'search:settings' %}">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="email">
+            <input type="hidden" name="pane" value="account">
+            <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800 max-[700px]:flex-col max-[700px]:items-stretch">
+              <div class="flex-1 min-w-0">
+                <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Email address" %}</strong>
+                <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Only used to reset your password if you forget it, never for anything else. Confirm changes with your current password." %}</span>
+              </div>
+              <div class="flex flex-col gap-2 w-60 shrink-0 max-[700px]:w-full">
+                <input type="email" name="email" value="{{ request.user.email }}" required maxlength="254" placeholder="you@example.com" autocomplete="email" aria-label="{% trans "Email address" %}" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+                <input type="password" name="current_password" required placeholder="{% trans "Current password" %}" autocomplete="current-password" aria-label="{% trans "Current password" %}" class="w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+                <button type="submit" class="self-end inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Save" %}</button>
+              </div>
+            </div>
+          </form>
+          {% if request.user.email %}
+          <form method="post" action="{% url 'search:settings' %}" class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800 max-[700px]:flex-col max-[700px]:items-stretch">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="delete_email">
+            <input type="hidden" name="pane" value="account">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Remove email address" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Your account keeps working without one, but see the note below." %}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0 max-[700px]:flex-col max-[700px]:items-stretch">
+              <input type="password" name="current_password" required placeholder="{% trans "Current password" %}" autocomplete="current-password" aria-label="{% trans "Current password" %}" class="w-44 max-[700px]:w-full px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+              <button type="submit" class="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-red-300 dark:hover:border-red-700 hover:text-red-600 dark:hover:text-red-400 transition-colors">{% trans "Remove" %}</button>
+            </div>
+          </form>
+          {% endif %}
+          <p class="mt-3 px-3 py-2.5 rounded-md text-[0.8rem] leading-snug {% if request.user.email %}bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400{% else %}bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-800 dark:text-amber-300{% endif %}">
+            {% if not request.user.email %}<strong class="font-semibold">{% trans "No email address is set." %}</strong> {% endif %}{% trans "Without an email address there is no way to reset your password, if you forget it, your account cannot be recovered." %}
+          </p>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Usage" %}</div>
+          <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Searches this month" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Number of searches on this account since the start of the month." %}</span>
+            </div>
+            <span class="shrink-0 text-[1.1rem] font-bold text-indigo-600 dark:text-indigo-400">{{ search_count }}</span>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Security" %}</div>
+          <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Change password" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Update the password for your account." %}</span>
+            </div>
+            <a href="{% url 'password_change' %}" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% trans "Change" %}</a>
+          </div>
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Private browsing" %}</div>
+          <p class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug mb-3">
+            {% trans "A private session link signs you in instantly from a private or incognito window, which doesn't carry your normal session cookie, without typing your password. Treat it like a password: anyone with the link can sign in as you." %}
+          </p>
+          {% if new_session_link_url %}
+          <div class="mb-3 p-4 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
+            <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-amber-800 dark:text-amber-300 mb-2">{% trans "Your new private session link" %}</div>
+            <p class="text-[0.8rem] text-amber-800 dark:text-amber-300 mb-2.5 leading-snug">{% trans "Copy this link now; for your security it will not be shown again." %}</p>
+            <div class="flex items-center gap-2">
+              <code id="new-session-link-value" class="flex-1 min-w-0 px-2.5 py-1.5 bg-white dark:bg-slate-800 rounded text-indigo-600 dark:text-indigo-400 text-[0.78rem] select-all break-all">{{ new_session_link_url }}</code>
+              <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('new-session-link-value').textContent)" class="shrink-0 px-2.5 py-1.5 rounded border border-amber-300 dark:border-amber-700 text-[0.78rem] text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors">{% trans "Copy" %}</button>
+            </div>
+            <p class="text-[0.78rem] text-amber-800 dark:text-amber-300 leading-snug mt-3 mb-1">{% trans "Add it as a custom search engine in a private window, and a search there signs you in first:" %}</p>
+            <div class="flex items-center gap-2">
+              <code id="new-session-link-search-url" class="flex-1 min-w-0 px-2.5 py-1.5 bg-white dark:bg-slate-800 rounded text-indigo-600 dark:text-indigo-400 text-[0.78rem] select-all break-all">{{ new_session_link_search_url }}</code>
+              <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('new-session-link-search-url').textContent)" class="shrink-0 px-2.5 py-1.5 rounded border border-amber-300 dark:border-amber-700 text-[0.78rem] text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors">{% trans "Copy" %}</button>
+            </div>
+          </div>
+          {% endif %}
+          {% if session_link %}
+          <div class="p-3 rounded-md bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 mb-3">
+            <span class="block text-[0.8rem] font-semibold mb-1">{% trans "A private session link is active." %}</span>
+            <span class="block text-[0.75rem] text-slate-500 dark:text-slate-400 mb-2">
+              {% blocktrans with created=session_link.created_at|date:"M j, Y" %}generated {{ created }}{% endblocktrans %}
+              · {% if session_link.last_used_at %}{% blocktrans with used=session_link.last_used_at|date:"M j, Y" %}last used {{ used }}{% endblocktrans %}{% else %}{% trans "never used" %}{% endif %}
+            </span>
+            <span class="block text-[0.75rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Only a fingerprint of the link is stored, so it cannot be shown again. If you no longer have it, generate a new one." %}</span>
+          </div>
+          <div class="flex items-center gap-2 max-[700px]:flex-col max-[700px]:items-stretch">
+            <form method="post" action="{% url 'search:settings' %}">
+              {% csrf_token %}
+              <input type="hidden" name="setting" value="generate_session_link">
+              <input type="hidden" name="pane" value="account">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% trans "Generate new link" %}</button>
+            </form>
+            <form method="post" action="{% url 'search:settings' %}">
+              {% csrf_token %}
+              <input type="hidden" name="setting" value="delete_session_link">
+              <input type="hidden" name="pane" value="account">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-red-300 dark:hover:border-red-700 hover:text-red-600 dark:hover:text-red-400 transition-colors">{% trans "Turn off" %}</button>
+            </form>
+          </div>
+          <p class="mt-2 text-[0.72rem] text-slate-400 dark:text-slate-500">{% trans "Generating a new link invalidates the old one." %}</p>
+          {% else %}
+          <form method="post" action="{% url 'search:settings' %}">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="generate_session_link">
+            <input type="hidden" name="pane" value="account">
+            <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Generate link" %}</button>
+          </form>
+          {% endif %}
+        </div>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Session" %}</div>
+          <div class="flex items-center justify-between gap-4 py-3.5">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Sign out" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "End your current session on this device." %}</span>
+            </div>
+            <form method="post" action="{% url 'logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-red-300 dark:hover:border-red-700 hover:text-red-600 dark:hover:text-red-400 transition-colors">{% trans "Sign out" %}</button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ API KEYS ============ -->
+      <section class="settings-pane" id="pane-apikeys" aria-labelledby="pane-apikeys-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-apikeys-title">{% trans "API keys" %}</h1>
+
+        <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-5 leading-snug">
+          {% blocktrans trimmed %}API keys let your own programs search Seurch over the JSON API. Send the key in the <code class="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded">Authorization</code> header. Keep it secret, as anyone with the key can search as you.{% endblocktrans %}
+          <a href="{{ api_docs_url }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">{% trans "Read the API documentation." %}</a>
+        </p>
+
+        {% if new_api_key %}
+        <div class="mb-8 p-4 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-amber-800 dark:text-amber-300 mb-2">{% trans "Your new API key" %}</div>
+          <p class="text-[0.8rem] text-amber-800 dark:text-amber-300 mb-2.5 leading-snug">{% trans "Copy this key now; for your security it will not be shown again." %}</p>
+          <div class="flex items-center gap-2">
+            <code id="new-api-key-value" class="flex-1 min-w-0 px-2.5 py-1.5 bg-white dark:bg-slate-800 rounded text-indigo-600 dark:text-indigo-400 text-[0.78rem] select-all break-all">{{ new_api_key }}</code>
+            <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('new-api-key-value').textContent)" class="shrink-0 px-2.5 py-1.5 rounded border border-amber-300 dark:border-amber-700 text-[0.78rem] text-amber-800 dark:text-amber-300 hover:bg-amber-100 dark:hover:bg-amber-900/40 transition-colors">{% trans "Copy" %}</button>
+          </div>
+        </div>
+        {% endif %}
+
+        {% if public_api_enabled %}
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Create a new key" %}</div>
+          <form method="post" action="{% url 'search:settings' %}" class="flex gap-2 max-[700px]:flex-col">
+            {% csrf_token %}
+            <input type="hidden" name="setting" value="create_api_key">
+            <input type="hidden" name="pane" value="apikeys">
+            <input type="text" name="key_name" maxlength="100" placeholder="{% trans "Key name (e.g. my script)" %}" aria-label="{% trans "Key name" %}" class="flex-1 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+            <button type="submit" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Create key" %}</button>
+          </form>
+        </div>
+        {% else %}
+        <div class="mb-8 p-4 rounded-md bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+          <p class="text-[0.82rem] text-slate-600 dark:text-slate-300 leading-snug">{% trans "The public API is disabled on this instance. Existing keys no longer work; you can still revoke them below." %}</p>
+        </div>
+        {% endif %}
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Your API keys" %}</div>
+          {% if api_keys %}
+            <ul class="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden">
+              {% for key in api_keys %}
+              <li class="flex items-center gap-3 px-3 py-2.5">
+                <div class="flex-1 min-w-0">
+                  <strong class="block text-[0.85rem] font-semibold truncate">{{ key.name }}</strong>
+                  <span class="block text-[0.75rem] text-slate-500 dark:text-slate-400 truncate">
+                    <code class="font-mono">{{ key.display_prefix }}…</code>
+                    · {% blocktrans with created=key.created_at|date:"M j, Y" %}created {{ created }}{% endblocktrans %}
+                    · {% if key.last_used_at %}{% blocktrans with used=key.last_used_at|date:"M j, Y" %}last used {{ used }}{% endblocktrans %}{% else %}{% trans "never used" %}{% endif %}
+                  </span>
+                </div>
+                <form method="post" action="{% url 'search:settings' %}" class="shrink-0">
+                  {% csrf_token %}
+                  <input type="hidden" name="setting" value="delete_api_key">
+                  <input type="hidden" name="pane" value="apikeys">
+                  <input type="hidden" name="key_id" value="{{ key.id }}">
+                  <button type="submit" class="px-2.5 py-1 text-[0.78rem] text-slate-500 dark:text-slate-400 hover:text-red-600 dark:hover:text-red-400 transition-colors" aria-label="{% blocktrans with name=key.name %}Revoke {{ name }}{% endblocktrans %}">{% trans "Revoke" %}</button>
+                </form>
+              </li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            <p class="text-[0.82rem] text-slate-500 dark:text-slate-400">{% trans "You haven't created any API keys yet." %}</p>
+          {% endif %}
+        </div>
+      </section>
+
+      <!-- ============ BACKUP & SYNC ============ -->
+      <section class="settings-pane" id="pane-backup" aria-labelledby="pane-backup-title">
+        <h1 class="text-xl font-bold mb-6 pb-3 border-b border-slate-200 dark:border-slate-800" id="pane-backup-title">{% trans "Backup & sync" %}</h1>
+
+        <p class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-5 leading-snug">
+          {% trans "Your preferences, custom bangs and blocked sites sync automatically across every device you sign in on. You can also keep an offline copy: download everything as a file, or restore it from one." %}
+        </p>
+
+        <div class="mb-8">
+          <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400 mb-2">{% trans "Export & import" %}</div>
+
+          <div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800">
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Export to a file" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400">{% trans "Download all your settings as a JSON file." %}</span>
+            </div>
+            <a href="{% url 'search:settings_export' %}" download class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md border border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-700 dark:text-slate-300 bg-white dark:bg-slate-800 hover:border-indigo-300 dark:hover:border-indigo-700 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">{% trans "Export" %}</a>
+          </div>
+
+          <form method="post" action="{% url 'search:settings_import' %}" enctype="multipart/form-data" class="flex items-center justify-between gap-4 py-3.5">
+            {% csrf_token %}
+            <div class="flex-1 min-w-0">
+              <strong class="block text-[0.9rem] font-semibold mb-0.5">{% trans "Import from a file" %}</strong>
+              <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{% trans "Replaces your current preferences, custom bangs and blocked sites." %}</span>
+            </div>
+            <div class="flex items-center gap-2 shrink-0 max-[700px]:flex-col max-[700px]:items-end">
+              <input type="file" name="settings_file" accept="application/json,.json" required class="text-[0.78rem] text-slate-600 dark:text-slate-400 file:mr-2 file:px-2.5 file:py-1.5 file:rounded-md file:border-0 file:text-[0.78rem] file:font-semibold file:bg-slate-100 dark:file:bg-slate-800 file:text-slate-700 dark:file:text-slate-300 max-w-[180px]">
+              <button type="submit" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Import" %}</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  {% include 'search/_footer.html' %}
+
+{% endblock %}
+
+{% block scripts %}
+{% trans "Settings saved." as saved_label %}
+<script nonce="{{ csp_nonce }}">window.SETTINGS_I18N = {saved: "{{ saved_label|escapejs }}"};</script>
+<script src="{% static 'search/settings.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,112 @@
+{% extends "search/base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "Sign in - Seurch" %}{% endblock %}
+
+{% block body_class %}bg-slate-100 dark:bg-slate-950 font-sans antialiased{% endblock %}
+
+{% block body %}
+  <input type="radio" id="show-signin" name="auth-mode" checked>
+  <input type="radio" id="show-signup" name="auth-mode">
+
+  <div class="fixed top-3 right-5 z-50 flex items-center gap-2">
+    <!-- Language switcher -->
+    <form action="{% url 'set_language' %}" method="post" class="flex items-center">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <select name="language" onchange="this.form.submit()" aria-label="{% trans "Interface language" %}" class="text-[0.78rem] border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+        <option value="en" {% if LANGUAGE_CODE == 'en' %}selected{% endif %}>English</option>
+        <option value="fr" {% if LANGUAGE_CODE == 'fr' %}selected{% endif %}>Français</option>
+        <option value="de" {% if LANGUAGE_CODE == 'de' %}selected{% endif %}>Deutsch</option>
+        <option value="es" {% if LANGUAGE_CODE == 'es' %}selected{% endif %}>Español</option>
+        <option value="it" {% if LANGUAGE_CODE == 'it' %}selected{% endif %}>Italiano</option>
+        <option value="pt" {% if LANGUAGE_CODE == 'pt' %}selected{% endif %}>Português</option>
+        <option value="nl" {% if LANGUAGE_CODE == 'nl' %}selected{% endif %}>Nederlands</option>
+      </select>
+      {# No-JS (incl. NoScript): onchange auto-submit can't fire, so show a real submit button. #}
+      <button type="submit" class="hidden nojs:inline-block ml-1 text-[0.78rem] px-2 py-1.5 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300">{% trans "Go" %}</button>
+    </form>
+
+    <form method="post" action="{% url 'search:settings_theme' %}" data-theme-form class="contents">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ request.get_full_path }}">
+      <button id="dark-btn" type="submit" name="theme" value="{% if theme_pref == 'dark' %}light{% else %}dark{% endif %}" class="flex items-center justify-center w-9 h-9 rounded-full border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors" title="{% trans "Toggle dark mode" %}" aria-label="{% trans "Toggle dark mode" %}">
+        <span class="dark:hidden"><i class="fa-solid fa-moon text-[17px]" aria-hidden="true"></i><span class="hidden nojs:inline" aria-hidden="true">🌙</span></span>
+        <span class="hidden dark:block"><i class="fa-solid fa-sun text-[17px]" aria-hidden="true"></i><span class="hidden nojs:inline" aria-hidden="true">☀️</span></span>
+      </button>
+    </form>
+  </div>
+
+  <div class="min-h-screen flex flex-col items-center justify-center px-5 py-10">
+    <div class="w-full max-w-[420px] bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl overflow-hidden">
+
+      <!-- Logo -->
+      <div class="px-7 pt-6 pb-0 text-center">
+        <a href="{% url 'search:index' %}" class="inline-flex items-center gap-2 text-[1.2rem] font-extrabold mb-4 no-underline">
+          <img src="{% static 'search/logo.svg' %}" width="28" height="28" alt="" aria-hidden="true">
+          <span class="wordmark-gradient">Seurch</span>
+        </a>
+      </div>
+
+      <!-- Tab switcher: Sign In / Create Account -->
+      <div class="flex border-b border-slate-200 dark:border-slate-800" role="tablist">
+        <label class="flex-1 text-center py-2.5 text-[0.88rem] font-semibold text-slate-500 dark:text-slate-400 cursor-pointer border-b-2 border-transparent -mb-px hover:text-slate-800 dark:hover:text-slate-200 transition-all" for="show-signin" role="tab">{% trans "Sign In" %}</label>
+        <label class="flex-1 text-center py-2.5 text-[0.88rem] font-semibold text-slate-500 dark:text-slate-400 cursor-pointer border-b-2 border-transparent -mb-px hover:text-slate-800 dark:hover:text-slate-200 transition-all" for="show-signup" role="tab">{% trans "Create Account" %}</label>
+      </div>
+
+      <!-- SIGN IN FORM -->
+      <form class="auth-form auth-form-signin" action="{% url 'login' %}" method="post" novalidate aria-label="{% trans "Sign In" %}">
+        {% csrf_token %}
+        {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+
+        {% if form.errors %}
+        <div class="px-4 py-3 rounded-md bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 text-[0.85rem]">
+          {% for field in form %}{% for error in field.errors %}<p>{{ error }}</p>{% endfor %}{% endfor %}
+          {% for error in form.non_field_errors %}<p>{{ error }}</p>{% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[0.78rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide" for="id_username">{% trans "Username" %}</label>
+          <input class="px-3.5 py-2.5 border border-slate-200 dark:border-slate-700 rounded-md bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-[0.95rem] placeholder:text-slate-400 outline-hidden focus:border-indigo-500 focus:ring-[3px] focus:ring-indigo-500/15 focus:bg-white dark:focus:bg-slate-900 transition-all" type="text" id="id_username" name="username" placeholder="{% trans "Username" %}" autocomplete="username" autofocus required>
+        </div>
+
+        <div class="flex flex-col gap-1.5">
+          <label class="text-[0.78rem] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide" for="id_password">{% trans "Password" %}</label>
+          <input class="px-3.5 py-2.5 border border-slate-200 dark:border-slate-700 rounded-md bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-slate-100 text-[0.95rem] placeholder:text-slate-400 outline-hidden focus:border-indigo-500 focus:ring-[3px] focus:ring-indigo-500/15 focus:bg-white dark:focus:bg-slate-900 transition-all" type="password" id="id_password" name="password" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;" autocomplete="current-password" required>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-md text-[0.95rem] font-bold transition-colors">{% trans "Sign In" %}</button>
+
+        <p class="text-center text-[0.8rem] text-slate-400 dark:text-slate-500">
+          <a href="{% url 'password_reset' %}" class="text-indigo-600 dark:text-indigo-400 hover:underline">{% trans "Forgot your password?" %}</a>
+        </p>
+      </form>
+
+      <!-- INVITE ONLY -->
+      <div class="auth-form auth-form-signup" aria-label="{% trans "Create Account" %}">
+        <div class="flex flex-col items-center gap-3 py-4 text-center">
+          <i class="fa-solid fa-users text-[48px] text-slate-300 dark:text-slate-600" aria-hidden="true"></i>
+          <strong class="text-[0.95rem] font-semibold text-slate-700 dark:text-slate-300">{% trans "Invite only" %}</strong>
+          <p class="text-[0.83rem] text-slate-500 dark:text-slate-400 leading-relaxed max-w-[280px]">
+            {% trans "Seurch is currently available by invitation only." %}<br>
+            {% trans "Contact an administrator to request access." %}
+          </p>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="text-center text-[0.75rem] text-slate-400 leading-relaxed px-7 py-4 border-t border-slate-100 dark:border-slate-800">
+        {% trans "Seurch - Privacy-first European search." %}
+        <br>{% trans "Your data is never sold or used for advertising." %}
+      </div>
+
+    </div>
+
+    <p class="mt-5 text-[0.8rem] text-slate-400">
+      <a href="{% url 'search:index' %}" class="text-slate-500 dark:text-slate-500 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors">&larr; {% trans "Back to Seurch" %}</a>
+    </p>
+  </div>
+{% endblock %}
+
+{% block scripts %}{% endblock %}

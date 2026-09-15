@@ -1,0 +1,15 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="random" data-ia-random data-min="{{ answer.min }}" data-max="{{ answer.max }}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🎲 {% trans "Random number" %}</span><span class="ia-head-meta">{{ answer.min }} – {{ answer.max }}</span></div>
+    <div class="ia-row" style="gap:1rem;">
+      <span class="ia-rand-value" data-ia-random-value>{{ answer.value }}</span>
+      <button class="ia-btn ia-btn-primary" data-ia-random-again style="margin-left:auto;">↻ {% trans "Generate" %}</button>
+    </div>
+    <div class="ia-row" style="margin-top:.8rem;gap:.5rem;">
+      <div class="ia-field" style="max-width:120px;"><input class="ia-input" type="number" value="{{ answer.min }}" data-ia-random-min aria-label="{% trans "Minimum" %}" style="font-size:.9rem;"></div>
+      <span class="ia-muted">{% trans "to" %}</span>
+      <div class="ia-field" style="max-width:120px;"><input class="ia-input" type="number" value="{{ answer.max }}" data-ia-random-max aria-label="{% trans "Maximum" %}" style="font-size:.9rem;"></div>
+    </div>
+  </div>
+</section>

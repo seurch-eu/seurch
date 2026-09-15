@@ -1,0 +1,191 @@
+{% extends "search/page_base.html" %}
+{% load static i18n %}
+
+{% block title %}{% trans "About - Seurch" %}{% endblock %}
+{% block page_kicker %}{% trans "About" %}{% endblock %}
+{% block page_heading %}{% trans "About Seurch" %}{% endblock %}
+{% block page_lead %}{% trans "One search. Multiple sources." %}{% endblock %}
+
+{% block page_content %}
+  <p>{% blocktrans %}Seurch is a privacy-first metasearch engine. It queries several independent providers at once and blends their results into one unbiased list, so you get broad coverage without handing your search history to a single company.{% endblocktrans %}</p>
+  <p>{% blocktrans %}Web results come from Brave, Mojeek, Marginalia and Staan, while richer answers draw on Wikipedia, Stack Exchange, OpenStreetMap and other open sources. You decide which to use from your settings.{% endblocktrans %}</p>
+  <p>{% blocktrans %}Seurch is built in Europe and is still in alpha, so expect the occasional rough edge as it grows. Thanks for trying it early.{% endblocktrans %}</p>
+
+  {# --- Instant answers ---------------------------------------------------- #}
+  <section class="border-t border-slate-200 dark:border-slate-800 pt-6 flex flex-col gap-3">
+    <h2 class="text-[1.15rem] font-bold tracking-[-0.3px] text-slate-900 dark:text-white">{% trans "Instant answers" %}</h2>
+    <p>{% blocktrans %}Everyday utility queries are answered right at the top of the web results, most computed on the spot, with no third party involved. A few of the things you can type:{% endblocktrans %}</p>
+
+    <dl class="grid grid-cols-1 sm:grid-cols-[10rem_1fr] gap-x-5 gap-y-3">
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Calculator" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">2+2</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">sqrt(16)*3</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">15% of 200</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Unit conversion" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">5 km to miles</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">100 f to c</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">2 cups to ml</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Currency" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">100 usd to eur</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">50 gbp in yen</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Weather" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">weather in Paris</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">forecast Tokyo</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "World clock" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">time in tokyo</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">what time is it in new york</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Base conversion" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">0xff in decimal</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">255 in binary</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Colour" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">#4f46e5</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">rgb(255,128,0)</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">color picker</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Hash &amp; UUID" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">md5 hello</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">sha256 of test</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">uuid</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Encode &amp; decode" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">base64 encode hi</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">url decode foo%20bar</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "JSON &amp; Regex" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">json formatter</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">regex tester</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Password" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">password generator</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">strong password</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Unix time" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">unix timestamp</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">1700000000 to date</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "QR code" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">qr code https://example.com</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "HTTP &amp; ports" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">http 404</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">port 443</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Randomisers" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">roll 2d6</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">flip a coin</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">random number 1-100</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "Timer" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">timer 5 minutes</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">stopwatch</code>
+      </dd>
+
+      <dt class="font-semibold text-slate-700 dark:text-slate-200">{% trans "What's my IP" %}</dt>
+      <dd class="flex flex-wrap gap-1.5 items-center mb-2 sm:mb-0">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">what's my ip</code>
+      </dd>
+    </dl>
+
+    <p class="text-[0.85rem] text-slate-400 dark:text-slate-500">{% blocktrans %}Triggers are multilingual, they also fire in French, German, Spanish, Italian, Portuguese and Dutch (try <code>météo à Paris</code> or <code>255 en binaire</code>).{% endblocktrans %}</p>
+  </section>
+
+  {# --- Bangs -------------------------------------------------------------- #}
+  <section class="border-t border-slate-200 dark:border-slate-800 pt-6 flex flex-col gap-3">
+    <h2 class="text-[1.15rem] font-bold tracking-[-0.3px] text-slate-900 dark:text-white">{% trans "Bangs" %}</h2>
+    <p>{% blocktrans %}Bangs send your query straight to another site. Begin a search with a bang, <code>!w</code> for Wikipedia, <code>!gh</code> for GitHub, <code>!yt</code> for YouTube, and Seurch hands the rest of the query to that site.{% endblocktrans %}</p>
+
+    <div class="flex flex-col gap-2">
+      <div class="text-[0.7rem] font-bold uppercase tracking-[0.07em] text-slate-500 dark:text-slate-400">{% trans "Built in, switch tab without leaving Seurch" %}</div>
+      <div class="flex flex-wrap gap-1.5 items-center">
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!web</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!images</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!i</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!news</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!n</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!videos</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!v</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!maps</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!m</code>
+        <code class="rounded bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 font-mono text-[0.8rem]">!translate</code>
+      </div>
+    </div>
+
+    {% if bang_count %}
+      <p>{% blocktrans %}Plus <strong>{{ bang_count_display }}</strong> shortcuts to external sites, from the community bang list. Too many to list, search them here:{% endblocktrans %}</p>
+    {% else %}
+      <p>{% trans "Thousands more shortcuts route to external sites. Search them here:" %}</p>
+    {% endif %}
+
+    {% comment %}
+      The box filters live via about.js. With JavaScript off it falls back to a
+      plain GET form: the submit button is revealed by the `nojs:` variant, and
+      the view answers ?bang=… by rendering the matches below, server-side.
+    {% endcomment %}
+    <form method="get" action="{% url 'search:about' %}" class="flex gap-2">
+      <label for="bang-search" class="sr-only">{% trans "Search bangs" %}</label>
+      <input id="bang-search" name="bang" type="search" value="{{ bang_query }}" autocomplete="off" spellcheck="false"
+             placeholder="{% trans "Search bangs, e.g. wikipedia, github, !yt" %}"
+             class="flex-1 min-w-0 px-3 py-2 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-md text-[0.85rem] outline-hidden focus:border-indigo-500">
+      {# No-JS (incl. NoScript): about.js can't filter live, so show a real submit. #}
+      <button type="submit" class="hidden nojs:inline-flex shrink-0 items-center px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Search" %}</button>
+    </form>
+
+    <p id="bang-status" aria-live="polite" class="text-[0.8rem] text-slate-400 dark:text-slate-500 min-h-[1.1rem]">
+      {% if bang_query %}{% if not bang_matches %}{% blocktrans %}No bangs match “{{ bang_query }}”.{% endblocktrans %}{% elif bang_total > bang_matches|length %}{% blocktrans with shown=bang_matches|length total=bang_total %}Showing {{ shown }} of {{ total }} matches, refine your search to narrow it down.{% endblocktrans %}{% else %}{% blocktrans count counter=bang_total %}{{ counter }} match.{% plural %}{{ counter }} matches.{% endblocktrans %}{% endif %}{% endif %}
+    </p>
+
+    <ul id="bang-results" class="divide-y divide-slate-100 dark:divide-slate-800 border border-slate-200 dark:border-slate-800 rounded-md overflow-hidden empty:hidden">
+      {% for b in bang_matches %}
+        <li class="flex items-center gap-3 px-3 py-2.5">
+          <code class="font-mono font-bold text-indigo-600 dark:text-indigo-400 text-[0.85rem] shrink-0">!{{ b.trigger }}</code>
+          <span class="flex-1 min-w-0 truncate text-[0.82rem] text-slate-500 dark:text-slate-400" title="{{ b.url }}">{{ b.hostname|default:b.url }}</span>
+          {% if b.custom %}<span class="shrink-0 rounded-full bg-indigo-50 dark:bg-indigo-900/40 text-indigo-600 dark:text-indigo-300 text-[0.68rem] font-semibold px-2 py-0.5">{% trans "custom" %}</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+
+    <p class="text-[0.85rem] text-slate-400 dark:text-slate-500">{% url 'search:settings_pane' pane='shortcuts' as settings_url %}{% blocktrans %}Want a shortcut that isn't here? Add your own in <a class="text-indigo-600 dark:text-indigo-400 hover:underline" href="{{ settings_url }}">your settings</a>.{% endblocktrans %}</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  {{ block.super }}
+  <script src="{% static 'search/about.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="timestamp" data-ia-timestamp data-given="{{ answer.given|yesno:'1,0' }}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">⏱️ {% trans "Unix timestamp" %}</span><span class="ia-head-meta">{% trans "seconds since 1970-01-01 UTC" %}</span></div>
+
+    <div class="ia-row" style="margin-bottom:.2rem;">
+      <span class="ia-label" style="margin:0;">{% trans "Current Unix time" %}</span>
+    </div>
+    <div class="ia-result">
+      <span class="ia-result-value ia-mono" data-ia-ts-now>{{ answer.epoch }}</span>
+      <button class="ia-copy" data-ia-copy-target="[data-ia-ts-now]" title="{% trans "Copy" %}" aria-label="{% trans "Copy" %}" style="margin-left:auto;">
+        <i class="fa-solid fa-copy" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    <div style="margin-top:.9rem;">
+      <div class="ia-label">{% trans "Timestamp → date" %}</div>
+      <div class="ia-field" style="margin-bottom:.4rem;">
+        <input class="ia-input ia-mono" type="text" inputmode="numeric" value="{% if answer.given %}{{ answer.epoch }}{% endif %}" data-ia-ts-input placeholder="1700000000" aria-label="{% trans "Epoch value" %}" spellcheck="false">
+      </div>
+      <div class="ia-kv">
+        <div class="ia-kv-row"><span class="ia-kv-key">UTC</span><span class="ia-kv-val ia-mono" data-ia-ts-utc>{{ answer.utc }}</span>{% include 'instant/_copybtn.html' %}</div>
+        <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Local" %}</span><span class="ia-kv-val ia-mono" data-ia-ts-local>–</span>{% include 'instant/_copybtn.html' %}</div>
+        <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Relative" %}</span><span class="ia-kv-val" data-ia-ts-rel>–</span></div>
+      </div>
+    </div>
+
+    <div style="margin-top:.9rem;">
+      <div class="ia-label">{% trans "Date → timestamp" %}</div>
+      <div class="ia-row" style="gap:.5rem;">
+        <div class="ia-field"><input class="ia-input ia-mono" type="datetime-local" step="1" data-ia-ts-date aria-label="{% trans "Date" %}" style="font-size:.85rem;font-weight:500;"></div>
+        <div class="ia-field" style="max-width:170px;"><input class="ia-input ia-mono" type="text" readonly data-ia-ts-out aria-label="{% trans "Resulting epoch" %}" style="font-size:.9rem;"></div>
+        <button class="ia-copy" data-ia-copy-target="[data-ia-ts-out]" title="{% trans "Copy" %}" aria-label="{% trans "Copy" %}"><i class="fa-solid fa-copy" aria-hidden="true"></i></button>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,21 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="base" data-ia-base>
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🔢 {% trans "Base converter" %}</span></div>
+    <div class="ia-field" style="margin-bottom:.7rem;">
+      <input class="ia-input ia-mono" type="text" value="{{ answer.value }}" data-ia-base-input aria-label="{% trans "Value" %}" spellcheck="false" autocomplete="off">
+      <select class="ia-select" data-ia-base-from aria-label="{% trans "Input base" %}">
+        <option value="10">DEC</option>
+        <option value="16">HEX</option>
+        <option value="2">BIN</option>
+        <option value="8">OCT</option>
+      </select>
+    </div>
+    <div class="ia-kv">
+      <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Decimal" %}</span><span class="ia-kv-val ia-mono" data-ia-out="10">{{ answer.dec }}</span>{% include 'instant/_copybtn.html' %}</div>
+      <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Hex" %}</span><span class="ia-kv-val ia-mono" data-ia-out="16">0x{{ answer.hex }}</span>{% include 'instant/_copybtn.html' %}</div>
+      <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Binary" %}</span><span class="ia-kv-val ia-mono" data-ia-out="2">{{ answer.bin }}</span>{% include 'instant/_copybtn.html' %}</div>
+      <div class="ia-kv-row"><span class="ia-kv-key">{% trans "Octal" %}</span><span class="ia-kv-val ia-mono" data-ia-out="8">0o{{ answer.oct }}</span>{% include 'instant/_copybtn.html' %}</div>
+    </div>
+  </div>
+</section>

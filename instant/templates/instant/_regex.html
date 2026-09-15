@@ -1,0 +1,23 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="regex" data-ia-regex>
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">⊕ {% trans "Regex tester" %}</span><span class="ia-head-meta" data-ia-regex-count></span></div>
+    <div class="ia-field" style="margin-bottom:.5rem;">
+      <span class="ia-affix" style="border-left:none;border-right:1px solid var(--border);">/</span>
+      <input class="ia-input ia-mono" data-ia-regex-pattern placeholder="\b\w+@\w+\.\w+\b" spellcheck="false" autocomplete="off" style="font-size:.9rem;font-weight:500;" aria-label="{% trans "Pattern" %}">
+      <span class="ia-affix">/</span>
+    </div>
+    <div class="ia-regex-flags" style="margin-bottom:.6rem;">
+      <label><input type="checkbox" data-ia-flag="g" checked> g <span class="ia-muted">{% trans "global" %}</span></label>
+      <label><input type="checkbox" data-ia-flag="i"> i <span class="ia-muted">{% trans "ignore case" %}</span></label>
+      <label><input type="checkbox" data-ia-flag="m"> m <span class="ia-muted">{% trans "multiline" %}</span></label>
+      <label><input type="checkbox" data-ia-flag="s"> s <span class="ia-muted">{% trans "dotall" %}</span></label>
+    </div>
+    <div class="ia-label">{% trans "Test string" %}</div>
+    <textarea class="ia-textarea" data-ia-regex-string spellcheck="false" placeholder="{% trans "Text to match against…" %}">Contact us at hello@example.com or sales@test.org</textarea>
+    <div class="ia-label" style="margin-top:.6rem;">{% trans "Matches" %}</div>
+    <div class="ia-textarea ia-regex-string" data-ia-regex-result style="min-height:auto;white-space:pre-wrap;" aria-live="polite"></div>
+    <div class="ia-regex-out" data-ia-regex-info></div>
+    {% include 'instant/_nojs.html' %}
+  </div>
+</section>

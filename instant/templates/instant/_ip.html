@@ -1,0 +1,19 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="ip">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🌐 {% trans "Your IP address" %}</span></div>
+    <div class="ia-result">
+      <span class="ia-result-value ia-mono">{{ answer.ip }}</span>
+      <button class="ia-copy" data-ia-copy="{{ answer.ip }}" title="{% trans "Copy" %}" aria-label="{% trans "Copy IP" %}" style="margin-left:auto;">
+        <i class="fa-solid fa-copy" aria-hidden="true"></i>
+      </button>
+    </div>
+    {% if answer.is_local %}<p class="ia-hint">{% trans "This is a private/local address, behind a proxy your public IP may differ." %}</p>{% endif %}
+    {% if answer.user_agent %}
+    <div style="margin-top:.7rem;">
+      <div class="ia-label">{% trans "User agent" %}</div>
+      <div class="ia-mono ia-muted" style="font-size:.78rem;word-break:break-all;">{{ answer.user_agent }}</div>
+    </div>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,8 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="worldclock" data-ia-clock data-tz="{{ answer.tz }}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🕐 {% blocktrans with place=answer.place %}Time in {{ place }}{% endblocktrans %}</span><span class="ia-head-meta">{{ answer.offset }}{% if answer.tz_abbr %} · {{ answer.tz_abbr }}{% endif %}</span></div>
+    <div class="ia-clock-time" data-ia-clock-time>{{ answer.time }}</div>
+    <div class="ia-clock-meta" data-ia-clock-date>{{ answer.date }}</div>
+  </div>
+</section>

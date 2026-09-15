@@ -1,0 +1,53 @@
+{% load i18n %}
+{% if active_tab == 'translate' %}
+<form method="post" action="{% url 'search:results' %}" class="translate-shell">
+  {% csrf_token %}
+  <input type="hidden" name="tab" value="translate">
+
+  <div class="translate-controls">
+    <select id="translate-source" name="source" aria-label="{% trans "Source language" %}" class="translate-lang-select">
+      <option value="auto" {% if translate_source == 'auto' %}selected{% endif %}>{% trans "Detect language" %}</option>
+      {% for code, name in translate_languages %}
+      <option value="{{ code }}" {% if translate_source == code %}selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+
+    {# No-JS: a real submit (name="swap") the server acts on; results.js intercepts it to swap client-side instead. #}
+    <button type="submit" name="swap" value="1" id="translate-swap" class="translate-swap-btn" title="{% trans "Swap languages" %}" aria-label="{% trans "Swap languages" %}">
+      <i class="fa-solid fa-right-left text-[15px]" aria-hidden="true"></i>
+      <span class="hidden nojs:inline" aria-hidden="true">&hArr;</span>
+    </button>
+
+    <select id="translate-target" name="target" aria-label="{% trans "Target language" %}" class="translate-lang-select">
+      {% for code, name in translate_languages %}
+      <option value="{{ code }}" {% if translate_target == code %}selected{% endif %}>{{ name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+
+  <div class="translate-panes">
+    <div class="translate-pane">
+      <div class="translate-pane-label">
+        {% if translate_detected_name %}
+          {% blocktrans with name=translate_detected_name %}Detected: {{ name }}{% endblocktrans %}
+        {% else %}
+          {% trans "Source text" %}
+        {% endif %}
+      </div>
+      <textarea name="q" rows="6" class="translate-textarea" placeholder="{% trans "Type text to translate…" %}" aria-label="{% trans "Text to translate" %}">{{ query }}</textarea>
+      <button type="submit" class="translate-submit-btn">{% trans "Translate" %}</button>
+    </div>
+
+    <div class="translate-pane">
+      <div class="translate-pane-label">{% trans "Translation" %}</div>
+      {% if translation %}
+      <div class="translate-text">{{ translation.translated_text }}</div>
+      {% elif translate_unavailable %}
+      <p class="translate-error">{% trans "Translation service is unavailable. Try again later." %}</p>
+      {% else %}
+      <p class="translate-pane-placeholder">{% trans "Translation will appear here." %}</p>
+      {% endif %}
+    </div>
+  </div>
+</form>
+{% endif %}

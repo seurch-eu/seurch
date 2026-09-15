@@ -1,0 +1,19 @@
+{
+  "name": "seurch-css",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Frontend build toolchain for the Seurch Django app (Tailwind CSS + self-hosted Font Awesome). The compiled stylesheets and vendored icon assets are committed; this is only needed to regenerate them.",
+  "scripts": {
+    "build:fa": "node scripts/copy-fontawesome.mjs",
+    "build:css": "npm run build:app && npm run build:instant",
+    "build:app": "tailwindcss --input assets/app.css --output search/static/search/tailwind.css --minify",
+    "build:instant": "tailwindcss --input assets/instant.css --output instant/static/instant/instant.css --minify",
+    "watch:app": "tailwindcss --input assets/app.css --output search/static/search/tailwind.css --watch",
+    "watch:instant": "tailwindcss --input assets/instant.css --output instant/static/instant/instant.css --watch"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^7.3.1",
+    "@tailwindcss/cli": "4.3.0",
+    "tailwindcss": "4.3.3"
+  }
+}

@@ -1,0 +1,86 @@
+{% load i18n %}
+{% if active_tab == 'maps' %}
+{% comment %}The Maps tab always shows a map. Before anything is searched
+(switching over from another tab lands here with no query), and when a query
+geocodes to nothing, the frame holds a world view and the sidebar — where the
+places would be — carries the empty state, so the tab never renders as a blank
+panel. `map_embed_url` / `map_osm_url` are the primary place's when there is
+one, the world view otherwise (search/views.py).{% endcomment %}
+<div class="maps-shell" role="region" aria-label="{% trans "Map results" %}">
+
+  <aside class="maps-sidebar" aria-label="{% trans "Places" %}">
+    {% if map_primary %}
+    <div class="maps-sidebar-head">
+      <div class="maps-eyebrow">
+        <i class="fa-solid fa-location-dot text-[12px]" aria-hidden="true"></i>
+        {% trans "Maps" %}
+      </div>
+      <strong class="maps-title">{{ map_primary.name|default:query }}</strong>
+      <span class="maps-meta">{% blocktrans count counter=map_places|length %}{{ counter }} result · OpenStreetMap{% plural %}{{ counter }} results · OpenStreetMap{% endblocktrans %}</span>
+    </div>
+
+    <div class="maps-list" role="list" aria-label="{% trans "Matching places" %}">
+      {% for place in map_places %}
+      <button type="button"
+              class="map-result{% if forloop.first %} map-result-active{% endif %}"
+              role="listitem"
+              data-embed="{{ place.embed_url }}"
+              data-osm="{{ place.osm_url }}"
+              data-directions="{{ place.directions_url }}"
+              data-geo="{{ place.geo_uri }}"
+              aria-pressed="{% if forloop.first %}true{% else %}false{% endif %}">
+        <span class="map-pin-tile" aria-hidden="true">
+          <i class="fa-solid fa-location-dot text-[19px]" aria-hidden="true"></i>
+        </span>
+        <span class="map-result-body">
+          <span class="map-result-name">{{ place.name|default:place.display_name }}</span>
+          {% if place.type %}<span class="map-result-type">{{ place.type }}</span>{% endif %}
+          <span class="map-result-addr">{{ place.display_name }}</span>
+        </span>
+      </button>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="maps-sidebar-empty">
+      {% if not query %}
+        {% trans "Explore the map" as empty_title %}
+        {% trans "Search for a place or address and it'll appear here on OpenStreetMap." as empty_sub %}
+        {% include 'search/_empty.html' with icon="🗺️" title=empty_title sub=empty_sub only %}
+      {% else %}
+        {% trans "No places found" as empty_title %}
+        {% blocktrans asvar empty_sub %}We couldn't locate <strong>"{{ query }}"</strong> on the map. Try a more specific address or place name.{% endblocktrans %}
+        {% include 'search/_empty.html' with icon="🔎" title=empty_title sub=empty_sub only %}
+      {% endif %}
+    </div>
+    {% endif %}
+  </aside>
+
+  <div class="maps-area">
+    <iframe id="map-frame"
+            title="{% if map_primary %}{% blocktrans with name=map_primary.name|default:query %}Map of {{ name }}{% endblocktrans %}{% else %}{% trans "World map" %}{% endif %}"
+            src="{{ map_embed_url }}" loading="lazy" referrerpolicy="no-referrer"></iframe>
+    {# The OpenStreetMap embed renders its tiles with JavaScript, so it's blank with scripting off (including NoScript, which leaves <noscript> unrendered). Overlay an opaque message and lean on the "Larger map" link instead. #}
+    <div class="hidden nojs:flex absolute inset-0 flex-col items-center justify-center gap-2 p-6 text-center text-ink-muted bg-elevated">
+      <span class="text-[2.5rem] leading-none" aria-hidden="true">🗺️</span>
+      <p class="text-sm max-w-80">{% trans "You need to enable JavaScript to view the interactive map. Use the Larger map link to open it on OpenStreetMap." %}</p>
+    </div>
+    <div class="maps-controls">
+      {# Directions need a destination; with no place found there is only the map itself. #}
+      {% if map_primary %}
+      <a id="map-directions" class="maps-btn maps-btn-primary"
+         href="{{ map_primary.directions_url }}"
+         data-geo="{{ map_primary.geo_uri }}"
+         target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-diamond-turn-right text-[14px]" aria-hidden="true"></i>
+        {% trans "Directions" %}
+      </a>
+      {% endif %}
+      <a id="map-osm-link" class="maps-btn" href="{{ map_osm_url }}" target="_blank" rel="noopener noreferrer">
+        <i class="fa-solid fa-arrow-up-right-from-square text-[14px]" aria-hidden="true"></i>
+        {% trans "Larger map" %}
+      </a>
+    </div>
+  </div>
+
+</div>
+{% endif %}

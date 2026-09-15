@@ -1,0 +1,43 @@
+{% load i18n %}
+<div class="border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xs bg-white dark:bg-slate-800">
+  <div class="px-4 pt-3.5 pb-1">
+    <div class="flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-widest text-slate-400 mb-2">
+      <svg class="w-3.5 h-3.5" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path d="M26 32H6v-9h2v7h16v-7h2v9z" fill="#BCBBBB"/><path d="M25 28H7v-2h18v2z" fill="#BCBBBB"/><path d="M24.379 19.342l-14.7-3.07.41-1.963 14.7 3.07-.41 1.963zM23.15 13.27l-13.57-6.34.856-1.833 13.57 6.34-.856 1.833zM19.826 7.68L8.395 1.048l1-1.731L20.826 5.95l-1 1.73zM24.75 25.46H7.25v-2h17.5v2z" fill="#F48024"/></svg>
+      <span style="color:#F48024;">{{ stackexchange_card.site_name }}</span>
+    </div>
+    <a href="{{ stackexchange_card.url }}" target="_blank" rel="noopener noreferrer" class="text-[1.05rem] font-bold leading-snug text-slate-900 dark:text-slate-100 hover:underline">{{ stackexchange_card.title }}</a>
+    <div class="flex items-center gap-3 text-[0.78rem] text-slate-500 dark:text-slate-400 flex-wrap mt-1.5 mb-2.5">
+      <span>▲ {% blocktrans count counter=stackexchange_card.score %}<strong class="text-slate-700 dark:text-slate-300">{{ counter }}</strong> vote{% plural %}<strong class="text-slate-700 dark:text-slate-300">{{ counter }}</strong> votes{% endblocktrans %}</span>
+      <span class="{% if stackexchange_card.is_answered %}text-green-600 dark:text-green-400{% endif %}">
+        {% if stackexchange_card.is_answered %}✓{% endif %} {% blocktrans count counter=stackexchange_card.answer_count %}<strong>{{ counter }}</strong> answer{% plural %}<strong>{{ counter }}</strong> answers{% endblocktrans %}
+      </span>
+      {% if stackexchange_card.view_count %}<span>{% blocktrans count counter=stackexchange_card.view_count %}{{ counter }} view{% plural %}{{ counter }} views{% endblocktrans %}</span>{% endif %}
+    </div>
+    {% if stackexchange_card.answer %}
+      <div class="bg-green-50 dark:bg-green-950/30 border border-green-200 dark:border-green-800/50 rounded-xl p-3 flex flex-col gap-1.5 mb-3" data-se-block>
+        <div class="text-[0.72rem] font-bold text-green-600 dark:text-green-400">
+          {% if stackexchange_card.answer.is_accepted %}✓ {% trans "Accepted Answer" %}{% else %}{% trans "Top Answer" %}{% endif %} · {% blocktrans count counter=stackexchange_card.answer.score %}{{ counter }} vote{% plural %}{{ counter }} votes{% endblocktrans %}
+        </div>
+        <div class="se-answer{% if stackexchange_card.answer.is_long %} se-answer--clamp{% endif %}" data-se-answer>{{ stackexchange_card.answer.body|safe }}</div>
+        {% if stackexchange_card.answer.is_long %}
+          {# Real anchor to the answer on the source site: that IS the no-JS behaviour. With JS, expand.js intercepts the click and swaps the two labels below. #}
+          <a href="{{ stackexchange_card.answer.url }}" target="_blank" rel="noopener noreferrer" class="self-start text-[0.78rem] font-medium hover:underline" style="color:#F48024;" data-se-readmore aria-expanded="false">
+            <span data-card-more>{% trans "Read more" %} →</span>
+            <span class="hidden" data-card-less>{% trans "Show less" %} ↑</span>
+          </a>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if stackexchange_card.tags %}
+      <div class="flex gap-1.5 flex-wrap mb-3" aria-label="{% trans "Question tags" %}">
+        {% for tag in stackexchange_card.tags %}
+          <span class="px-2 py-0.5 rounded text-[0.72rem] bg-sky-50 dark:bg-sky-950 border border-sky-200 dark:border-sky-800 text-sky-600 dark:text-sky-400">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+  <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800">
+    <a href="{{ stackexchange_card.url }}" target="_blank" rel="noopener noreferrer" class="text-[0.82rem] font-medium hover:underline" style="color:#F48024;">{% blocktrans with site=stackexchange_card.site_name %}View on {{ site }}{% endblocktrans %} →</a>
+  </div>
+</div>
+

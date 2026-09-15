@@ -1,0 +1,15 @@
+{% comment %}
+Knowledge-panel cards, in display order. Shared by the web panel (eager render)
+and the deferred /search/cards/ fragment so the ordering lives in one place.
+Wikipedia leads when it ranks the query better than the other card; otherwise it
+trails them.
+{% endcomment %}
+{% if wikipedia_first and wikipedia_card %}{% include 'cards/_wikipedia.html' %}{% endif %}
+
+{% if thetvdb_card %}{% include 'cards/_thetvdb.html' %}{% endif %}
+
+{% if tripadvisor_card %}{% include 'cards/_tripadvisor.html' %}{% endif %}
+
+{% if stackexchange_card %}{% include 'cards/_stackexchange.html' %}{% endif %}
+
+{% if not wikipedia_first and wikipedia_card %}{% include 'cards/_wikipedia.html' %}{% endif %}

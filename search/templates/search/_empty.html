@@ -1,0 +1,24 @@
+{% comment %}
+Shared empty state for the result panels: a large icon, a title and one line of
+help. Every tab includes it (web / images / news / videos, and the maps
+sidebar) so "nothing here yet" and "nothing matched" look the same wherever the
+user lands.
+
+Params:
+  icon   an emoji, NOT a Font Awesome glyph. These states are exactly what a
+         browser with webfonts blocked (NoScript & co, see the `nojs:` variant
+         in assets/app.css) lands on, and an emoji always paints.
+  title  optional heading; the configuration notices carry their whole message
+         in `sub` and pass none.
+  sub    one line of help below the title.
+
+Both strings are built by the caller with {% trans %} / {% blocktrans asvar %}
+and rendered as HTML: the i18n tags already escape the values they interpolate
+(so a query inside `sub` is safe) and escaping them a second time would mangle
+an apostrophe in a translation. Never pass a raw user-supplied string.
+{% endcomment %}
+<div class="results-empty">
+  <span class="results-empty-icon" aria-hidden="true">{{ icon }}</span>
+  {% if title %}<p class="results-empty-title">{{ title|safe }}</p>{% endif %}
+  <p class="results-empty-sub">{{ sub|safe }}</p>
+</div>

@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-06-25T00:00:00Z",
+  "title": "Design System: Seurch",
+  "extensions": {
+    "colorMeta": {
+      "brand": {
+        "role": "primary",
+        "displayName": "Signal Indigo",
+        "canonical": "#4f46e5",
+        "darkValue": "#818cf8",
+        "tonalRamp": ["#1e1b4b", "#312e81", "#3730a3", "#4338ca", "#4f46e5", "#6366f1", "#818cf8", "#c7d2fe"]
+      },
+      "brand-soft": {
+        "role": "primary",
+        "displayName": "Signal Indigo Soft",
+        "canonical": "#eef2ff",
+        "darkValue": "#1e1b4b",
+        "tonalRamp": ["#1e1b4b", "#312e81", "#3730a3", "#4f46e5", "#818cf8", "#c7d2fe", "#e0e7ff", "#eef2ff"]
+      },
+      "brand-violet": {
+        "role": "tertiary",
+        "displayName": "Brand Violet",
+        "canonical": "#8b5cf6",
+        "tonalRamp": ["#2e1065", "#4c1d95", "#5b21b6", "#6d28d9", "#7c3aed", "#8b5cf6", "#a78bfa", "#ddd6fe"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "canonical": "#ffffff",
+        "darkValue": "#1e293b",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#f1f5f9"]
+      },
+      "elevated": {
+        "role": "neutral",
+        "displayName": "Elevated",
+        "canonical": "#f8fafc",
+        "darkValue": "#1e293b",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#e2e8f0", "#f8fafc"]
+      },
+      "edge": {
+        "role": "neutral",
+        "displayName": "Edge",
+        "canonical": "#e2e8f0",
+        "darkValue": "#334155",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "#1e293b",
+        "darkValue": "#e2e8f0",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "ink-muted": {
+        "role": "neutral",
+        "displayName": "Ink Muted",
+        "canonical": "#64748b",
+        "darkValue": "#94a3b8",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Ink Soft",
+        "canonical": "#94a3b8",
+        "darkValue": "#475569",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"]
+      }
+    },
+    "typographyMeta": {
+      "wordmark": { "displayName": "Wordmark", "purpose": "The 'Seurch' logotype only, painted with the brand gradient. Not a reusable heading style." },
+      "headline": { "displayName": "Headline", "purpose": "Page and section titles (settings panes, about/legal headings)." },
+      "title": { "displayName": "Title", "purpose": "Card titles, result titles, maps result name — the workhorse emphasis weight." },
+      "body": { "displayName": "Body", "purpose": "Default reading text. Prose capped 65–75ch; results column capped at 700px." },
+      "label": { "displayName": "Label", "purpose": "Small uppercase eyebrows inside dense components. Sparing, never a per-section scaffold." },
+      "mono": { "displayName": "Mono", "purpose": "kbd keycaps, inline code, and code blocks." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 8px 24px rgb(0 0 0 / 0.12)", "purpose": "Reserved for elements that leave the plane: autocomplete dropdown, floating map controls. Dark mode uses /0.5." },
+      { "name": "search-lift", "value": "0 4px 6px -1px rgb(0 0 0 / 0.1)", "purpose": "The homepage search box (shadow-md) — the one hero control earns a soft resting shadow plus an indigo focus halo." },
+      { "name": "hairline", "value": "0 1px 2px rgb(0 0 0 / 0.1)", "purpose": "kbd keycaps and the toggle-switch knob only — micro-depth on tiny physical-feeling controls." }
+    ],
+    "motion": [
+      { "name": "default", "value": "0.18s ease", "purpose": "Default state transition (--transition). Hover, toggle slide, focus." },
+      { "name": "fast", "value": "0.15s ease", "purpose": "Snappier hover/color transitions on list rows and nav items." }
+    ],
+    "breakpoints": [
+      { "name": "settings-collapse", "value": "700px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pill Search Box",
+      "kind": "input",
+      "refersTo": "search-box",
+      "description": "The signature control — a rounded-full field that lights up on focus and carries a solid indigo submit pill.",
+      "html": "<form class=\"ds-search\" role=\"search\"><input class=\"ds-search-input\" type=\"search\" placeholder=\"Search the web…\" aria-label=\"Search query\"><button class=\"ds-search-submit\" type=\"submit\"><svg width=\"16\" height=\"16\" viewBox=\"0 0 512 512\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z\"/></svg><span>Search</span></button></form>",
+      "css": ".ds-search { display:flex; align-items:center; gap:8px; background:var(--color-surface,#fff); border:2px solid var(--color-edge,#e2e8f0); border-radius:9999px; padding:0 6px 0 20px; box-shadow:0 4px 6px -1px rgb(0 0 0 / 0.1); transition:border-color .18s ease, box-shadow .18s ease; } .ds-search:focus-within { border-color:#6366f1; box-shadow:0 0 0 3px rgb(99 102 241 / 0.15); } .ds-search-input { flex:1; min-width:0; border:none; background:transparent; color:var(--color-ink,#1e293b); font:400 1.05rem/1.5 ui-sans-serif,system-ui,sans-serif; padding:14px 0; outline:none; } .ds-search-input::placeholder { color:var(--color-ink-soft,#94a3b8); } .ds-search-submit { flex-shrink:0; display:inline-flex; align-items:center; gap:6px; background:var(--color-brand,#4f46e5); color:#fff; border:none; border-radius:9999px; padding:10px 18px; font:600 .92rem/1 ui-sans-serif,system-ui,sans-serif; cursor:pointer; transition:background .15s ease; } .ds-search-submit:hover { background:#4338ca; } .ds-search-submit:focus-visible { outline:2px solid var(--color-brand,#4f46e5); outline-offset:2px; }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Solid indigo pill for primary actions (Search, Translate, form submits).",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Translate</button>",
+      "css": ".ds-btn-primary { display:inline-flex; align-items:center; gap:6px; background:var(--color-brand,#4f46e5); color:#fff; border:none; border-radius:9999px; padding:10px 20px; font:600 .9rem/1 ui-sans-serif,system-ui,sans-serif; cursor:pointer; transition:background .15s ease; } .ds-btn-primary:hover { background:#4338ca; } .ds-btn-primary:focus-visible { outline:2px solid var(--color-brand,#4f46e5); outline-offset:2px; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Bordered, transparent secondary affordance (Settings link, category pills); fills on hover.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 512 512\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M256 0c17 0 33.6 1.7 49.8 4.8c7.9 1.5 21.8 6.1 29.4 20.1c2 3.7 3.6 7.6 4.6 11.8l9.3 38.5C350.5 81 360.3 86.7 366 85l38-11.2c4.4-1.3 9-1.4 13.4-.4c16.2 3.7 25 17.5 27.9 24.9c11.6 29.5 18.4 61.6 19.4 95.1c.2 8.2-3.7 16-9.8 21.5l-29.4 26.5c-4.3 3.9-4.3 13.3 0 17.2l29.4 26.5c6.1 5.5 10 13.3 9.8 21.5c-1 33.5-7.8 65.6-19.4 95.1c-2.9 7.4-11.7 21.2-27.9 24.9c-4.4 1-9 .9-13.4-.4L366 427c-5.7-1.7-15.5 4-15.9 9.8l-9.3 38.5c-1 4.2-2.6 8.1-4.6 11.8c-7.6 14-21.5 18.6-29.4 20.1C289.6 510.3 273 512 256 512s-33.6-1.7-49.8-4.8c-7.9-1.5-21.8-6.1-29.4-20.1c-2-3.7-3.6-7.6-4.6-11.8l-9.3-38.5c-1.4-5.8-11.2-11.5-16.9-9.8l-38 11.2c-4.4 1.3-9 1.4-13.4 .4c-16.2-3.7-25-17.5-27.9-24.9C44.6 394.4 37.8 362.3 36.8 328.8c-.2-8.2 3.7-16 9.8-21.5l29.4-26.5c4.3-3.9 4.3-13.3 0-17.2L46.6 236.6c-6.1-5.5-10-13.3-9.8-21.5c1-33.5 7.8-65.6 19.4-95.1c2.9-7.4 11.7-21.2 27.9-24.9c4.4-1 9-.9 13.4 .4L145 106.9c5.7 1.7 15.5-4 16.9-9.8l9.3-38.5c1-4.2 2.6-8.1 4.6-11.8c7.6-14 21.5-18.6 29.4-20.1C222.4 1.7 239 0 256 0zm0 160a96 96 0 1 0 0 192 96 96 0 1 0 0-192z\"/></svg><span>Settings</span></button>",
+      "css": ".ds-btn-ghost { display:inline-flex; align-items:center; gap:6px; background:var(--color-surface,#fff); color:var(--color-ink-muted,#64748b); border:1.5px solid var(--color-edge,#e2e8f0); border-radius:9999px; padding:6px 14px; font:600 .85rem/1 ui-sans-serif,system-ui,sans-serif; cursor:pointer; transition:background .15s ease, color .15s ease, border-color .15s ease; } .ds-btn-ghost:hover { background:var(--color-elevated,#f1f5f9); color:var(--color-ink,#1e293b); } .ds-btn-ghost:focus-visible { outline:2px solid var(--color-brand,#4f46e5); outline-offset:2px; }"
+    },
+    {
+      "name": "Category Tab",
+      "kind": "nav",
+      "refersTo": "button-ghost",
+      "description": "Search-type tab. Underline (brand bottom-border) marks the active tab rather than a filled pill.",
+      "html": "<nav class=\"ds-tabs\" aria-label=\"Search categories\"><a class=\"ds-tab ds-tab--active\" href=\"#\">Web</a><a class=\"ds-tab\" href=\"#\">Images</a><a class=\"ds-tab\" href=\"#\">News</a><a class=\"ds-tab\" href=\"#\">Maps</a></nav>",
+      "css": ".ds-tabs { display:flex; gap:4px; border-bottom:1px solid var(--color-edge,#e2e8f0); } .ds-tab { padding:8px 14px; font:500 .9rem/1 ui-sans-serif,system-ui,sans-serif; color:var(--color-ink-muted,#64748b); text-decoration:none; border-bottom:2px solid transparent; margin-bottom:-1px; transition:color .15s ease; } .ds-tab:hover { color:var(--color-ink,#1e293b); } .ds-tab--active { color:var(--color-brand,#4f46e5); border-bottom-color:var(--color-brand,#4f46e5); }"
+    },
+    {
+      "name": "Text Input / Select",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Standard bordered field — selects and textareas share the vocabulary. Border shifts to indigo with a 1px ring on focus.",
+      "html": "<input class=\"ds-input\" type=\"text\" placeholder=\"Custom bang…\" aria-label=\"Custom bang\">",
+      "css": ".ds-input { width:100%; background:var(--color-surface,#fff); color:var(--color-ink,#1e293b); border:1px solid var(--color-edge,#e2e8f0); border-radius:12px; padding:8px 12px; font:400 .9rem/1.4 ui-sans-serif,system-ui,sans-serif; outline:none; transition:border-color .18s ease, box-shadow .18s ease; } .ds-input::placeholder { color:var(--color-ink-muted,#64748b); } .ds-input:focus { border-color:#818cf8; box-shadow:0 0 0 1px #818cf8; }"
+    },
+    {
+      "name": "Toggle Switch",
+      "kind": "custom",
+      "refersTo": "nav-item-active",
+      "description": "Pure-CSS settings toggle: a 42×24 track that slides a white knob and turns brand-indigo when on.",
+      "html": "<label class=\"ds-toggle\"><input type=\"checkbox\" checked aria-label=\"Enable engine\"><span class=\"ds-toggle-track\"></span></label>",
+      "css": ".ds-toggle { position:relative; display:inline-block; width:42px; height:24px; flex-shrink:0; } .ds-toggle input { position:absolute; width:0; height:0; opacity:0; } .ds-toggle-track { position:absolute; inset:0; cursor:pointer; border-radius:12px; background:#cbd5e1; transition:background .18s ease; } .ds-toggle-track::after { content:\"\"; position:absolute; top:3px; left:3px; width:18px; height:18px; border-radius:9999px; background:#fff; box-shadow:0 1px 3px rgb(0 0 0 / 0.2); transition:transform .18s ease; } .ds-toggle input:checked + .ds-toggle-track { background:var(--color-brand,#4f46e5); } .ds-toggle input:checked + .ds-toggle-track::after { transform:translateX(18px); } .ds-toggle input:focus-visible + .ds-toggle-track { outline:2px solid var(--color-brand,#4f46e5); outline-offset:2px; }"
+    },
+    {
+      "name": "Result Type Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Small uppercase tag in soft-indigo — result-type labels and engine-agreement markers.",
+      "html": "<span class=\"ds-chip\">Restaurant</span>",
+      "css": ".ds-chip { display:inline-block; background:var(--color-brand-soft,#eef2ff); color:var(--color-brand,#4f46e5); border-radius:4px; padding:2px 6px; font:600 .62rem/1.4 ui-sans-serif,system-ui,sans-serif; letter-spacing:0.04em; text-transform:uppercase; }"
+    },
+    {
+      "name": "Panel / Card",
+      "kind": "card",
+      "refersTo": "input-field",
+      "description": "Flat container — surface background, 1px edge border, 12px radius, no resting shadow.",
+      "html": "<div class=\"ds-card\"><span class=\"ds-card-label\">Source</span><p class=\"ds-card-body\">Results several engines agree on rise to the top.</p></div>",
+      "css": ".ds-card { background:var(--color-surface,#fff); border:1px solid var(--color-edge,#e2e8f0); border-radius:12px; padding:16px; } .ds-card-label { display:block; margin-bottom:8px; font:700 .7rem/1.2 ui-sans-serif,system-ui,sans-serif; letter-spacing:0.1em; text-transform:uppercase; color:var(--color-ink-muted,#64748b); } .ds-card-body { margin:0; font:400 1rem/1.5 ui-sans-serif,system-ui,sans-serif; color:var(--color-ink,#1e293b); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Instrument",
+    "overview": "Seurch is a precise, well-made tool that recedes. It blends several independent web indexes plus Images, News, Videos, Maps, Translate, instant answers, and knowledge cards behind one calm surface — and the design's entire job is to make those results faster to read, never to perform. Neutral slate surfaces stay out of the way; a single indigo speaks only where the user acts or where engines agree. Density is honest, not maximal: the product serves a casual lookup and a power user from the same surface, so depth is always available but never imposed, and it degrades gracefully across light, dark, and system with no JavaScript. The system explicitly rejects the surveillance big-search look, the edgy crypto/dark-hacker privacy aesthetic, and toy/playful consumer styling. Privacy here is shown by a clean, ad-free, legible surface — not sold with badges or lock icons.",
+    "keyCharacteristics": [
+      "Slate-neutral surfaces; indigo as a rare, meaningful signal.",
+      "One system-sans family across the whole UI; fixed rem scale, not fluid.",
+      "Flat by default — 1px edges and tonal layering carry structure, not shadows.",
+      "Pill-shaped interactive controls; 12px-radius panels.",
+      "Restrained, state-only motion (0.15–0.18s).",
+      "Light / dark / system parity, with full no-JS fallbacks."
+    ],
+    "rules": [
+      { "name": "The One Signal Rule", "body": "Indigo marks action, state, or agreement — nothing else. On any given screen the accent should touch ≤10% of the surface; its rarity is how the eye finds the next thing to do.", "section": "colors" },
+      { "name": "The Tokens-Only Rule", "body": "Always style from the semantic tokens (bg-surface, text-ink, text-ink-muted, border-edge, text-brand, bg-brand-soft). Never hardcode a hex or a raw slate-*/indigo-* value for new color work — tokens are the only thing guaranteed to flip in dark mode.", "section": "colors" },
+      { "name": "The Single-Family Rule", "body": "No second typeface, ever. If something needs to stand out, change weight, size, or color — never reach for a display or accent font. Display type in UI labels, buttons, or data is prohibited.", "section": "typography" },
+      { "name": "The Fixed-Scale Rule", "body": "Type sizes are fixed rem/px values, not clamp(). Users view at consistent DPI inside a fixed app shell. The wordmark is the only exception, and it is a single element, not a scale.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Surfaces are flat at rest. A shadow is a statement that an element has left the page (overlay, dropdown, floating control) — if it isn't floating, it gets a border, not a shadow.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do style everything from the semantic tokens (bg-surface, text-ink, text-ink-muted, border-edge, text-brand, bg-brand-soft) so it flips in dark mode automatically. Do as much as possible with Tailwind utilities.",
+      "Do keep indigo rare and meaningful — action, current selection, focus, state, engine-agreement — at ≤10% of any screen.",
+      "Do separate surfaces with 1px edge borders and surface/elevated tonal layering; keep cards flat at rest.",
+      "Do use pill (rounded-full) shapes for interactive controls and 12px (rounded-xl) for panels; keep one system-sans family at fixed rem sizes.",
+      "Do keep ink-muted text at the full body contrast bar (≥4.5:1) — including placeholders — and pair every status/provider cue with an icon or label, never color alone.",
+      "Do give every animation a prefers-reduced-motion fallback and keep transitions at 0.15–0.18s, state-only.",
+      "Do preserve the light / dark / system parity and the no-JS fallbacks (server-stamped theme, nojs: text alternatives for icon-only controls)."
+    ],
+    "donts": [
+      "Don't extend the brand gradient or any background-clip: text beyond the established 'Seurch' wordmark and map-pin tiles. Gradient text is otherwise prohibited; emphasize with weight, size, or solid brand instead.",
+      "Don't add resting drop shadows to cards or panels; the float shadow is reserved for genuinely floating overlays.",
+      "Don't introduce a second typeface or use display/decorative type in labels, buttons, or data; no clamp() fluid headings in the app shell.",
+      "Don't use a colored border-left/border-right greater than 1px as a decorative stripe on cards, callouts, or alerts. (Active-state edge indicators are selection markers, not decoration — don't copy them onto static content.)",
+      "Don't drift toward the anti-references: no ad slots, sponsored modules, or cluttered SERPs; no neon-on-black, glitch, or terminal cosplay; no mascots, bouncy primaries, or oversized illustrations.",
+      "Don't nest cards, reach for a modal as the first thought, or hardcode a hex / raw slate-* / indigo-* value for new color work.",
+      "Don't let muted grey become faint decorative text; if contrast is even close, push toward ink."
+    ]
+  }
+}

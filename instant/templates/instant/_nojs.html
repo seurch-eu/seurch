@@ -1,0 +1,9 @@
+{% load i18n %}
+{% comment %}
+Shown only when scripting hasn't run (the `nojs:` variant keys off the absence of
+the `.js` class), inside instant-answer tools that are purely interactive and have
+no useful server-rendered result (regex tester, JSON formatter, encode/decode,
+timer). Uses `nojs:` rather than <noscript> so it also appears under CSP-based
+blockers like NoScript, which leave <noscript> unrendered.
+{% endcomment %}
+<p class="ia-hint hidden nojs:block" style="font-weight:600;color:var(--text);">{% trans "You need to enable JavaScript to use this tool." %}</p>

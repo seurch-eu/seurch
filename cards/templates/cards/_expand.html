@@ -1,0 +1,26 @@
+{% load i18n %}
+{% comment %}
+Mobile "Show more" toggle, shared by every knowledge card that trims itself on
+small screens. The knowledge panel stacks above the web results on mobile, so
+the cards ship cropped there (no hero image, no cast/crew, clamped summary);
+this button puts `.card-open` on the card root, which brings those parts back
+through the `card-open:` variant the templates carry next to their `sm:` ones.
+
+Progressive enhancement, in both directions:
+- `js:` — without scripting the button does nothing, so it isn't rendered at
+  all; the card stays cropped and its footer link still reaches the full text
+  on the source site. (`nojs` can mean "JavaScript blocked by an extension",
+  not just "disabled", which is why this is a `js:` class and not `<noscript>`.)
+- `max-sm:` — from `sm` up the card is already rendered in full, nothing to
+  expand, so the button is only ever a mobile affordance.
+
+The two labels ship together and swap via `hidden` so cards-expand.js needs no
+translated strings of its own; it is a delegated document-level listener, which
+also covers the cards injected later by the deferred /search/cards/ fetch.
+{% endcomment %}
+<button type="button" data-card-toggle aria-expanded="false"
+        class="hidden js:max-sm:inline-flex items-center gap-1.5 shrink-0 rounded-full border border-slate-200 dark:border-slate-700 px-2.5 py-1 text-[0.75rem] font-medium text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors">
+  <span data-card-more>{% trans "Show more" %}</span>
+  <span class="hidden" data-card-less>{% trans "Show less" %}</span>
+  <span class="block card-open:rotate-180 transition-transform" aria-hidden="true"><i class="fa-solid fa-chevron-down text-[10px]"></i></span>
+</button>

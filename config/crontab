@@ -1,0 +1,11 @@
+# Scheduled maintenance tasks, installed by the "cron" role in deploy.yml.
+#
+# Daily at 03:00: delete expired search-result cache entries (see
+# search/management/commands/clear_expired_cache.py). Output is sent to the
+# container's stdout/stderr so it shows up in `kamal app logs -r cron`.
+0 3 * * * cd /app && python manage.py clear_expired_cache >> /proc/1/fd/1 2>> /proc/1/fd/2
+
+# Every 10 minutes: probe the providers with a free health endpoint (Nominatim,
+# LibreTranslate, Open-Meteo, Frankfurter) so the /status page stays current
+# without spending paid API quota (see check_provider_health.py).
+*/10 * * * * cd /app && python manage.py check_provider_health >> /proc/1/fd/1 2>> /proc/1/fd/2

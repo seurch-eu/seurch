@@ -1,0 +1,19 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="http">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🛰️ {% trans "HTTP status" %}</span><span class="ia-head-meta">{{ answer.category }} · {{ answer.category_label }}</span></div>
+    <div class="ia-row" style="gap:.8rem;">
+      <span class="ia-big-code">{{ answer.code }}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:1.05rem;font-weight:700;margin-bottom:.15rem;">
+          {{ answer.name }}
+          {% if answer.code < 200 %}<span class="ia-badge ia-badge-info">{% trans "Info" %}</span>
+          {% elif answer.code < 300 %}<span class="ia-badge ia-badge-ok">{% trans "Success" %}</span>
+          {% elif answer.code < 400 %}<span class="ia-badge ia-badge-redirect">{% trans "Redirect" %}</span>
+          {% else %}<span class="ia-badge ia-badge-err">{% trans "Error" %}</span>{% endif %}
+        </div>
+        <p class="ia-muted" style="font-size:.86rem;line-height:1.5;">{{ answer.description }}</p>
+      </div>
+    </div>
+  </div>
+</section>

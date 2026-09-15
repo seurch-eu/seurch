@@ -1,0 +1,27 @@
+{% load static i18n %}
+
+<footer class="px-8 py-5 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-[0.82rem] text-slate-500 dark:text-slate-400 gap-4 flex-wrap">
+  <span>
+    &copy; {% now 'Y' %} Seurch α
+    {% if git_ref or git_sha %}
+      <span class="text-slate-400 dark:text-slate-600">
+        ({% if git_ref %}{{ git_ref }}{% if git_sha %}@{% endif %}{% endif %}{% if git_sha %}{{ git_sha }}{% endif %})
+      </span>
+    {% endif %}
+  </span>
+  <nav class="flex gap-4 flex-wrap">
+    <a href="{% url 'search:settings' %}" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "Settings" %}</a>
+    <a href="{% url 'search:about' %}" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "About" %}</a>
+    <a href="https://docs.seurch.eu" rel="noopener" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "Docs" %}</a>
+    <a href="{% url 'search:api' %}" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "API" %}</a>
+    {% if status_page_enabled %}
+      <a href="{% url 'search:provider_status' %}" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "Engine status" %}</a>
+    {% endif %}
+    {% if source_url %}
+      <a href="{{ source_url }}" rel="noopener" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{% trans "Source" %}</a>
+    {% endif %}
+    {% for label, url in footer_links %}
+      <a href="{{ url }}" rel="noopener" class="hover:text-slate-700 dark:hover:text-slate-300 transition-colors">{{ label }}</a>
+    {% endfor %}
+  </nav>
+</footer>

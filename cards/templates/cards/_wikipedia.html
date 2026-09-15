@@ -1,0 +1,27 @@
+{% load i18n image_extras %}
+<div class="border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xs bg-white dark:bg-slate-800" data-card>
+  {% if wikipedia_card.thumbnail %}
+    <div class="w-full hidden card-open:flex sm:flex items-center justify-center bg-slate-50 dark:bg-slate-900 sm:h-[260px]">
+      <img src="{% img_src wikipedia_card.thumbnail %}" alt="{{ wikipedia_card.title }}" style="max-width:100%;max-height:260px;object-fit:contain;display:block;">
+    </div>
+  {% else %}
+    <div class="w-full h-[180px] hidden card-open:flex sm:flex items-center justify-center text-white text-5xl sm:h-[260px]" style="background:linear-gradient(135deg,#667eea,#764ba2);" aria-hidden="true">📖</div>
+  {% endif %}
+  <div class="px-4 pt-3.5 pb-1">
+    <div class="flex items-center gap-1.5 text-[0.7rem] font-bold uppercase tracking-widest text-slate-400 mb-2">
+      <i class="fa-solid fa-circle-info text-[13px]" aria-hidden="true"></i>
+      <span class="text-indigo-500">Wikipedia</span>
+    </div>
+    <div class="text-[1.2rem] font-bold mb-0.5">{{ wikipedia_card.title }}</div>
+    {% if wikipedia_card.description %}
+      <div class="text-[0.85rem] text-slate-500 dark:text-slate-400 mb-2">{{ wikipedia_card.description }}</div>
+    {% endif %}
+    {% if wikipedia_card.extract %}
+      <p class="text-[0.88rem] text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3 card-open:line-clamp-none sm:line-clamp-5 mb-3">{{ wikipedia_card.extract }}</p>
+    {% endif %}
+  </div>
+  <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-3">
+    <a href="{{ wikipedia_card.url }}" target="_blank" rel="noopener noreferrer" class="text-[0.82rem] text-indigo-600 dark:text-indigo-400 font-medium hover:underline">{% trans "Read on Wikipedia" %} →</a>
+    {% include 'cards/_expand.html' %}
+  </div>
+</div>

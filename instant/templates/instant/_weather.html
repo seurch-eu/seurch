@@ -1,0 +1,34 @@
+{% load i18n instant_extras %}
+<section class="ia-card" data-ia-type="weather">
+  <div class="ia-pad">
+    <div class="ia-head">
+      <span class="ia-eyebrow">{{ answer.emoji }} {% trans "Weather" %}</span>
+      <span class="ia-head-meta">Open-Meteo</span>
+    </div>
+    <div class="ia-weather-top">
+      <span class="ia-weather-emoji" aria-hidden="true">{{ answer.emoji }}</span>
+      <div class="ia-weather-temp">{{ answer.temp_c }}<sup>°C</sup> <span style="font-size:1.1rem;color:var(--text-light);">/ {{ answer.temp_f }}°F</span></div>
+      <div style="flex:1;min-width:160px;">
+        <div class="ia-weather-place">{{ answer.location }}{% if answer.country %}, {{ answer.country }}{% endif %}</div>
+        <div class="ia-weather-cond">{{ answer.code|weather_condition }}</div>
+        <div class="ia-weather-facts">
+          <span>🌡️ {% blocktrans with t=answer.feels_c %}Feels like {{ t }}°C{% endblocktrans %}</span>
+          {% if answer.humidity is not None %}<span>💧 {% blocktrans with h=answer.humidity %}Humidity {{ h }}%{% endblocktrans %}</span>{% endif %}
+          <span>💨 {% blocktrans with w=answer.wind_kmh %}Wind {{ w }} km/h{% endblocktrans %}{% if answer.wind_dir %} {{ answer.wind_dir }}{% endif %}</span>
+        </div>
+      </div>
+    </div>
+    {% if answer.daily %}
+    <div class="ia-forecast" role="list" aria-label="{% trans "7-day forecast" %}">
+      {% for d in answer.daily %}
+      <div class="ia-forecast-day{% if d.is_today %} ia-today{% endif %}" role="listitem">
+        <span class="ia-fd-name">{% if d.is_today %}{% trans "Today" %}{% else %}{{ d.weekday|weekday_abbr }}{% endif %}</span>
+        <span class="ia-fd-emoji" title="{{ d.code|weather_condition }}">{{ d.emoji }}</span>
+        <span class="ia-fd-hi">{{ d.high_c }}°</span>
+        <span class="ia-fd-lo">{{ d.low_c }}°</span>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,20 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="port">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🔌 {% trans "Network port" %}</span></div>
+    {% if answer.known %}
+    <div class="ia-row" style="gap:.8rem;">
+      <span class="ia-big-code">{{ answer.port }}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-size:1.05rem;font-weight:700;margin-bottom:.15rem;">{{ answer.service }} <span class="ia-badge ia-badge-info">{{ answer.protocol }}</span></div>
+        <p class="ia-muted" style="font-size:.86rem;line-height:1.5;">{{ answer.description }}</p>
+      </div>
+    </div>
+    {% else %}
+    <div class="ia-row" style="gap:.8rem;">
+      <span class="ia-big-code">{{ answer.port }}</span>
+      <p class="ia-muted" style="font-size:.86rem;">{% trans "Not a well-known / registered port. Valid range is 0–65535; ports above 1023 are commonly used by user applications." %}</p>
+    </div>
+    {% endif %}
+  </div>
+</section>

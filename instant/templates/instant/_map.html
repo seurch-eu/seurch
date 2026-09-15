@@ -1,0 +1,21 @@
+{% load i18n %}
+<section class="ia-card ia-map" data-ia-type="map">
+  <a class="ia-map-mini" href="?q={{ answer.query|urlencode }}&tab=maps"
+     aria-label="{% blocktrans with name=answer.place.name|default:answer.query %}Open map for {{ name }}{% endblocktrans %}">
+    <iframe title="{% blocktrans with name=answer.place.name|default:answer.query %}Map of {{ name }}{% endblocktrans %}" src="{{ answer.place.mini_embed_url }}"
+            loading="lazy" referrerpolicy="no-referrer" tabindex="-1"></iframe>
+  </a>
+  <div class="ia-map-body">
+    <div class="ia-eyebrow">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      {% trans "Maps" %}
+    </div>
+    <div class="ia-map-title">{{ answer.place.name|default:answer.query }}</div>
+    {% if answer.place.type %}<div class="ia-map-type">{{ answer.place.type }}</div>{% endif %}
+    <p class="ia-map-addr">{{ answer.place.display_name }}</p>
+    <div class="ia-map-actions">
+      <a class="ia-map-open" href="?q={{ answer.query|urlencode }}&tab=maps">{% trans "Open in Maps" %} →</a>
+      <a class="ia-map-osm" href="{{ answer.place.osm_url }}" target="_blank" rel="noopener noreferrer">OpenStreetMap ↗</a>
+    </div>
+  </div>
+</section>

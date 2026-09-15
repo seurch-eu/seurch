@@ -1,0 +1,17 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="uuid" data-ia-uuid>
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🆔 {% trans "UUID generator" %}</span><span class="ia-head-meta">v4 · {% trans "random" %}</span></div>
+    <div class="ia-result">
+      <span class="ia-result-value ia-mono" data-ia-uuid-main style="font-size:1.05rem;">{{ answer.value }}</span>
+      {% include 'instant/_copybtn.html' %}
+      <button class="ia-btn" data-ia-uuid-regen title="{% trans "Generate new" %}">↻ {% trans "New" %}</button>
+    </div>
+    <div class="ia-label" style="margin-top:.8rem;">{% trans "More" %}</div>
+    <div class="ia-kv" data-ia-uuid-list>
+      {% for v in answer.values %}
+      <div class="ia-kv-row"><span class="ia-kv-val ia-mono" style="font-size:.82rem;">{{ v }}</span>{% include 'instant/_copybtn.html' %}</div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

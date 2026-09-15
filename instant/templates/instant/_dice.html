@@ -1,0 +1,13 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="dice" data-ia-dice data-count="{{ answer.count }}" data-sides="{{ answer.sides }}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🎲 {% trans "Dice roll" %}</span><span class="ia-head-meta">{{ answer.notation }}</span></div>
+    <div class="ia-dice" data-ia-dice-faces>
+      {% for r in answer.rolls %}<span class="ia-die">{{ r }}</span>{% endfor %}
+    </div>
+    <div class="ia-row" style="margin-top:.8rem;">
+      <span style="font-size:1rem;">{% trans "Total:" %} <strong data-ia-dice-total>{{ answer.total }}</strong></span>
+      <button class="ia-btn ia-btn-primary" data-ia-dice-roll style="margin-left:auto;">↻ {% trans "Roll again" %}</button>
+    </div>
+  </div>
+</section>

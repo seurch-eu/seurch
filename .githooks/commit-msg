@@ -1,0 +1,17 @@
+#!/bin/sh
+# Reject commit messages that are not Conventional Commits.
+#
+# Enabled per clone with `make hooks` (which points core.hooksPath here);
+# CI runs the same check over a pull request's commits, so this is a fast
+# local signal rather than the only gate. Bypass a single commit with
+# `git commit --no-verify` when you really have to.
+set -e
+
+if ! command -v uv >/dev/null 2>&1; then
+    echo "commit-msg: uv not found, skipping the commit message check." >&2
+    exit 0
+fi
+
+# --allow-abort lets an emptied message through so git can report the abort
+# itself; merge and revert messages are allowed by cz's own default prefixes.
+exec uv run cz check --allow-abort --commit-msg-file "$1"

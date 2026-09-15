@@ -1,0 +1,166 @@
+{% extends 'search/base.html' %}
+{% load static i18n %}
+{% block title %}{% trans "Search" as default_title %}{{ query|default:default_title }} - Seurch{% endblock %}
+{% block body_class %}bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 min-h-screen flex flex-col font-sans antialiased{% endblock %}
+{% block extra_head %}{% if instant_answer or defer_cards %}<link rel="stylesheet" href="{% static 'instant/instant.css' %}">{% endif %}{% if defer_cards %}{# No-JS (stale `js` cookie but scripting now off): cards.js can't run, so reload onto the eager server render. A <head> meta-refresh is honoured far more reliably than one in the body. #}<noscript><meta http-equiv="refresh" content="0;url={{ cards_eager_url }}"></noscript>{% endif %}{% endblock %}
+{% block body %}
+
+  <!--
+    CSS-only controls, MUST be direct children of <body> (before header & main)
+    so the general sibling combinator (~) can reach .site-main and its children.
+  -->
+  <input type="radio" id="tab-web"    name="tab" {% if active_tab == 'web' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  <input type="radio" id="tab-images" name="tab" {% if active_tab == 'images' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  <input type="radio" id="tab-news"   name="tab" {% if active_tab == 'news' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  <input type="radio" id="tab-videos" name="tab" {% if active_tab == 'videos' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  <input type="radio" id="tab-maps"   name="tab" {% if active_tab == 'maps' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  {% if translate_enabled %}
+  <input type="radio" id="tab-translate" name="tab" {% if active_tab == 'translate' %}checked{% endif %} class="absolute opacity-0 w-0 h-0 pointer-events-none">
+  {% endif %}
+
+  <header class="sticky top-0 z-50 flex h-17 items-center gap-3 px-4 sm:px-6 border-b border-slate-200 dark:border-slate-800 bg-white/90 dark:bg-slate-900/90 backdrop-blur">
+    <a href="{% url 'search:index' %}" class="flex items-center gap-2 text-indigo-600 shrink-0 no-underline hover:no-underline sm:w-[120px]" aria-label="{% trans "Seurch home" %}">
+      <img src="{% static 'search/logo.svg' %}" width="28" height="28" alt="" aria-hidden="true">
+      <span class="hidden sm:inline text-[1.2rem] font-extrabold tracking-[-0.5px]">Seurch</span>
+    </a>
+
+    <form class="flex-1 min-w-0 max-w-2xl flex items-center bg-slate-50 dark:bg-slate-800 border-[1.5px] border-slate-200 dark:border-slate-700 rounded-full pl-4 pr-1.5 py-1 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-100 dark:focus-within:ring-indigo-900/40 transition-all relative" action="{% url 'search:results' %}" method="get" role="search">
+      <input type="hidden" name="tab" value="{{ active_tab }}">
+      {# Carry an explicitly-chosen search scope onto a new query so it isn't reset to the tab's default providers. #}
+      {% for key in scope_keys %}<input type="hidden" name="scope" value="{{ key }}">{% endfor %}
+      <input
+        type="search"
+        name="q"
+        value="{{ query }}"
+        autocomplete="off"
+        autocorrect="off"
+        spellcheck="false"
+        aria-label="{% trans "Search query" %}"
+        class="flex-1 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 text-sm py-2 outline-hidden min-w-0 [&::-webkit-search-cancel-button]:hidden"
+      >
+      {% include 'search/_search_clear.html' %}
+      <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white rounded-full h-9 px-3 sm:h-auto sm:px-3.5 sm:py-1.5 text-sm font-semibold flex items-center justify-center gap-1.5 shrink-0 transition-colors" aria-label="{% trans "Search" %}">
+        <i class="fa-solid fa-magnifying-glass text-[16px]" aria-hidden="true"></i>
+        {# Hidden on mobile when the icon is shown; revealed (all sizes) when JS is off and the icon can't paint. #}
+        <span class="hidden sm:inline nojs:inline">{% trans "Search" %}</span>
+      </button>
+    </form>
+
+    <div class="flex items-center gap-2 ml-auto shrink-0">
+      <a href="{% url 'search:settings' %}" class="hidden js:flex items-center justify-center w-9 h-9 rounded-full border-[1.5px] border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" title="{% trans "Settings" %}" aria-label="{% trans "Settings" %}">
+        <i class="fa-solid fa-gear text-[17px]" aria-hidden="true"></i>
+      </a>
+      {# No-JS (incl. NoScript): the gear glyph won't paint, so show a text link instead. #}
+      <a href="{% url 'search:settings' %}" class="hidden nojs:inline-flex items-center px-3 py-1.5 rounded-full border-[1.5px] border-slate-200 dark:border-slate-700 text-[0.85rem] font-semibold text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">{% trans "Settings" %}</a>
+    </div>
+  </header>
+
+  <nav class="search-nav border-b border-slate-200 dark:border-slate-800 flex flex-wrap items-center pl-5 pr-4 md:pl-[160px] md:pr-8" aria-label="{% trans "Search type" %}">
+    {# Category tabs are real links (not CSS-radio labels) so switching tabs works without JavaScript; the server renders the chosen tab and the radios above only carry the active-state styling. #}
+    <div class="flex items-center overflow-x-auto scrollbar-hide w-full md:w-auto md:flex-1">
+      {% for t in tabs %}
+      <a href="{{ t.url }}" data-tab="{{ t.key }}" class="flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-slate-500 dark:text-slate-400 cursor-pointer border-b-2 border-transparent -mb-px whitespace-nowrap no-underline hover:text-slate-700 dark:hover:text-slate-200 transition-colors tab-label">
+        <i class="fa-solid {{ t.icon }} text-[15px]" aria-hidden="true"></i>
+        {{ t.label }}
+      </a>
+      {% endfor %}
+    </div>
+
+    {# Filter dropdowns. With JS, results.js navigates on change; without it, the selects submit this GET form (the noscript "Apply" button). #}
+    <form class="search-filters" method="get" action="{% url 'search:results' %}">
+      <input type="hidden" name="q" value="{{ query }}">
+      <input type="hidden" name="tab" value="{{ active_tab }}">
+      <select id="qs-lang" name="lang" aria-label="{% trans "Search language" %}" class="text-xs border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+        <option value="" {% if not qs_lang %}selected{% endif %}>{% trans "Any language" %}</option>
+        <option value="en" {% if qs_lang == 'en' %}selected{% endif %}>{% trans "English" %}</option>
+        <option value="fr" {% if qs_lang == 'fr' %}selected{% endif %}>{% trans "French" %}</option>
+        <option value="de" {% if qs_lang == 'de' %}selected{% endif %}>{% trans "German" %}</option>
+        <option value="es" {% if qs_lang == 'es' %}selected{% endif %}>{% trans "Spanish" %}</option>
+        <option value="it" {% if qs_lang == 'it' %}selected{% endif %}>{% trans "Italian" %}</option>
+        <option value="pt" {% if qs_lang == 'pt' %}selected{% endif %}>{% trans "Portuguese" %}</option>
+        <option value="nl" {% if qs_lang == 'nl' %}selected{% endif %}>{% trans "Dutch" %}</option>
+      </select>
+      <select id="qs-safe" name="safe" aria-label="{% trans "Safe search" %}" class="text-xs border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+        <option value="on" {% if qs_safe != 'off' %}selected{% endif %}>{% trans "Safe: On" %}</option>
+        <option value="off" {% if qs_safe == 'off' %}selected{% endif %}>{% trans "Safe: Off" %}</option>
+      </select>
+      {% if show_date_filter %}
+      <select id="qs-date" name="date" aria-label="{% trans "Time range" %}" class="text-xs border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 cursor-pointer focus:outline-hidden focus:ring-1 focus:ring-indigo-400">
+        <option value="" {% if not qs_date %}selected{% endif %}>{% trans "Any time" %}</option>
+        <option value="y" {% if qs_date == 'y' %}selected{% endif %}>{% trans "Past year" %}</option>
+        <option value="m" {% if qs_date == 'm' %}selected{% endif %}>{% trans "Past month" %}</option>
+        <option value="w" {% if qs_date == 'w' %}selected{% endif %}>{% trans "Past week" %}</option>
+        <option value="d" {% if qs_date == 'd' %}selected{% endif %}>{% trans "Past 24 hours" %}</option>
+      </select>
+      {% endif %}
+      {# Search scope: a per-search provider picker, offering the active tab's own providers (Web the search engines, Images/News/Videos Brave plus its supplementary provider); tabs with a single provider get none. The checkboxes live inside this filter form, so the no-JS "Apply" button below submits them with the other filters; with JS, results.js applies the new scope when the dropdown closes. Each ticked provider is queried. #}
+      {% if scope_options %}
+      <details id="scope-menu" class="scope-menu relative shrink-0">
+        <summary class="flex items-center gap-1.5 text-xs border border-slate-200 dark:border-slate-700 rounded-md px-2 py-1 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 cursor-pointer select-none" aria-label="{% trans "Search scope" %}">
+          <i class="fa-solid fa-layer-group text-[11px]" aria-hidden="true"></i>
+          <span>{% trans "Providers" %}</span>
+          <span class="inline-flex items-center justify-center min-w-[1rem] h-4 px-1 rounded-full bg-indigo-100 dark:bg-indigo-900/50 text-[0.65rem] font-semibold text-indigo-700 dark:text-indigo-300">{{ scope_count }}</span>
+        </summary>
+        <div class="absolute right-0 top-[calc(100%+6px)] z-[300] w-56 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-2 shadow-lg flex flex-col gap-0.5">
+          {% for opt in scope_options %}
+          <label class="flex items-center gap-2 px-2 py-1.5 rounded-md text-xs text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-700 cursor-pointer">
+            <input type="checkbox" name="scope" value="{{ opt.key }}" {% if opt.checked %}checked{% endif %} class="accent-indigo-600">
+            <span aria-hidden="true">{{ opt.flag }}</span>
+            <span>{{ opt.label }}</span>
+            {% if opt.paid %}<span class="ml-auto shrink-0 px-1 py-0.5 rounded text-[0.6rem] font-semibold uppercase tracking-wide bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400" title="{% trans "Commercial API, billed beyond any free allowance" %}">{% trans "Paid" %}</span>{% endif %}
+          </label>
+          {% endfor %}
+        </div>
+      </details>
+      {% endif %}
+      {# No-JS (incl. NoScript): results.js can't navigate on change, so show a submit. #}
+      <button type="submit" class="hidden nojs:inline-block shrink-0 text-xs px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">{% trans "Apply" %}</button>
+    </form>
+  </nav>
+
+  <main class="site-main flex-1 pl-5 pr-4 md:pl-[160px] md:pr-10 pt-5 pb-16">
+
+    <div id="panel-web" class="tab-panel">
+      {% include 'web/_panel.html' %}
+    </div>
+
+    <div id="panel-images" class="tab-panel">
+      {% include 'images/_panel.html' %}
+    </div>
+
+    <div id="panel-news" class="tab-panel">
+      {% include 'news/_panel.html' %}
+    </div>
+
+    <div id="panel-videos" class="tab-panel">
+      {% include 'videos/_panel.html' %}
+    </div>
+
+    <div id="panel-maps" class="tab-panel">
+      {% include 'maps/_panel.html' %}
+    </div>
+
+    {% if translate_enabled %}
+    <div id="panel-translate" class="tab-panel">
+      {% include 'translate/_panel.html' %}
+    </div>
+    {% endif %}
+
+  </main>
+  
+  {% include 'search/_footer.html' %}
+
+{% endblock %}
+{% block scripts %}
+  <script src="{% static 'search/autocomplete.js' %}"></script>
+  <script src="{% static 'search/clear.js' %}"></script>
+  <script src="{% static 'search/results.js' %}"></script>
+  {% if image_results %}<script src="{% static 'search/images.js' %}"></script>{% endif %}
+  {% if news_results %}<script src="{% static 'news/news.js' %}"></script>{% endif %}
+  {% if defer_cards %}<script src="{% static 'search/cards.js' %}"></script>{% endif %}
+  {# Card expansion (mobile "Show more", Stack Exchange "Read more"). Needed on both card paths: the eager render, and the deferred one, whose cards land via innerHTML long after this file has run, which is why it delegates from the document. #}
+  {% if defer_cards or wikipedia_card or thetvdb_card or tripadvisor_card or stackexchange_card %}<script src="{% static 'cards/expand.js' %}"></script>{% endif %}
+  {% if instant_answer %}<script src="{% static 'instant/instant.js' %}"></script>{% endif %}
+  {% if map_primary %}<script src="{% static 'maps/maps.js' %}"></script>{% endif %}
+
+{% endblock %}

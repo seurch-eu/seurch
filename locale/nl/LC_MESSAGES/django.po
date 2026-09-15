@@ -1,0 +1,2009 @@
+# Dutch translation for Seurch
+# Copyright (C) 2024 Seurch
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 11:03+0000\n"
+"Language: nl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sign in - Seurch"
+msgstr "Inloggen - Seurch"
+
+msgid "Interface language"
+msgstr "Interfacetaal"
+
+msgid "Go"
+msgstr ""
+
+msgid "Toggle dark mode"
+msgstr "Donkere modus wisselen"
+
+msgid "Sign In"
+msgstr "Inloggen"
+
+msgid "Create Account"
+msgstr "Account aanmaken"
+
+msgid "Username"
+msgstr "Gebruikersnaam"
+
+msgid "Password"
+msgstr "Wachtwoord"
+
+msgid "Forgot your password?"
+msgstr "Wachtwoord vergeten?"
+
+msgid "Invite only"
+msgstr "Alleen op uitnodiging"
+
+msgid "Seurch is currently available by invitation only."
+msgstr "Seurch is momenteel alleen beschikbaar op uitnodiging."
+
+msgid "Contact an administrator to request access."
+msgstr "Neem contact op met een beheerder om toegang aan te vragen."
+
+msgid "Seurch - Privacy-first European search."
+msgstr "Seurch - Europese zoekmachine met privacy voorop."
+
+msgid "Your data is never sold or used for advertising."
+msgstr "Uw gegevens worden nooit verkocht of gebruikt voor advertenties."
+
+msgid "Back to Seurch"
+msgstr "Terug naar Seurch"
+
+msgid "Change password - Seurch"
+msgstr "Wachtwoord wijzigen - Seurch"
+
+msgid "Change password"
+msgstr "Wachtwoord wijzigen"
+
+msgid "Enter your current password, then choose a new one."
+msgstr "Voer uw huidige wachtwoord in en kies daarna een nieuw wachtwoord."
+
+msgid "Current password"
+msgstr "Huidig wachtwoord"
+
+msgid "New password"
+msgstr "Nieuw wachtwoord"
+
+msgid "Confirm new password"
+msgstr "Nieuw wachtwoord bevestigen"
+
+msgid "Update password"
+msgstr "Wachtwoord bijwerken"
+
+msgid "Back to settings"
+msgstr "Terug naar instellingen"
+
+msgid "Reset password - Seurch"
+msgstr "Wachtwoord opnieuw instellen - Seurch"
+
+msgid "Reset your password"
+msgstr "Uw wachtwoord opnieuw instellen"
+
+msgid ""
+"Enter the email address linked to your account and we'll send you a reset "
+"link."
+msgstr ""
+"Voer het e-mailadres in dat aan uw account is gekoppeld en we sturen u een "
+"herstellink."
+
+msgid "Email address"
+msgstr "E-mailadres"
+
+msgid "Send reset link"
+msgstr "Herstellink versturen"
+
+msgid "Back to sign in"
+msgstr "Terug naar aanmelden"
+
+msgid "Password reset complete - Seurch"
+msgstr "Wachtwoordherstel voltooid - Seurch"
+
+msgid "Password updated!"
+msgstr "Wachtwoord bijgewerkt!"
+
+msgid ""
+"Your password has been set successfully. You can now sign in with your new "
+"password."
+msgstr ""
+"Uw wachtwoord is succesvol ingesteld. U kunt nu aanmelden met uw nieuwe "
+"wachtwoord."
+
+msgid "Sign in"
+msgstr "Aanmelden"
+
+msgid "Set new password - Seurch"
+msgstr "Nieuw wachtwoord instellen - Seurch"
+
+msgid "Set a new password"
+msgstr "Stel een nieuw wachtwoord in"
+
+msgid "Choose a strong password you haven't used before."
+msgstr "Kies een sterk wachtwoord dat u niet eerder hebt gebruikt."
+
+msgid "Confirm password"
+msgstr "Wachtwoord bevestigen"
+
+msgid "Set new password"
+msgstr "Nieuw wachtwoord instellen"
+
+msgid "Link expired or invalid"
+msgstr "Link verlopen of ongeldig"
+
+msgid ""
+"This password reset link is no longer valid. Links expire after 1 hour and "
+"can only be used once."
+msgstr ""
+"Deze wachtwoordherstellink is niet langer geldig. Links verlopen na 1 uur en "
+"kunnen slechts één keer worden gebruikt."
+
+msgid "Request a new link"
+msgstr "Een nieuwe link aanvragen"
+
+msgid "Check your email - Seurch"
+msgstr "Controleer uw e-mail - Seurch"
+
+msgid "Check your email"
+msgstr "Controleer uw e-mail"
+
+msgid ""
+"If that email address is registered, we've sent a password reset link. The "
+"link expires in <strong class=\"text-slate-600 dark:text-slate-300\">1 hour</"
+"strong>."
+msgstr ""
+"Als dat e-mailadres is geregistreerd, hebben we een wachtwoordherstellink "
+"verstuurd. De link verloopt over <strong class=\"text-slate-600 dark:text-"
+"slate-300\">1 uur</strong>."
+
+msgid "Too many failed sign-in attempts. Please try again later."
+msgstr "Te veel mislukte aanmeldpogingen. Probeer het later opnieuw."
+
+#, python-format
+msgid ""
+"Didn't receive it? Check your spam folder or <a href=\"%(reset_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">try again</a>."
+msgstr ""
+"Niet ontvangen? Controleer uw spammap of <a href=\"%(reset_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">probeer het "
+"opnieuw</a>."
+
+msgid "Reset your Seurch password"
+msgstr "Stel uw Seurch-wachtwoord opnieuw in"
+
+#, python-format
+msgid "Hi %(username)s,"
+msgstr "Hallo %(username)s,"
+
+msgid ""
+"You requested a password reset for your Seurch account. Click the button "
+"below to choose a new password. This link is valid for <strong>1 hour</"
+"strong> and can only be used once."
+msgstr ""
+"U hebt een wachtwoordherstel voor uw Seurch-account aangevraagd. Klik op de "
+"onderstaande knop om een nieuw wachtwoord te kiezen. Deze link is <strong>1 "
+"uur</strong> geldig en kan slechts één keer worden gebruikt."
+
+msgid "Reset password"
+msgstr "Wachtwoord opnieuw instellen"
+
+msgid "If the button doesn't work, copy and paste this link into your browser:"
+msgstr "Als de knop niet werkt, kopieer en plak deze link in uw browser:"
+
+msgid ""
+"If you didn't request a password reset, you can safely ignore this email, "
+"your password won't change."
+msgstr ""
+"Als u geen wachtwoordherstel hebt aangevraagd, kunt u deze e-mail veilig "
+"negeren, uw wachtwoord verandert niet."
+
+#, python-format
+msgid ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"vote"
+msgid_plural ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"votes"
+msgstr[0] ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"stem"
+msgstr[1] ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"stemmen"
+
+#, python-format
+msgid "<strong>%(counter)s</strong> answer"
+msgid_plural "<strong>%(counter)s</strong> answers"
+msgstr[0] "<strong>%(counter)s</strong> antwoord"
+msgstr[1] "<strong>%(counter)s</strong> antwoorden"
+
+#, python-format
+msgid "%(counter)s view"
+msgid_plural "%(counter)s views"
+msgstr[0] "%(counter)s weergave"
+msgstr[1] "%(counter)s weergaven"
+
+msgid "Accepted Answer"
+msgstr "Geaccepteerd antwoord"
+
+msgid "Top Answer"
+msgstr "Beste antwoord"
+
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
+msgstr[0] "%(counter)s stem"
+msgstr[1] "%(counter)s stemmen"
+
+msgid "Read more"
+msgstr "Meer lezen"
+
+msgid "Question tags"
+msgstr "Vraagtags"
+
+#, python-format
+msgid "View on %(site)s"
+msgstr "Bekijken op %(site)s"
+
+msgid "Show more"
+msgstr "Meer tonen"
+
+msgid "Show less"
+msgstr "Minder tonen"
+
+msgid "Director & Crew"
+msgstr "Regisseur en crew"
+
+msgid "Cast"
+msgstr "Cast"
+
+msgid "View on TheTVDB"
+msgstr "Bekijken op TheTVDB"
+
+msgid "Metadata provided by"
+msgstr "Metadata geleverd door"
+
+#, python-format
+msgid "Rating: %(rating)s out of 5"
+msgstr "Beoordeling: %(rating)s van 5"
+
+#, python-format
+msgid "%(counter)s review"
+msgid_plural "%(counter)s reviews"
+msgstr[0] "%(counter)s beoordeling"
+msgstr[1] "%(counter)s beoordelingen"
+
+msgid "View on map"
+msgstr "Op kaart bekijken"
+
+msgid "View on TripAdvisor"
+msgstr "Bekijken op TripAdvisor"
+
+msgid "Read on Wikipedia"
+msgstr "Lezen op Wikipedia"
+
+msgid "English"
+msgstr "Engels"
+
+msgid "French"
+msgstr "Frans"
+
+msgid "German"
+msgstr "Duits"
+
+msgid "Spanish"
+msgstr "Spaans"
+
+msgid "Italian"
+msgstr "Italiaans"
+
+msgid "Portuguese"
+msgstr "Portugees"
+
+msgid "Dutch"
+msgstr "Nederlands"
+
+msgid ""
+"No image provider configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">PIXABAY_API_KEY</code> in <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Geen afbeeldingsprovider geconfigureerd. Stel <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code> of <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">PIXABAY_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code> in."
+
+msgid "Search for images"
+msgstr "Zoek naar afbeeldingen"
+
+msgid "Type a query above and matching images appear here."
+msgstr ""
+"Voer hierboven een zoekopdracht in en de bijbehorende afbeeldingen "
+"verschijnen hier."
+
+msgid "No images found"
+msgstr "Geen afbeeldingen gevonden"
+
+msgid "Image results"
+msgstr "Afbeeldingsresultaten"
+
+# Image lightbox / similar-image suggestions
+msgid "Close"
+msgstr "Sluiten"
+
+msgid "Visit page"
+msgstr "Pagina bezoeken"
+
+msgid "Open image"
+msgstr "Afbeelding openen"
+
+msgid "Similar images"
+msgstr "Vergelijkbare afbeeldingen"
+
+msgid "See all results"
+msgstr "Alle resultaten bekijken"
+
+msgid "Finding similar images…"
+msgstr "Vergelijkbare afbeeldingen zoeken…"
+
+msgid "No similar images found."
+msgstr "Geen vergelijkbare afbeeldingen gevonden."
+
+msgid "Back to results"
+msgstr "Terug naar resultaten"
+
+msgid "Clear sky"
+msgstr "Heldere hemel"
+
+msgid "Mainly clear"
+msgstr "Overwegend helder"
+
+msgid "Partly cloudy"
+msgstr "Gedeeltelijk bewolkt"
+
+msgid "Overcast"
+msgstr "Zwaarbewolkt"
+
+msgid "Fog"
+msgstr "Mist"
+
+msgid "Depositing rime fog"
+msgstr "Aanvriezende mist"
+
+msgid "Light drizzle"
+msgstr "Lichte motregen"
+
+msgid "Moderate drizzle"
+msgstr "Matige motregen"
+
+msgid "Dense drizzle"
+msgstr "Dichte motregen"
+
+msgid "Light freezing drizzle"
+msgstr "Lichte aanvriezende motregen"
+
+msgid "Dense freezing drizzle"
+msgstr "Dichte aanvriezende motregen"
+
+msgid "Slight rain"
+msgstr "Lichte regen"
+
+msgid "Moderate rain"
+msgstr "Matige regen"
+
+msgid "Heavy rain"
+msgstr "Zware regen"
+
+msgid "Light freezing rain"
+msgstr "Lichte aanvriezende regen"
+
+msgid "Heavy freezing rain"
+msgstr "Zware aanvriezende regen"
+
+msgid "Slight snow"
+msgstr "Lichte sneeuw"
+
+msgid "Moderate snow"
+msgstr "Matige sneeuw"
+
+msgid "Heavy snow"
+msgstr "Zware sneeuw"
+
+msgid "Snow grains"
+msgstr "Motsneeuw"
+
+msgid "Slight rain showers"
+msgstr "Lichte regenbuien"
+
+msgid "Moderate rain showers"
+msgstr "Matige regenbuien"
+
+msgid "Violent rain showers"
+msgstr "Hevige regenbuien"
+
+msgid "Slight snow showers"
+msgstr "Lichte sneeuwbuien"
+
+msgid "Heavy snow showers"
+msgstr "Zware sneeuwbuien"
+
+msgid "Thunderstorm"
+msgstr "Onweer"
+
+msgid "Thunderstorm with slight hail"
+msgstr "Onweer met lichte hagel"
+
+msgid "Thunderstorm with heavy hail"
+msgstr "Onweer met zware hagel"
+
+msgid "Unknown"
+msgstr "Onbekend"
+
+msgid "Base converter"
+msgstr "Basisconverter"
+
+msgid "Value"
+msgstr "Waarde"
+
+msgid "Input base"
+msgstr "Invoerbasis"
+
+msgid "Decimal"
+msgstr "Decimaal"
+
+msgid "Hex"
+msgstr "Hex"
+
+msgid "Binary"
+msgstr "Binair"
+
+msgid "Octal"
+msgstr "Octaal"
+
+msgid "Coin flip"
+msgstr "Kop of munt"
+
+msgid "Flip again"
+msgstr "Opnieuw gooien"
+
+msgid "Colour"
+msgstr "Kleur"
+
+msgid "Pick colour"
+msgstr "Kleur kiezen"
+
+msgid "Hex value"
+msgstr "Hex-waarde"
+
+msgid "RGB value"
+msgstr "RGB-waarde"
+
+msgid "HSL value"
+msgstr "HSL-waarde"
+
+msgid "Copy"
+msgstr "Kopiëren"
+
+msgid "Currency"
+msgstr "Valuta"
+
+msgid "Cached rate"
+msgstr "Gecachte koers"
+
+msgid "Amount"
+msgstr "Bedrag"
+
+msgid "From currency"
+msgstr "Van valuta"
+
+msgid "Swap"
+msgstr "Wisselen"
+
+msgid "Swap currencies"
+msgstr "Valuta's wisselen"
+
+msgid "Converted amount"
+msgstr "Omgerekend bedrag"
+
+msgid "To currency"
+msgstr "Naar valuta"
+
+msgid "Dice roll"
+msgstr "Dobbelsteenworp"
+
+msgid "Total:"
+msgstr "Totaal:"
+
+msgid "Roll again"
+msgstr "Opnieuw gooien"
+
+msgid "Encode / decode"
+msgstr "Coderen / decoderen"
+
+msgid "Encode"
+msgstr "Coderen"
+
+msgid "Decode"
+msgstr "Decoderen"
+
+msgid "Input"
+msgstr "Invoer"
+
+msgid "Output"
+msgstr "Uitvoer"
+
+msgid "Copy output"
+msgstr "Uitvoer kopiëren"
+
+msgid "Hash generator"
+msgstr "Hash-generator"
+
+msgid "Text to hash"
+msgstr "Te hashen tekst"
+
+msgid "HTTP status"
+msgstr "HTTP-status"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Success"
+msgstr "Geslaagd"
+
+msgid "Redirect"
+msgstr "Omleiding"
+
+msgid "Error"
+msgstr "Fout"
+
+msgid "Your IP address"
+msgstr "Uw IP-adres"
+
+msgid "Copy IP"
+msgstr "IP kopiëren"
+
+msgid ""
+"This is a private/local address, behind a proxy your public IP may differ."
+msgstr ""
+"Dit is een privé-/lokaal adres, achter een proxy kan uw openbare IP afwijken."
+
+msgid "User agent"
+msgstr "User-agent"
+
+msgid "JSON formatter"
+msgstr "JSON-formatter"
+
+msgid "Paste JSON here, e.g. {\"hello\": \"world\"}"
+msgstr "Plak hier JSON, bijv. {\"hello\": \"world\"}"
+
+msgid "JSON input"
+msgstr "JSON-invoer"
+
+msgid "Beautify"
+msgstr "Verfraaien"
+
+msgid "Minify"
+msgstr "Verkleinen"
+
+msgid "Formatted JSON"
+msgstr "Geformatteerde JSON"
+
+#, python-format
+msgid "Open map for %(name)s"
+msgstr "Kaart openen voor %(name)s"
+
+#, python-format
+msgid "Map of %(name)s"
+msgstr "Kaart van %(name)s"
+
+msgid "World map"
+msgstr "Wereldkaart"
+
+msgid "Maps"
+msgstr "Kaarten"
+
+msgid "Open in Maps"
+msgstr "Openen in Kaarten"
+
+msgid "Calculator"
+msgstr "Rekenmachine"
+
+msgid "Copy result"
+msgstr "Resultaat kopiëren"
+
+msgid "You need to enable JavaScript to use this tool."
+msgstr ""
+
+msgid "Password generator"
+msgstr "Wachtwoordgenerator"
+
+msgid "Copy password"
+msgstr "Wachtwoord kopiëren"
+
+msgid "Generate new"
+msgstr "Nieuw genereren"
+
+msgid "Length"
+msgstr "Lengte"
+
+msgid ""
+"Generated in your browser with a cryptographic RNG, never sent anywhere."
+msgstr ""
+"Gegenereerd in uw browser met een cryptografische generator, wordt nergens "
+"naartoe verzonden."
+
+msgid "Network port"
+msgstr "Netwerkpoort"
+
+msgid ""
+"Not a well-known / registered port. Valid range is 0–65535; ports above 1023 "
+"are commonly used by user applications."
+msgstr ""
+"Geen bekende / geregistreerde poort. Het geldige bereik is 0–65535; poorten "
+"boven 1023 worden vaak door gebruikerstoepassingen gebruikt."
+
+msgid "QR code"
+msgstr "QR-code"
+
+msgid "QR content"
+msgstr "QR-inhoud"
+
+msgid "Download SVG"
+msgstr "SVG downloaden"
+
+msgid "Generated locally, nothing is sent to a third party."
+msgstr "Lokaal gegenereerd, er wordt niets naar derden verzonden."
+
+msgid "Random number"
+msgstr "Willekeurig getal"
+
+msgid "Generate"
+msgstr "Genereren"
+
+msgid "Minimum"
+msgstr "Minimum"
+
+msgid "to"
+msgstr "tot"
+
+msgid "Maximum"
+msgstr "Maximum"
+
+msgid "Regex tester"
+msgstr "Regex-tester"
+
+msgid "Pattern"
+msgstr "Patroon"
+
+msgid "global"
+msgstr "globaal"
+
+msgid "ignore case"
+msgstr "hoofdletters negeren"
+
+msgid "multiline"
+msgstr "meerregelig"
+
+msgid "dotall"
+msgstr "dotall"
+
+msgid "Test string"
+msgstr "Teststring"
+
+msgid "Text to match against…"
+msgstr "Tekst om mee te matchen…"
+
+msgid "Matches"
+msgstr "Overeenkomsten"
+
+msgid "Timer"
+msgstr "Timer"
+
+msgid "Stopwatch"
+msgstr "Stopwatch"
+
+msgid "Start"
+msgstr "Starten"
+
+msgid "Pause"
+msgstr "Pauzeren"
+
+msgid "Reset"
+msgstr "Resetten"
+
+msgid "Unix timestamp"
+msgstr "Unix-tijdstempel"
+
+msgid "seconds since 1970-01-01 UTC"
+msgstr "seconden sinds 1970-01-01 UTC"
+
+msgid "Current Unix time"
+msgstr "Huidige Unix-tijd"
+
+msgid "Timestamp → date"
+msgstr "Tijdstempel → datum"
+
+msgid "Epoch value"
+msgstr "Epoch-waarde"
+
+msgid "Local"
+msgstr "Lokaal"
+
+msgid "Relative"
+msgstr "Relatief"
+
+msgid "Date → timestamp"
+msgstr "Datum → tijdstempel"
+
+msgid "Date"
+msgstr "Datum"
+
+msgid "Resulting epoch"
+msgstr "Resulterende epoch"
+
+#, python-format
+msgid "%(cat)s converter"
+msgstr "%(cat)s-converter"
+
+msgid "From value"
+msgstr "Van waarde"
+
+msgid "From unit"
+msgstr "Van eenheid"
+
+msgid "To value"
+msgstr "Naar waarde"
+
+msgid "To unit"
+msgstr "Naar eenheid"
+
+msgid "UUID generator"
+msgstr "UUID-generator"
+
+msgid "random"
+msgstr "willekeurig"
+
+msgid "New"
+msgstr "Nieuw"
+
+msgid "More"
+msgstr "Meer"
+
+msgid "Weather"
+msgstr "Weer"
+
+#, python-format
+msgid "Feels like %(t)s°C"
+msgstr "Gevoel %(t)s°C"
+
+#, python-format
+msgid "Humidity %(h)s%%"
+msgstr "Vochtigheid %(h)s%%"
+
+#, python-format
+msgid "Wind %(w)s km/h"
+msgstr "Wind %(w)s km/h"
+
+msgid "7-day forecast"
+msgstr "Weersverwachting voor 7 dagen"
+
+msgid "Today"
+msgstr "Vandaag"
+
+#, python-format
+msgid "Time in %(place)s"
+msgstr "Tijd in %(place)s"
+
+msgid "Weight"
+msgstr "Gewicht"
+
+msgid "Temperature"
+msgstr "Temperatuur"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Area"
+msgstr "Oppervlakte"
+
+msgid "Speed"
+msgstr "Snelheid"
+
+msgid "Data"
+msgstr "Gegevens"
+
+msgid "Time"
+msgstr "Tijd"
+
+msgid "Explore the map"
+msgstr "Verken de kaart"
+
+msgid "Search for a place or address and it'll appear here on OpenStreetMap."
+msgstr "Zoek naar een plaats of adres en het verschijnt hier op OpenStreetMap."
+
+msgid "No places found"
+msgstr "Geen plaatsen gevonden"
+
+#, python-format
+msgid ""
+"We couldn't locate <strong>\"%(query)s\"</strong> on the map. Try a more "
+"specific address or place name."
+msgstr ""
+"We konden <strong>\"%(query)s\"</strong> niet op de kaart vinden. Probeer "
+"een specifieker adres of plaatsnaam."
+
+msgid "Map results"
+msgstr "Kaartresultaten"
+
+msgid "Places"
+msgstr "Plaatsen"
+
+#, python-format
+msgid "%(counter)s result · OpenStreetMap"
+msgid_plural "%(counter)s results · OpenStreetMap"
+msgstr[0] "%(counter)s resultaat · OpenStreetMap"
+msgstr[1] "%(counter)s resultaten · OpenStreetMap"
+
+msgid "Matching places"
+msgstr "Overeenkomende plaatsen"
+
+msgid ""
+"You need to enable JavaScript to view the interactive map. Use the Larger "
+"map link to open it on OpenStreetMap."
+msgstr ""
+
+msgid "Directions"
+msgstr "Route"
+
+msgid "Larger map"
+msgstr "Grotere kaart"
+
+msgid ""
+"No news provider configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">WORLDNEWS_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Geen nieuwsprovider geconfigureerd. Stel <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> of <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">WORLDNEWS_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code> in."
+
+msgid "Search the news"
+msgstr "Zoek in het nieuws"
+
+msgid "Type a query above and the latest articles appear here."
+msgstr ""
+"Voer hierboven een zoekopdracht in en de nieuwste artikelen verschijnen hier."
+
+msgid "No news found"
+msgstr "Geen nieuws gevonden"
+
+msgid "News results"
+msgstr "Nieuwsresultaten"
+
+#, python-format
+msgid "Source: %(source)s"
+msgstr "Bron: %(source)s"
+
+msgid "Search engines"
+msgstr "Zoekmachines"
+
+msgid "Media & news"
+msgstr "Media en nieuws"
+
+msgid "Knowledge panels"
+msgstr "Kennispanelen"
+
+msgid "Instant answers"
+msgstr "Directe antwoorden"
+
+msgid "Translation"
+msgstr "Vertaling"
+
+msgid ""
+"Privacy-focused engine with its own index. Also powers search-bar "
+"autocomplete."
+msgstr ""
+"Op privacy gerichte zoekmachine met eigen index. Levert ook het "
+"automatisch aanvullen in de zoekbalk."
+
+msgid "Independent engine with its own index. Web search only."
+msgstr "Onafhankelijke zoekmachine met eigen index. Alleen webzoekopdrachten."
+
+msgid "Non-commercial, small-web focused index. Web search only."
+msgstr ""
+"Niet-commerciële, op het kleine web gerichte index. Alleen webzoekopdrachten."
+
+msgid "European index built by Qwant and Ecosia. Web search only."
+msgstr "Europese index gebouwd door Qwant en Ecosia. Alleen webzoeken."
+
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+msgid "Encyclopedia summary panel beside web results."
+msgstr "Encyclopedie-samenvattingspaneel naast de webresultaten."
+
+msgid "TheTVDB"
+msgstr "TheTVDB"
+
+msgid "Film and TV-show panel."
+msgstr "Paneel voor films en tv-series."
+
+msgid "TripAdvisor"
+msgstr "TripAdvisor"
+
+msgid "Restaurant, hotel and attraction panel."
+msgstr "Paneel voor restaurants, hotels en attracties."
+
+msgid "Stack Exchange"
+msgstr "Stack Exchange"
+
+msgid "Top question-and-answer panel."
+msgstr "Paneel met top vraag en antwoord."
+
+msgid "Open-Meteo"
+msgstr "Open-Meteo"
+
+msgid "Weather instant answer."
+msgstr "Direct weerantwoord."
+
+msgid "Pixabay"
+msgstr "Pixabay"
+
+msgid "Royalty-free photos blended into the Images tab."
+msgstr "Rechtenvrije foto's die in het tabblad Afbeeldingen worden gemengd."
+
+msgid "Translate"
+msgstr "Vertalen"
+
+msgid "Text translation tab powered by LibreTranslate."
+msgstr "Tabblad voor tekstvertaling, mogelijk gemaakt door LibreTranslate."
+
+msgid "Sepia"
+msgstr "Sepia"
+
+msgid "PeerTube-based video search blended into the Videos tab."
+msgstr ""
+"PeerTube-gebaseerde videozoekmachine geïntegreerd in het tabblad Video's."
+
+msgid "World News API"
+msgstr "World News API"
+
+msgid "News articles blended into the News tab."
+msgstr "Nieuwsartikelen die in het tabblad Nieuws worden gemengd."
+
+msgid "OpenStreetMap"
+msgstr "OpenStreetMap"
+
+msgid "Maps and place search in the Maps tab."
+msgstr "Kaarten en plaatszoekopdrachten op het tabblad Kaarten."
+
+msgid "Translation server not configured"
+msgstr "Vertaalserver niet geconfigureerd"
+
+msgid "API key not configured"
+msgstr "API-sleutel niet geconfigureerd"
+
+msgid "Engine status"
+msgstr "Zoekmachinestatus"
+
+msgid "About"
+msgstr "Over"
+
+msgid "API"
+msgstr "API"
+
+msgid "Settings"
+msgstr "Instellingen"
+
+msgid "Pagination"
+msgstr "Paginering"
+
+msgid "Previous"
+msgstr "Vorige"
+
+#, python-format
+msgid "Page %(page)s"
+msgstr "Pagina %(page)s"
+
+msgid "Next"
+msgstr "Volgende"
+
+# --- Footer info & legal pages (about, privacy, terms, api, legal) ---
+msgid "About - Seurch"
+msgstr "Over - Seurch"
+
+msgid "About Seurch"
+msgstr "Over Seurch"
+
+msgid "One search. Multiple sources."
+msgstr "Eén zoekopdracht. Meerdere bronnen."
+
+msgid ""
+"Seurch is a privacy-first metasearch engine. It queries several independent "
+"providers at once and blends their results into one unbiased list, so you "
+"get broad coverage without handing your search history to a single company."
+msgstr ""
+"Seurch is een privacyvriendelijke metazoekmachine. Het bevraagt meerdere "
+"onafhankelijke aanbieders tegelijk en voegt hun resultaten samen tot één "
+"onbevooroordeelde lijst, zodat je een brede dekking krijgt zonder je "
+"zoekgeschiedenis aan één bedrijf toe te vertrouwen."
+
+msgid ""
+"Web results come from Brave, Mojeek, Marginalia and Staan, while richer "
+"answers draw on Wikipedia, Stack Exchange, OpenStreetMap and other open "
+"sources. You decide which to use from your settings."
+msgstr ""
+"Webresultaten komen van Brave, Mojeek, Marginalia en Staan, terwijl "
+"uitgebreidere antwoorden putten uit Wikipedia, Stack Exchange, OpenStreetMap "
+"en andere open bronnen. Jij bepaalt welke worden gebruikt in je instellingen."
+
+msgid ""
+"Seurch is built in Europe and is still in alpha, so expect the occasional "
+"rough edge as it grows. Thanks for trying it early."
+msgstr ""
+"Seurch wordt in Europa gebouwd en is nog in alfafase, dus verwacht af en toe "
+"een ruw randje terwijl het groeit. Bedankt dat je het vroeg uitprobeert."
+
+msgid ""
+"Everyday utility queries are answered right at the top of the web results, "
+"most computed on the spot, with no third party involved. A few of the things "
+"you can type:"
+msgstr ""
+"Alledaagse hulpvragen worden direct boven de webresultaten beantwoord, de "
+"meeste ter plekke berekend, zonder tussenkomst van derden. Een paar dingen "
+"die je kunt typen:"
+
+msgid "Unit conversion"
+msgstr "Eenhedenconversie"
+
+msgid "World clock"
+msgstr "Wereldklok"
+
+msgid "Base conversion"
+msgstr "Basisconversie"
+
+msgid "Hash &amp; UUID"
+msgstr "Hash en UUID"
+
+msgid "Encode &amp; decode"
+msgstr "Coderen en decoderen"
+
+msgid "JSON &amp; Regex"
+msgstr "JSON en Regex"
+
+msgid "Unix time"
+msgstr "Unix-tijd"
+
+msgid "HTTP &amp; ports"
+msgstr "HTTP en poorten"
+
+msgid "Randomisers"
+msgstr "Willekeurige generatoren"
+
+msgid "What's my IP"
+msgstr "Mijn IP"
+
+msgid ""
+"Triggers are multilingual, they also fire in French, German, Spanish, "
+"Italian, Portuguese and Dutch (try <code>météo à Paris</code> or <code>255 "
+"en binaire</code>)."
+msgstr ""
+"De triggers zijn meertalig, ze werken ook in het Frans, Duits, Spaans, "
+"Italiaans, Portugees en Nederlands (probeer <code>météo à Paris</code> of "
+"<code>255 en binaire</code>)."
+
+msgid "Bangs"
+msgstr "Bangs"
+
+#, fuzzy
+#| msgid ""
+#| "Bangs send your query straight to another site. Begin a search with a "
+#| "bang - <code>!w</code> for Wikipedia, <code>!gh</code> for GitHub, <code>!"
+#| "yt</code> for YouTube, and Seurch hands the rest of the query to that "
+#| "site."
+msgid ""
+"Bangs send your query straight to another site. Begin a search with a bang, "
+"<code>!w</code> for Wikipedia, <code>!gh</code> for GitHub, <code>!yt</code> "
+"for YouTube, and Seurch hands the rest of the query to that site."
+msgstr ""
+"Bangs sturen je zoekopdracht rechtstreeks naar een andere site. Begin een "
+"zoekopdracht met een bang, <code>!w</code> voor Wikipedia, <code>!gh</code> "
+"voor GitHub, <code>!yt</code> voor YouTube, en Seurch geeft de rest van de "
+"zoekopdracht door aan die site."
+
+msgid "Built in, switch tab without leaving Seurch"
+msgstr "Ingebouwd, wissel van tabblad zonder Seurch te verlaten"
+
+#, python-format
+msgid ""
+"Plus <strong>%(bang_count_display)s</strong> shortcuts to external sites, "
+"from the community bang list. Too many to list, search them here:"
+msgstr ""
+"Plus <strong>%(bang_count_display)s</strong> snelkoppelingen naar externe "
+"sites, uit de community-banglijst. Te veel om op te sommen, zoek ze hier:"
+
+msgid "Thousands more shortcuts route to external sites. Search them here:"
+msgstr ""
+"Duizenden andere snelkoppelingen leiden naar externe sites. Zoek ze hier:"
+
+msgid "Search bangs"
+msgstr "Bangs zoeken"
+
+msgid "Search bangs, e.g. wikipedia, github, !yt"
+msgstr "Bangs zoeken, bijv. wikipedia, github, !yt"
+
+msgid "Search"
+msgstr "Zoeken"
+
+#, python-format
+msgid "No bangs match “%(bang_query)s”."
+msgstr "Geen bangs komen overeen met “%(bang_query)s”."
+
+#, python-format
+msgid ""
+"Showing %(shown)s of %(total)s matches, refine your search to narrow it down."
+msgstr ""
+"%(shown)s van %(total)s overeenkomsten worden getoond, verfijn je "
+"zoekopdracht om het aantal te beperken."
+
+#, python-format
+msgid "%(counter)s match."
+msgid_plural "%(counter)s matches."
+msgstr[0] "%(counter)s overeenkomst."
+msgstr[1] "%(counter)s overeenkomsten."
+
+msgid "custom"
+msgstr "aangepast"
+
+#, python-format
+msgid ""
+"Want a shortcut that isn't here? Add your own in <a class=\"text-indigo-600 "
+"dark:text-indigo-400 hover:underline\" href=\"%(settings_url)s\">your settings</a>."
+msgstr ""
+"Wil je een snelkoppeling die hier niet staat? Voeg je eigen toe in <a "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\" "
+"href=\"%(settings_url)s\">je instellingen</a>."
+
+msgid "API - Seurch"
+msgstr "API - Seurch"
+
+msgid "Developer API"
+msgstr "Ontwikkelaars-API"
+
+# --- Public API ---
+msgid "Search Seurch from your own programs."
+msgstr "Doorzoek Seurch vanuit je eigen programma's."
+
+msgid ""
+"Seurch offers a JSON API, authenticated with a per-user API key, that "
+"exposes every search feature. Full documentation (authentication, endpoints, "
+"parameters and examples) lives on the documentation site:"
+msgstr ""
+"Seurch biedt een JSON-API, geauthenticeerd met een API-sleutel per "
+"gebruiker, die alle zoekfuncties beschikbaar maakt. De volledige "
+"documentatie (authenticatie, endpoints, parameters en voorbeelden) staat op "
+"de documentatiewebsite:"
+
+msgid "Read the API documentation."
+msgstr "Lees de API-documentatie."
+
+#, python-format
+msgid ""
+"Create and manage your API keys under <a href=\"%(create_key_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">Settings → "
+"API keys</a>."
+msgstr ""
+"Maak en beheer je API-sleutels onder <a href=\"%(create_key_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">Instellingen "
+"→ API-sleutels</a>."
+
+msgid "Browser integration"
+msgstr "Browserintegratie"
+
+msgid ""
+"Seurch also publishes an OpenSearch description, so you can add it as a "
+"search engine in your browser. Most browsers offer it automatically once "
+"you've visited; you can also open the description document directly:"
+msgstr ""
+"Seurch publiceert ook een OpenSearch-beschrijving, zodat je het als "
+"zoekmachine aan je browser kunt toevoegen. De meeste browsers bieden dit "
+"automatisch aan na een bezoek; je kunt het beschrijvingsdocument ook "
+"rechtstreeks openen:"
+
+msgid ""
+"The same standard powers search suggestions, returned as JSON for "
+"autocomplete:"
+msgstr ""
+"Dezelfde standaard voedt de zoeksuggesties, die als JSON worden teruggegeven "
+"voor automatisch aanvullen:"
+
+msgid "Seurch - European privacy-first search engine"
+msgstr "Seurch - Europese zoekmachine met privacy voorop"
+
+msgid "Search the web…"
+msgstr "Zoek op het web…"
+
+msgid "Search query"
+msgstr "Zoekopdracht"
+
+msgid "Clear search"
+msgstr "Zoekopdracht wissen"
+
+msgid "Search categories"
+msgstr "Zoekcategorieën"
+
+msgid "Web"
+msgstr "Web"
+
+msgid "Images"
+msgstr "Afbeeldingen"
+
+msgid "News"
+msgstr "Nieuws"
+
+msgid "Videos"
+msgstr "Video's"
+
+msgid "Back"
+msgstr "Terug"
+
+msgid "Seurch home"
+msgstr "Seurch-startpagina"
+
+msgid "Search type"
+msgstr "Zoektype"
+
+msgid "Search scope"
+msgstr "Zoekbereik"
+
+msgid "Providers"
+msgstr "Aanbieders"
+
+msgid "Search language"
+msgstr "Zoektaal"
+
+msgid "Any language"
+msgstr "Elke taal"
+
+msgid "Safe search"
+msgstr "Veilig zoeken"
+
+msgid "Safe: On"
+msgstr "Veilig: aan"
+
+msgid "Safe: Off"
+msgstr "Veilig: uit"
+
+msgid "Time range"
+msgstr "Tijdsbereik"
+
+msgid "Any time"
+msgstr "Elk moment"
+
+msgid "Past year"
+msgstr "Afgelopen jaar"
+
+msgid "Past month"
+msgstr "Afgelopen maand"
+
+msgid "Past week"
+msgstr "Afgelopen week"
+
+msgid "Past 24 hours"
+msgstr "Afgelopen 24 uur"
+
+msgid "Apply"
+msgstr ""
+
+msgid "Settings - Seurch"
+msgstr "Instellingen - Seurch"
+
+msgid "General"
+msgstr "Algemeen"
+
+msgid "Appearance"
+msgstr "Uiterlijk"
+
+msgid "Language"
+msgstr "Taal"
+
+msgid "Engines"
+msgstr "Zoekmachines"
+
+msgid "Custom bangs"
+msgstr "Eigen bangs"
+
+msgid "Blocked sites"
+msgstr "Geblokkeerde sites"
+
+msgid "Browser"
+msgstr "Browser"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "API keys"
+msgstr "API-sleutels"
+
+msgid "Backup & sync"
+msgstr "Back-up en sync"
+
+msgid "Provider status"
+msgstr "Providerstatus"
+
+msgid "Filter explicit content"
+msgstr "Expliciete inhoud filteren"
+
+msgid "Hide explicit results and knowledge-panel cards from search"
+msgstr ""
+"Expliciete resultaten en kennispaneelkaarten in zoekopdrachten verbergen"
+
+msgid "Save changes"
+msgstr "Wijzigingen opslaan"
+
+msgid "Results"
+msgstr "Resultaten"
+
+msgid "Open links in new tab"
+msgstr "Links in nieuw tabblad openen"
+
+msgid "Result links open in a new browser tab"
+msgstr "Resultaatlinks openen in een nieuw browsertabblad"
+
+msgid ""
+"When you open an image, show a grid of visually similar pictures. Each "
+"lookup runs an image search and counts towards your monthly search total."
+msgstr ""
+"Wanneer je een afbeelding opent, een raster met visueel vergelijkbare "
+"afbeeldingen tonen. Elke zoekopdracht telt mee voor je maandelijkse "
+"zoektotaal."
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid "Proxy images"
+msgstr "Afbeeldingen via proxy laden"
+
+msgid ""
+"Load result thumbnails and icons through this site instead of fetching them "
+"directly from third-party servers, hiding your IP address from them. May be "
+"slower."
+msgstr ""
+"Laadt miniaturen en pictogrammen van resultaten via deze site in plaats van "
+"ze rechtstreeks van servers van derden op te halen, zodat uw IP-adres voor "
+"hen verborgen blijft. Kan trager zijn."
+
+msgid "Theme"
+msgstr "Thema"
+
+msgid "Color theme"
+msgstr "Kleurthema"
+
+msgid "Light, dark, or system default"
+msgstr "Licht, donker of systeemstandaard"
+
+msgid "System"
+msgstr "Systeem"
+
+msgid "Light"
+msgstr "Licht"
+
+msgid "Dark"
+msgstr "Donker"
+
+msgid ""
+"Sets the language of this interface. 'Auto' follows your browser settings."
+msgstr ""
+"Stelt de taal van deze interface in. 'Auto' volgt uw browserinstellingen."
+
+msgid "Auto-detect"
+msgstr "Automatisch detecteren"
+
+msgid "Default search language"
+msgstr "Standaard zoektaal"
+
+msgid ""
+"Auto-detect the language of each query, or always search in one language. "
+"You can still override it per search from the results page."
+msgstr ""
+"Detecteer automatisch de taal van elke zoekopdracht of zoek altijd in één "
+"taal. U kunt dit per zoekopdracht overschrijven vanaf de resultatenpagina."
+
+msgid "Brave's own image search."
+msgstr "De eigen afbeeldingenzoekfunctie van Brave."
+
+msgid "Brave's own news search."
+msgstr "De eigen nieuwszoekfunctie van Brave."
+
+msgid "Brave's own video search."
+msgstr "De eigen videozoekfunctie van Brave."
+
+msgid ""
+"Pick the providers behind each kind of search. Every search type keeps "
+"its own selection, so an engine can power your web results without "
+"touching Images or News. Results from all the providers enabled for a "
+"search type are interleaved and deduplicated."
+msgstr ""
+"Kies de aanbieders achter elk soort zoekopdracht. Elk zoektype houdt zijn "
+"eigen selectie, zodat een zoekmachine je webresultaten kan leveren zonder "
+"Afbeeldingen of Nieuws te raken. Resultaten van alle voor een zoektype "
+"ingeschakelde aanbieders worden afgewisseld en ontdubbeld."
+
+msgid "Open source project"
+msgstr "Open source-project"
+
+msgid "Open source"
+msgstr "Open source"
+
+msgid "Paid"
+msgstr "Betaald"
+
+msgid "Commercial API, billed beyond any free allowance"
+msgstr "Commerciële API, betaald boven een eventueel gratis tegoed"
+
+#, python-format
+msgid "Enable %(label)s for %(search_type)s"
+msgstr "%(label)s inschakelen voor %(search_type)s"
+
+msgid "Data sources"
+msgstr "Gegevensbronnen"
+
+#, python-format
+msgid ""
+"Nothing is enabled for %(label)s, so that tab is hidden from the results "
+"page."
+msgstr ""
+"Er is niets ingeschakeld voor %(label)s, dus dat tabblad is verborgen op "
+"de resultatenpagina."
+
+#, python-format
+msgid ""
+"Bangs let you jump straight to another site by prefixing your query with "
+"<code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">!trigger</"
+"code>. Define your own to override the generic shortcuts. Use <code "
+"class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">%(token)s</"
+"code> in the URL where the query should go."
+msgstr ""
+"Met bangs spring je direct naar een andere site door je zoekopdracht te "
+"laten voorafgaan door <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-"
+"slate-800 rounded\">!trigger</code>. Definieer je eigen bangs om de "
+"generieke snelkoppelingen te overschrijven. Gebruik <code class=\"px-1 "
+"py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">%(token)s</code> in de URL "
+"waar de zoekopdracht moet komen."
+
+msgid "Add a custom bang"
+msgstr "Eigen bang toevoegen"
+
+msgid "Trigger"
+msgstr "Trigger"
+
+msgid "URL template"
+msgstr "URL-sjabloon"
+
+msgid "Add bang"
+msgstr "Bang toevoegen"
+
+msgid "Your custom bangs"
+msgstr "Uw eigen bangs"
+
+#, python-format
+msgid "Remove !%(trigger)s"
+msgstr "!%(trigger)s verwijderen"
+
+msgid "Remove"
+msgstr "Verwijderen"
+
+msgid "You haven't defined any custom bangs yet."
+msgstr "U heeft nog geen eigen bangs gedefinieerd."
+
+msgid ""
+"Results from these domains never appear in your search. Subdomains are "
+"blocked automatically, adding <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-"
+"slate-800 rounded\">example.com</code> also blocks <code class=\"px-1 py-0.5 "
+"bg-slate-100 dark:bg-slate-800 rounded\">www.example.com</code> and <code "
+"class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">blog.example."
+"com</code>."
+msgstr ""
+"Resultaten van deze domeinen verschijnen nooit in uw zoekopdracht. "
+"Subdomeinen worden automatisch geblokkeerd, <code class=\"px-1 py-0.5 bg-"
+"slate-100 dark:bg-slate-800 rounded\">example.com</code> toevoegen blokkeert "
+"ook <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">www."
+"example.com</code> en <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-"
+"slate-800 rounded\">blog.example.com</code>."
+
+msgid "Add a domain"
+msgstr "Domein toevoegen"
+
+msgid "Block site"
+msgstr "Site blokkeren"
+
+msgid "Your blocked sites"
+msgstr "Uw geblokkeerde sites"
+
+#, python-format
+msgid "Unblock %(domain)s"
+msgstr "%(domain)s deblokkeren"
+
+msgid "Unblock"
+msgstr "Deblokkeren"
+
+msgid ""
+"You haven't blocked any sites yet. Use the small \"Block\" link next to each "
+"result to add one quickly."
+msgstr ""
+"U hebt nog geen sites geblokkeerd. Gebruik de kleine link \"Blokkeren\" "
+"naast elk resultaat om er snel een toe te voegen."
+
+msgid "Add Seurch to your browser"
+msgstr "Seurch aan uw browser toevoegen"
+
+msgid ""
+"Make Seurch your browser's default search engine so you can search straight "
+"from the address bar. Follow the steps for your browser below."
+msgstr ""
+"Maak Seurch de standaardzoekmachine van uw browser zodat u rechtstreeks "
+"vanuit de adresbalk kunt zoeken. Volg hieronder de stappen voor uw browser."
+
+msgid ""
+"Go to <strong>Settings → Search</strong> (or type <code class=\"px-1 py-0.5 "
+"bg-slate-100 dark:bg-slate-800 rounded\">about:preferences#search</code> in "
+"the address bar)"
+msgstr ""
+"Ga naar <strong>Instellingen → Zoeken</strong> (of typ <code class=\"px-1 "
+"py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">about:preferences#search</"
+"code> in de adresbalk)"
+
+msgid "Scroll down to <strong>\"Search Shortcuts\"</strong>"
+msgstr "Scrol omlaag naar <strong>\"Zoeksnelkoppelingen\"</strong>"
+
+msgid ""
+"Click <strong>\"Find more search engines\"</strong>, or look for Seurch if "
+"it's already listed"
+msgstr ""
+"Klik op <strong>\"Meer zoekmachines zoeken\"</strong>, of zoek naar Seurch "
+"als het al in de lijst staat"
+
+msgid ""
+"If Seurch is not listed, right-click the search bar on the Seurch homepage "
+"and select <strong>\"Add Search Engine\"</strong>"
+msgstr ""
+"Als Seurch niet in de lijst staat, klik dan met de rechtermuisknop op de "
+"zoekbalk op de Seurch-startpagina en selecteer <strong>\"Zoekmachine "
+"toevoegen\"</strong>"
+
+msgid ""
+"Perform any search on Seurch (Chrome auto-discovers search engines you use)"
+msgstr ""
+"Voer een willekeurige zoekopdracht uit op Seurch (Chrome ontdekt automatisch "
+"de zoekmachines die u gebruikt)"
+
+msgid "Go to <strong>Settings → Search engine → Manage search engines</strong>"
+msgstr ""
+"Ga naar <strong>Instellingen → Zoekmachine → Zoekmachines beheren</strong>"
+
+msgid ""
+"Find <strong>Seurch</strong> under \"Site search\" and click <strong>Make "
+"default</strong>"
+msgstr ""
+"Zoek <strong>Seurch</strong> onder \"Site doorzoeken\" en klik op "
+"<strong>Als standaard instellen</strong>"
+
+msgid "Any browser (manual URL):"
+msgstr "Elke browser (handmatige URL):"
+
+msgid "Add a custom search engine with this URL:"
+msgstr "Voeg een aangepaste zoekmachine toe met deze URL:"
+
+msgid "Profile"
+msgstr "Profiel"
+
+msgid "Signed in as"
+msgstr "Aangemeld als"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid ""
+"Only used to reset your password if you forget it, never for anything else. "
+"Confirm changes with your current password."
+msgstr ""
+"Wordt alleen gebruikt om uw wachtwoord opnieuw in te stellen als u het "
+"vergeet, nooit voor iets anders. Bevestig wijzigingen met uw huidige "
+"wachtwoord."
+
+msgid "Save"
+msgstr "Opslaan"
+
+msgid "Remove email address"
+msgstr "E-mailadres verwijderen"
+
+msgid "Your account keeps working without one, but see the note below."
+msgstr "Uw account blijft werken zonder, maar lees de opmerking hieronder."
+
+msgid "No email address is set."
+msgstr "Er is geen e-mailadres ingesteld."
+
+msgid ""
+"Without an email address there is no way to reset your password, if you "
+"forget it, your account cannot be recovered."
+msgstr ""
+"Zonder e-mailadres is er geen manier om uw wachtwoord opnieuw in te stellen "
+"- als u het vergeet, kan uw account niet worden hersteld."
+
+msgid "Usage"
+msgstr "Gebruik"
+
+msgid "Searches this month"
+msgstr "Zoekopdrachten deze maand"
+
+msgid "Number of searches on this account since the start of the month."
+msgstr "Aantal zoekopdrachten op dit account sinds het begin van de maand."
+
+msgid "Security"
+msgstr "Beveiliging"
+
+msgid "Update the password for your account."
+msgstr "Werk het wachtwoord van uw account bij."
+
+msgid "Change"
+msgstr "Wijzigen"
+
+msgid "Private browsing"
+msgstr "Privé surfen"
+
+msgid ""
+"A private session link signs you in instantly from a private or incognito "
+"window, which doesn't carry your normal session cookie, without typing your "
+"password. Treat it like a password: anyone with the link can sign in as you."
+msgstr ""
+"Een privésessielink logt u direct in vanuit een privé- of incognitovenster, "
+"dat uw normale sessiecookie niet meestuurt, zonder dat u uw wachtwoord hoeft "
+"in te typen. Behandel hem als een wachtwoord: iedereen met de link kan "
+"inloggen als u."
+
+#, python-format
+msgid "generated %(created)s"
+msgstr "gegenereerd op %(created)s"
+
+#, python-format
+msgid "last used %(used)s"
+msgstr "laatst gebruikt op %(used)s"
+
+msgid "never used"
+msgstr "nooit gebruikt"
+
+msgid ""
+"Add it as a custom search engine in a private window, and a search there "
+"signs you in first:"
+msgstr ""
+"Voeg hem toe als aangepaste zoekmachine in een privévenster, waar een "
+"zoekopdracht u eerst aanmeldt:"
+
+msgid "Generate new link"
+msgstr "Nieuwe link genereren"
+
+msgid "Turn off"
+msgstr "Uitschakelen"
+
+msgid "Generating a new link invalidates the old one."
+msgstr "Een nieuwe link genereren maakt de oude ongeldig."
+
+msgid "Your new private session link"
+msgstr "Je nieuwe privésessielink"
+
+msgid "Copy this link now; for your security it will not be shown again."
+msgstr ""
+"Kopieer deze link nu; om veiligheidsredenen wordt hij niet opnieuw "
+"getoond."
+
+msgid "A private session link is active."
+msgstr "Er is een privésessielink actief."
+
+msgid ""
+"Only a fingerprint of the link is stored, so it cannot be shown again. If "
+"you no longer have it, generate a new one."
+msgstr ""
+"Er wordt alleen een vingerafdruk van de link opgeslagen, dus hij kan niet "
+"opnieuw worden getoond. Als je hem niet meer hebt, genereer dan een nieuwe."
+
+msgid "Generate link"
+msgstr "Link genereren"
+
+msgid "Session"
+msgstr "Sessie"
+
+msgid "Sign out"
+msgstr "Uitloggen"
+
+msgid "End your current session on this device."
+msgstr "Beëindig uw huidige sessie op dit apparaat."
+
+msgid ""
+"API keys let your own programs search Seurch over the JSON API. Send the key "
+"in the <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 "
+"rounded\">Authorization</code> header. Keep it secret, as anyone with the "
+"key can search as you."
+msgstr ""
+"Met API-sleutels kunnen je eigen programma's Seurch doorzoeken via de JSON-"
+"API. Stuur de sleutel mee in de <code class=\"px-1 py-0.5 bg-slate-100 dark:"
+"bg-slate-800 rounded\">Authorization</code>-header. Houd hem geheim, want "
+"iedereen met de sleutel kan namens jou zoeken."
+
+msgid "Your new API key"
+msgstr "Je nieuwe API-sleutel"
+
+msgid "Copy this key now; for your security it will not be shown again."
+msgstr ""
+"Kopieer deze sleutel nu; om veiligheidsredenen wordt hij niet opnieuw "
+"getoond."
+
+msgid "Create a new key"
+msgstr "Een nieuwe sleutel aanmaken"
+
+msgid "Key name (e.g. my script)"
+msgstr "Sleutelnaam (bijv. mijn script)"
+
+msgid "Key name"
+msgstr "Sleutelnaam"
+
+msgid "Create key"
+msgstr "Sleutel aanmaken"
+
+msgid "Your API keys"
+msgstr "Je API-sleutels"
+
+#, python-format
+msgid "created %(created)s"
+msgstr "aangemaakt op %(created)s"
+
+#, python-format
+msgid "Revoke %(name)s"
+msgstr "%(name)s intrekken"
+
+msgid "Revoke"
+msgstr "Intrekken"
+
+msgid "You haven't created any API keys yet."
+msgstr "Je hebt nog geen API-sleutels aangemaakt."
+
+msgid ""
+"Your preferences, custom bangs and blocked sites sync automatically across "
+"every device you sign in on. You can also keep an offline copy: download "
+"everything as a file, or restore it from one."
+msgstr ""
+"Uw voorkeuren, aangepaste bangs en geblokkeerde sites worden automatisch "
+"gesynchroniseerd op elk apparaat waarop u zich aanmeldt. U kunt ook een "
+"offline kopie bewaren: download alles als bestand of herstel het vanuit een "
+"bestand."
+
+msgid "Export & import"
+msgstr "Exporteren en importeren"
+
+msgid "Export to a file"
+msgstr "Exporteren naar een bestand"
+
+msgid "Download all your settings as a JSON file."
+msgstr "Download al uw instellingen als JSON-bestand."
+
+msgid "Export"
+msgstr "Exporteren"
+
+msgid "Import from a file"
+msgstr "Importeren uit een bestand"
+
+msgid "Replaces your current preferences, custom bangs and blocked sites."
+msgstr "Vervangt uw huidige voorkeuren, eigen bangs en geblokkeerde sites."
+
+msgid "Import"
+msgstr "Importeren"
+
+msgid "Settings saved."
+msgstr "Instellingen opgeslagen."
+
+# Provider status page
+msgid "Provider status - Seurch"
+msgstr "Providerstatus - Seurch"
+
+msgid "Some providers are reporting issues"
+msgstr "Sommige providers melden problemen"
+
+#, python-format
+msgid "%(operational)s of %(total)s operational"
+msgstr "%(operational)s van %(total)s operationeel"
+
+msgid "All providers operational"
+msgstr "Alle providers operationeel"
+
+msgid "Awaiting provider data"
+msgstr "Wachten op providergegevens"
+
+msgid "Checked via health endpoint"
+msgstr "Gecontroleerd via health-endpoint"
+
+msgid "Checked from searches"
+msgstr "Gecontroleerd op basis van zoekopdrachten"
+
+msgid "Operational"
+msgstr "Operationeel"
+
+msgid "Down"
+msgstr "Offline"
+
+msgid "No recent data"
+msgstr "Geen recente gegevens"
+
+#, python-format
+msgid "last worked %(t)s ago"
+msgstr "%(t)s geleden voor het laatst actief"
+
+#, python-format
+msgid "checked %(t)s ago"
+msgstr "%(t)s geleden gecontroleerd"
+
+msgid "not checked yet"
+msgstr "nog niet gecontroleerd"
+
+msgid ""
+"Providers with a public health endpoint are checked directly every few "
+"minutes. The others reflect the outcome of recent searches, so a provider "
+"that hasn't been queried recently may show no recent data."
+msgstr ""
+"Providers met een openbaar health-endpoint worden om de paar minuten "
+"rechtstreeks gecontroleerd. De overige weerspiegelen de uitkomst van recente "
+"zoekopdrachten, dus een provider die recent weinig is bevraagd kan geen "
+"recente gegevens tonen."
+
+msgid "Source language"
+msgstr "Brontaal"
+
+msgid "Detect language"
+msgstr "Taal detecteren"
+
+msgid "Swap languages"
+msgstr "Talen omwisselen"
+
+msgid "Target language"
+msgstr "Doeltaal"
+
+#, python-format
+msgid "Detected: %(name)s"
+msgstr "Gedetecteerd: %(name)s"
+
+msgid "Source text"
+msgstr "Brontekst"
+
+msgid "Type text to translate…"
+msgstr "Typ tekst om te vertalen…"
+
+msgid "Text to translate"
+msgstr "Te vertalen tekst"
+
+msgid "Translation service is unavailable. Try again later."
+msgstr "De vertaaldienst is niet beschikbaar. Probeer het later opnieuw."
+
+msgid "Translation will appear here."
+msgstr "De vertaling verschijnt hier."
+
+msgid "PeerTube"
+msgstr "PeerTube"
+
+msgid ""
+"Brave API key not configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> in <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Brave API-sleutel niet geconfigureerd. Stel <code class=\"bg-slate-100 dark:"
+"bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code> in <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">.env</code> in."
+
+msgid "Search for videos"
+msgstr "Zoek naar video's"
+
+msgid "Type a query above and matching videos appear here."
+msgstr ""
+"Voer hierboven een zoekopdracht in en de bijbehorende video's verschijnen "
+"hier."
+
+msgid "No videos found"
+msgstr "Geen video's gevonden"
+
+msgid "Video results"
+msgstr "Videoresultaten"
+
+msgid "Did you mean:"
+msgstr "Bedoelde u:"
+
+msgid "Search the web"
+msgstr "Zoek op het web"
+
+msgid ""
+"Type a query above and results from every engine you turned on appear here."
+msgstr ""
+"Voer hierboven een zoekopdracht in en de resultaten van elke ingeschakelde "
+"zoekmachine verschijnen hier."
+
+msgid "No search engine is enabled. Turn one on in Settings → Engines."
+msgstr ""
+"Er is geen zoekmachine ingeschakeld. Schakel er een in via Instellingen → "
+"Zoekmachines."
+
+msgid ""
+"No API keys configured. Set <code class=\"bg-slate-100 dark:bg-slate-800 "
+"px-1 rounded\">BRAVE_API_KEY</code>, <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">MOJEEK_API_KEY</code>, <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 "
+"rounded\">MARGINALIA_API_KEY</code>, and/or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">STAAN_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Geen API-sleutels geconfigureerd. Stel <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code>, <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">MOJEEK_API_KEY</code>, "
+"<code class=\"bg-slate-100 dark:bg-slate-800 px-1 "
+"rounded\">MARGINALIA_API_KEY</code> en/of <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">STAAN_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code> in."
+
+msgid "No results found"
+msgstr "Geen resultaten gevonden"
+
+#, python-format
+msgid ""
+"Nothing matched <strong>\"%(query)s\"</strong>. Check the spelling, or try "
+"different keywords."
+msgstr ""
+"Niets komt overeen met <strong>\"%(query)s\"</strong>. Controleer de "
+"spelling of probeer andere zoekwoorden."
+
+msgid "More options"
+msgstr "Meer opties"
+
+msgid "More options for this result"
+msgstr "Meer opties voor dit resultaat"
+
+msgid "View this page on the Wayback Machine"
+msgstr "Bekijk deze pagina op de Wayback Machine"
+
+msgid "Cached"
+msgstr "Gecachet"
+
+msgid "Block this site, it won't appear in future results"
+msgstr "Deze site blokkeren, verschijnt niet meer in toekomstige resultaten"
+
+msgid "Sitelinks"
+msgstr "Sitelinks"
+
+msgid "Knowledge panel"
+msgstr "Kennispaneel"
+
+#, fuzzy
+#| msgid "Load info panels separately"
+msgid "Show info panels"
+msgstr "Infopanelen apart laden"
+
+msgid "Docs"
+msgstr "Documentatie"
+
+msgid "Source"
+msgstr "Broncode"
+
+msgid ""
+"The public JSON API is disabled on this instance, only the OpenSearch "
+"browser integration below is available."
+msgstr ""
+"De openbare JSON-API is uitgeschakeld op deze instantie, alleen de "
+"OpenSearch-browserintegratie hieronder is beschikbaar."
+
+msgid ""
+"The public API is disabled on this instance. Existing keys no longer "
+"work; you can still revoke them below."
+msgstr ""
+"De openbare API is uitgeschakeld op deze instantie. Bestaande sleutels "
+"werken niet meer; je kunt ze hieronder nog wel intrekken."

@@ -1,0 +1,15 @@
+{% load i18n %}
+{% comment %}
+One provider row in Settings → Engines. Rendered once per (search type,
+provider) pair, so the checkbox name only has to be unique inside its own
+search-type form; the aria-label names the search type because the same
+provider (Brave) appears under several of them. Included with the loop's
+`provider` and the group's `type` from the surrounding context.
+{% endcomment %}
+<div class="flex items-center justify-between gap-4 py-3.5 border-b border-slate-100 dark:border-slate-800{% if provider.key_missing %} opacity-50{% endif %}">
+  <div class="flex-1 min-w-0">
+    <strong class="block text-[0.9rem] font-semibold mb-0.5"><span aria-hidden="true">{{ provider.flag }}</span> {{ provider.label }}{% if provider.open_source %} <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[0.62rem] font-semibold uppercase tracking-wide bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 align-middle" title="{% trans "Open source project" %}">{% trans "Open source" %}</span>{% endif %}{% if provider.paid %} <span class="inline-flex items-center px-1.5 py-0.5 rounded text-[0.62rem] font-semibold uppercase tracking-wide bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-400 align-middle" title="{% trans "Commercial API, billed beyond any free allowance" %}">{% trans "Paid" %}</span>{% endif %}</strong>
+    <span class="text-[0.78rem] text-slate-500 dark:text-slate-400 leading-snug">{{ provider.desc }}{% if provider.key_missing %} - {{ provider.unavailable_label }}{% endif %}</span>
+  </div>
+  <label class="toggle-switch" aria-label="{% blocktrans with label=provider.label search_type=type.label %}Enable {{ label }} for {{ search_type }}{% endblocktrans %}"><input type="checkbox" name="provider_{{ provider.key }}" value="on" {% if provider.enabled %}checked{% endif %} {% if provider.key_missing %}disabled{% endif %}><span class="toggle-track"></span></label>
+</div>

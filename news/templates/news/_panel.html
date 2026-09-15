@@ -1,0 +1,52 @@
+{% load i18n image_extras result_extras %}
+{% if not news_results %}
+  {% comment %}Empty tab: an invitation before anything is searched (switching
+  over from another tab lands here with no query), the operator notice when no
+  provider can serve it, and only otherwise "nothing matched".{% endcomment %}
+  {% if not query %}
+    {% trans "Search the news" as empty_title %}
+    {% trans "Type a query above and the latest articles appear here." as empty_sub %}
+    {% include 'search/_empty.html' with icon="📰" title=empty_title sub=empty_sub only %}
+  {% elif brave_key_missing and worldnews_key_missing %}
+    {% blocktrans asvar empty_sub %}No news provider configured. Set <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">BRAVE_API_KEY</code> or <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">WORLDNEWS_API_KEY</code> in <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">.env</code>.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="⚙️" sub=empty_sub only %}
+  {% else %}
+    {% trans "No news found" as empty_title %}
+    {% blocktrans asvar empty_sub %}Nothing matched <strong>"{{ query }}"</strong>. Check the spelling, or try different keywords.{% endblocktrans %}
+    {% include 'search/_empty.html' with icon="🔎" title=empty_title sub=empty_sub only %}
+  {% endif %}
+{% else %}
+<div class="max-w-[700px]">
+  <div class="flex flex-col" role="feed" aria-label="{% trans "News results" %}">
+    {% for item in news_results %}
+    <article class="flex gap-3.5 py-4 border-b border-slate-100 dark:border-slate-800 last:border-0">
+      {% comment %}Thumbnail slot, always rendered so the feed keeps one aligned
+      image column. The placeholder icon sits underneath the image: it shows
+      through when the article carries no thumbnail, and when a thumbnail fails
+      to load (dead host, hotlink block, image proxy miss) news.js hides the
+      broken <img> to uncover it. Without JS a failed alt="" image collapses to
+      nothing, so the placeholder shows there too.{% endcomment %}
+      <div class="relative w-[100px] h-[70px] shrink-0 rounded-md overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center" data-news-thumb>
+        <i class="fa-solid fa-newspaper text-[20px] text-slate-300 dark:text-slate-600" aria-hidden="true"></i>
+        {% if item.thumbnail.src %}
+          <img src="{% img_src item.thumbnail.src %}" alt="" class="absolute inset-0 w-full h-full object-cover" loading="lazy">
+        {% endif %}
+      </div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-center gap-1.5 text-[0.75rem] font-semibold text-slate-400 uppercase tracking-wider mb-1">
+          <span>{{ item.meta_url.hostname }}</span>{% if item.age %}<span class="text-slate-200 dark:text-slate-700">·</span><span>{{ item.age }}</span>{% endif %}
+          {% if item.source %}<span class="ml-auto shrink-0 inline-flex items-center normal-case tracking-normal px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 text-[0.62rem] font-medium" title="{% blocktrans with source=item.source %}Source: {{ source }}{% endblocktrans %}">{{ item.source }}</span>{% endif %}
+        </div>
+        <h2 class="text-[0.95rem] font-semibold leading-snug mb-1">
+          <a href="{{ item.url }}" class="hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline">{{ item.title }}</a>
+        </h2>
+        {% if item.description %}
+          <p class="text-[0.83rem] text-slate-500 dark:text-slate-400 leading-relaxed line-clamp-2">{{ item.description|snippet }}</p>
+        {% endif %}
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% include 'search/_pagination.html' %}
+</div>
+{% endif %}

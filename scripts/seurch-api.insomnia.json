@@ -1,0 +1,589 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-06-23T00:00:00.000Z",
+  "__export_source": "seurch.api.dev-testing",
+  "resources": [
+    {
+      "_id": "wrk_seurch",
+      "_type": "workspace",
+      "parentId": null,
+      "scope": "collection",
+      "name": "Seurch API",
+      "description": "Seurch public API - dev testing collection.\n\nSet `api_key` (Settings -> API keys, or `manage.py create_api_key`) and `base_url` in the Base Environment. Every request sends `Authorization: Api-Key {{ _.api_key }}`."
+    },
+    {
+      "_id": "env_seurch",
+      "_type": "environment",
+      "parentId": "wrk_seurch",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8000",
+        "api_key": "seurch_sk_REPLACE_WITH_YOUR_KEY",
+        "api_base": "{{ _.base_url }}/api/v1"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "api_key",
+          "api_base"
+        ]
+      },
+      "metaSortKey": 1,
+      "color": null
+    },
+    {
+      "_id": "fld_meta",
+      "_type": "request_group",
+      "parentId": "wrk_seurch",
+      "name": "Meta",
+      "description": "",
+      "environment": {},
+      "metaSortKey": -400
+    },
+    {
+      "_id": "req_root",
+      "_type": "request",
+      "parentId": "fld_meta",
+      "name": "API root",
+      "description": "Index of available endpoints.",
+      "method": "GET",
+      "url": "{{ _.api_base }}/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -10
+    },
+    {
+      "_id": "req_key",
+      "_type": "request",
+      "parentId": "fld_meta",
+      "name": "Key info",
+      "description": "Details of the key making the request.",
+      "method": "GET",
+      "url": "{{ _.api_base }}/key/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -9
+    },
+    {
+      "_id": "req_status",
+      "_type": "request",
+      "parentId": "fld_meta",
+      "name": "Provider status",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/status/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -8
+    },
+    {
+      "_id": "fld_search",
+      "_type": "request_group",
+      "parentId": "wrk_seurch",
+      "name": "Search",
+      "description": "",
+      "environment": {},
+      "metaSortKey": -300
+    },
+    {
+      "_id": "req_web",
+      "_type": "request",
+      "parentId": "fld_search",
+      "name": "Web search",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/web/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q1613",
+          "name": "q",
+          "value": "climate change",
+          "disabled": false
+        },
+        {
+          "id": "pair_engine6565",
+          "name": "engine",
+          "value": "brave,mojeek",
+          "disabled": true
+        },
+        {
+          "id": "pair_safe8698",
+          "name": "safe",
+          "value": "on",
+          "disabled": true
+        },
+        {
+          "id": "pair_lang8998",
+          "name": "lang",
+          "value": "en",
+          "disabled": true
+        },
+        {
+          "id": "pair_page2715",
+          "name": "page",
+          "value": "1",
+          "disabled": true
+        },
+        {
+          "id": "pair_date833",
+          "name": "date",
+          "value": "w",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -10
+    },
+    {
+      "_id": "req_images",
+      "_type": "request",
+      "parentId": "fld_search",
+      "name": "Image search",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/images/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q9743",
+          "name": "q",
+          "value": "mountains",
+          "disabled": false
+        },
+        {
+          "id": "pair_lang8998",
+          "name": "lang",
+          "value": "en",
+          "disabled": true
+        },
+        {
+          "id": "pair_page2715",
+          "name": "page",
+          "value": "1",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -9
+    },
+    {
+      "_id": "req_similar",
+      "_type": "request",
+      "parentId": "fld_search",
+      "name": "Similar images",
+      "description": "Images similar to a given one, seeded from its caption (q) or the page query.",
+      "method": "GET",
+      "url": "{{ _.api_base }}/images/similar/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q4551",
+          "name": "q",
+          "value": "a cute cat",
+          "disabled": false
+        },
+        {
+          "id": "pair_query5439",
+          "name": "query",
+          "value": "cat",
+          "disabled": true
+        },
+        {
+          "id": "pair_exclude_url7535",
+          "name": "exclude_url",
+          "value": "https://example.org/cat.jpg",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -8
+    },
+    {
+      "_id": "req_news",
+      "_type": "request",
+      "parentId": "fld_search",
+      "name": "News search",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/news/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q1310",
+          "name": "q",
+          "value": "technology",
+          "disabled": false
+        },
+        {
+          "id": "pair_date8856",
+          "name": "date",
+          "value": "d",
+          "disabled": true
+        },
+        {
+          "id": "pair_lang8998",
+          "name": "lang",
+          "value": "en",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -7
+    },
+    {
+      "_id": "req_videos",
+      "_type": "request",
+      "parentId": "fld_search",
+      "name": "Video search",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/videos/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q5304",
+          "name": "q",
+          "value": "django tutorial",
+          "disabled": false
+        },
+        {
+          "id": "pair_date4939",
+          "name": "date",
+          "value": "m",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -6
+    },
+    {
+      "_id": "fld_maps",
+      "_type": "request_group",
+      "parentId": "wrk_seurch",
+      "name": "Maps",
+      "description": "",
+      "environment": {},
+      "metaSortKey": -200
+    },
+    {
+      "_id": "req_geocode",
+      "_type": "request",
+      "parentId": "fld_maps",
+      "name": "Geocode (by name)",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/maps/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q8929",
+          "name": "q",
+          "value": "eiffel tower",
+          "disabled": false
+        },
+        {
+          "id": "pair_limit1310",
+          "name": "limit",
+          "value": "5",
+          "disabled": true
+        },
+        {
+          "id": "pair_lang8998",
+          "name": "lang",
+          "value": "en",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -10
+    },
+    {
+      "_id": "req_reverse",
+      "_type": "request",
+      "parentId": "fld_maps",
+      "name": "Reverse geocode (lat/lon)",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/maps/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_lat3309",
+          "name": "lat",
+          "value": "48.8584",
+          "disabled": false
+        },
+        {
+          "id": "pair_lon424",
+          "name": "lon",
+          "value": "2.2945",
+          "disabled": false
+        },
+        {
+          "id": "pair_label2604",
+          "name": "label",
+          "value": "Eiffel Tower",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -9
+    },
+    {
+      "_id": "fld_translate",
+      "_type": "request_group",
+      "parentId": "wrk_seurch",
+      "name": "Translate",
+      "description": "",
+      "environment": {},
+      "metaSortKey": -100
+    },
+    {
+      "_id": "req_tr_get",
+      "_type": "request",
+      "parentId": "fld_translate",
+      "name": "Translate (GET)",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/translate/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q6989",
+          "name": "q",
+          "value": "hello world",
+          "disabled": false
+        },
+        {
+          "id": "pair_target5323",
+          "name": "target",
+          "value": "es",
+          "disabled": false
+        },
+        {
+          "id": "pair_source8821",
+          "name": "source",
+          "value": "auto",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -10
+    },
+    {
+      "_id": "req_tr_post",
+      "_type": "request",
+      "parentId": "fld_translate",
+      "name": "Translate (POST)",
+      "description": "POST keeps long text out of the URL and logs.",
+      "method": "POST",
+      "url": "{{ _.api_base }}/translate/",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"q\": \"long text stays out of the URL\",\n  \"target\": \"fr\",\n  \"source\": \"auto\"\n}"
+      },
+      "authentication": {},
+      "metaSortKey": -9
+    },
+    {
+      "_id": "req_langs",
+      "_type": "request",
+      "parentId": "fld_translate",
+      "name": "Languages",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/translate/languages/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -8
+    },
+    {
+      "_id": "fld_knowledge",
+      "_type": "request_group",
+      "parentId": "wrk_seurch",
+      "name": "Knowledge & instant",
+      "description": "",
+      "environment": {},
+      "metaSortKey": 0
+    },
+    {
+      "_id": "req_instant",
+      "_type": "request",
+      "parentId": "fld_knowledge",
+      "name": "Instant answer",
+      "description": "Try also: '2+2', 'weather in Paris', 'sha256 hello', 'uuid'.",
+      "method": "GET",
+      "url": "{{ _.api_base }}/instant/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q8131",
+          "name": "q",
+          "value": "100 USD to EUR",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -10
+    },
+    {
+      "_id": "req_cards",
+      "_type": "request",
+      "parentId": "fld_knowledge",
+      "name": "Knowledge cards",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/cards/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q5727",
+          "name": "q",
+          "value": "inception",
+          "disabled": false
+        },
+        {
+          "id": "pair_lang8998",
+          "name": "lang",
+          "value": "en",
+          "disabled": true
+        },
+        {
+          "id": "pair_safe8698",
+          "name": "safe",
+          "value": "on",
+          "disabled": true
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -9
+    },
+    {
+      "_id": "req_suggest",
+      "_type": "request",
+      "parentId": "fld_knowledge",
+      "name": "Suggestions",
+      "description": "",
+      "method": "GET",
+      "url": "{{ _.api_base }}/suggest/",
+      "headers": [
+        {
+          "name": "Authorization",
+          "value": "Api-Key {{ _.api_key }}"
+        }
+      ],
+      "parameters": [
+        {
+          "id": "pair_q9440",
+          "name": "q",
+          "value": "pyth",
+          "disabled": false
+        }
+      ],
+      "body": {},
+      "authentication": {},
+      "metaSortKey": -8
+    }
+  ]
+}

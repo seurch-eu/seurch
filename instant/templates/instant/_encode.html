@@ -1,0 +1,25 @@
+{% load i18n %}
+<section class="ia-card" data-ia-type="encode" data-ia-encode
+         data-kind="{{ answer.kind }}" data-action="{{ answer.action }}">
+  <div class="ia-pad">
+    <div class="ia-head"><span class="ia-eyebrow">🔁 {% trans "Encode / decode" %}</span></div>
+    <div class="ia-row" style="margin-bottom:.6rem;justify-content:space-between;">
+      <div class="ia-tabs" data-ia-kind-tabs>
+        <button type="button" class="ia-tab" data-kind="url">URL</button>
+        <button type="button" class="ia-tab" data-kind="base64">Base64</button>
+      </div>
+      <div class="ia-tabs" data-ia-action-tabs>
+        <button type="button" class="ia-tab" data-action="encode">{% trans "Encode" %}</button>
+        <button type="button" class="ia-tab" data-action="decode">{% trans "Decode" %}</button>
+      </div>
+    </div>
+    <div class="ia-label">{% trans "Input" %}</div>
+    <textarea class="ia-textarea" data-ia-encode-input spellcheck="false" aria-label="{% trans "Input" %}">{{ answer.input }}</textarea>
+    <div class="ia-row" style="justify-content:space-between;margin-top:.6rem;">
+      <div class="ia-label" style="margin:0;">{% trans "Output" %}</div>
+      <button class="ia-copy" data-ia-copy-target="[data-ia-encode-output]" title="{% trans "Copy" %}" aria-label="{% trans "Copy output" %}"><i class="fa-solid fa-copy" aria-hidden="true"></i></button>
+    </div>
+    <textarea class="ia-textarea" data-ia-encode-output readonly aria-label="{% trans "Output" %}">{{ answer.output }}</textarea>
+    {% include 'instant/_nojs.html' %}
+  </div>
+</section>

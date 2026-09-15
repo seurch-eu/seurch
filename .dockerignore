@@ -1,0 +1,31 @@
+# Keep the build context (and image) free of dev/build artifacts and secrets.
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+*.egg-info/
+.ruff_cache/
+
+# Local database / collected assets (regenerated at build time)
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+
+# Secrets and local env
+.env
+.env.*
+.kamal/
+
+# Node / Tailwind toolchain, CSS is pre-compiled and committed under each
+# app's static/ directory, so the sources aren't needed in the image.
+node_modules/
+assets/
+
+# VCS, CI, docs, and container/compose files
+.git/
+.github/
+*.md
+Dockerfile
+.dockerignore
+docker-compose.yml

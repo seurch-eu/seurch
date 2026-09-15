@@ -1,0 +1,84 @@
+{% load i18n image_extras %}
+<div class="border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-xs bg-white dark:bg-slate-800" data-card>
+  {% if thetvdb_card.backdrop %}
+    <img src="{% img_src thetvdb_card.backdrop %}" alt="{{ thetvdb_card.title }}" class="w-full hidden card-open:block sm:block max-h-[200px] object-cover object-center">
+  {% elif thetvdb_card.poster %}
+    <img src="{% img_src thetvdb_card.poster %}" alt="{{ thetvdb_card.title }}" class="w-full hidden card-open:block sm:block max-h-[200px] object-cover object-top">
+  {% else %}
+    <div class="w-full h-[140px] hidden card-open:flex sm:flex items-center justify-center text-white text-5xl" style="background:linear-gradient(135deg,#14532d,#16a34a);" aria-hidden="true">🎬</div>
+  {% endif %}
+  <div class="px-4 pt-3.5 pb-1">
+    <div class="flex items-center gap-2 mb-2">
+      <span class="text-[0.7rem] font-bold uppercase tracking-widest" style="color:#16a34a;">TheTVDB</span>
+      <span class="px-1.5 py-0.5 rounded text-[0.65rem] font-semibold uppercase
+        {% if thetvdb_card.media_type == 'movie' %}bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300
+        {% else %}bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300{% endif %}">
+        {{ thetvdb_card.media_type }}
+      </span>
+      {% if thetvdb_card.status %}
+        <span class="text-[0.65rem] text-slate-400 ml-auto">{{ thetvdb_card.status }}</span>
+      {% endif %}
+    </div>
+    <div class="text-[1.15rem] font-bold mb-0.5 leading-tight">
+      {{ thetvdb_card.title }}{% if thetvdb_card.year %} <span class="text-slate-400 dark:text-slate-500 font-normal text-[0.9rem]">({{ thetvdb_card.year }})</span>{% endif %}
+    </div>
+    {% if thetvdb_card.genres %}
+      <div class="hidden card-open:flex sm:flex flex-wrap gap-1 mb-2">
+        {% for genre in thetvdb_card.genres %}
+          <span class="px-2 py-0.5 rounded-full text-[0.72rem] font-medium bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">{{ genre }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+    {% if thetvdb_card.tagline %}
+      <div class="hidden card-open:block sm:block text-[0.82rem] italic text-slate-500 dark:text-slate-400 mb-2">"{{ thetvdb_card.tagline }}"</div>
+    {% endif %}
+    {% if thetvdb_card.overview %}
+      <p class="text-[0.88rem] text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-2 card-open:line-clamp-none sm:line-clamp-4 mb-3">{{ thetvdb_card.overview }}</p>
+    {% endif %}
+    {% if thetvdb_card.crew %}
+      <div class="hidden card-open:block sm:block mb-2.5">
+        <div class="text-[0.68rem] font-bold uppercase tracking-widest text-slate-400 mb-1.5">{% trans "Director & Crew" %}</div>
+        <div class="flex flex-col gap-1">
+          {% for person in thetvdb_card.crew %}
+          <div class="flex items-center gap-2">
+            <span class="text-[0.7rem] text-slate-400 w-20 shrink-0 truncate">{{ person.job }}</span>
+            <a href="/search/?q={{ person.name|urlencode }}" class="text-[0.82rem] text-slate-700 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 hover:underline truncate">{{ person.name }}</a>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if thetvdb_card.cast %}
+    <div class="hidden card-open:block sm:block px-4 pb-3.5">
+      <div class="text-[0.68rem] font-bold uppercase tracking-widest text-slate-400 mb-2.5">{% trans "Cast" %}</div>
+      <div class="flex gap-2.5 overflow-x-auto pb-1 -mx-4 px-4" style="scrollbar-width:thin;">
+        {% for person in thetvdb_card.cast %}
+        <a href="/search/?q={{ person.name|urlencode }}" class="flex flex-col shrink-0 w-[52px] group">
+          <div class="relative w-[52px] h-[70px] rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-700 ring-2 ring-transparent group-hover:ring-indigo-400 transition-all duration-200">
+            {% if person.profile %}
+              <img src="{% img_src person.profile %}" alt="{{ person.name }}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200">
+            {% else %}
+              <div class="w-full h-full flex items-center justify-center text-slate-400 dark:text-slate-300 text-lg font-bold">{{ person.name|first }}</div>
+            {% endif %}
+          </div>
+          <div class="mt-1.5">
+            <div class="text-[0.66rem] font-medium text-slate-700 dark:text-slate-200 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 leading-tight line-clamp-2 transition-colors">{{ person.name }}</div>
+            {% if person.character %}
+              <div class="text-[0.61rem] text-slate-400 dark:text-slate-500 leading-tight line-clamp-1 mt-0.5">{{ person.character }}</div>
+            {% endif %}
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+  {# TheTVDB's API terms require attribution with a direct link to TheTVDB.com wherever its metadata reaches end users. #}
+  <div class="px-4 py-2.5 border-t border-slate-100 dark:border-slate-800 flex items-start justify-between gap-3">
+    <div>
+      <a href="{{ thetvdb_card.url }}" target="_blank" rel="noopener noreferrer" class="text-[0.82rem] font-medium hover:underline" style="color:#16a34a;">{% trans "View on TheTVDB" %} →</a>
+      <div class="text-[0.68rem] text-slate-400 mt-1">{% trans "Metadata provided by" %} <a href="https://thetvdb.com" target="_blank" rel="noopener noreferrer" class="hover:underline" style="color:#16a34a;">TheTVDB.com</a></div>
+    </div>
+    {% include 'cards/_expand.html' %}
+  </div>
+</div>

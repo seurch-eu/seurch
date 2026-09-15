@@ -1,0 +1,35 @@
+{% extends "search/page_base.html" %}
+{% load i18n %}
+
+{% block title %}{% trans "API - Seurch" %}{% endblock %}
+{% block page_kicker %}{% trans "API" %}{% endblock %}
+{% block page_heading %}{% trans "Developer API" %}{% endblock %}
+{% block page_lead %}{% trans "Search Seurch from your own programs." %}{% endblock %}
+
+{% block page_content %}
+
+  {% if not public_api_enabled %}
+  <section class="mb-2 p-4 rounded-md bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800">
+    <p class="text-[0.88rem] text-amber-800 dark:text-amber-300 leading-snug">{% trans "The public JSON API is disabled on this instance, only the OpenSearch browser integration below is available." %}</p>
+  </section>
+  {% endif %}
+
+  <section class="flex flex-col gap-3">
+    <p>{% blocktrans trimmed %}Seurch offers a JSON API, authenticated with a per-user API key, that exposes every search feature. Full documentation (authentication, endpoints, parameters and examples) lives on the documentation site:{% endblocktrans %}</p>
+    {% if public_api_enabled %}
+    <div>
+      <a href="https://docs.seurch.eu" rel="noopener" class="inline-flex items-center gap-1.5 px-4 py-2 rounded-md text-[0.85rem] font-semibold bg-indigo-600 hover:bg-indigo-700 text-white transition-colors">{% trans "Read the API documentation." %}</a>
+    </div>
+    <p>{% blocktrans trimmed %}Create and manage your API keys under <a href="{{ create_key_url }}" class="text-indigo-600 dark:text-indigo-400 hover:underline">Settings → API keys</a>.{% endblocktrans %}</p>
+    {% endif %}
+  </section>
+
+  <section class="flex flex-col gap-2.5">
+    <h2 class="text-[1.05rem] font-bold text-slate-900 dark:text-white">{% trans "Browser integration" %}</h2>
+    <p>{% blocktrans trimmed %}Seurch also publishes an OpenSearch description, so you can add it as a search engine in your browser. Most browsers offer it automatically once you've visited; you can also open the description document directly:{% endblocktrans %}</p>
+    <code class="block rounded-lg bg-slate-100 dark:bg-slate-800 px-3.5 py-2.5 font-mono text-[0.85rem] text-slate-800 dark:text-slate-200 overflow-x-auto break-all">{{ opensearch_url }}</code>
+    <p>{% blocktrans trimmed %}The same standard powers search suggestions, returned as JSON for autocomplete:{% endblocktrans %}</p>
+    <code class="block rounded-lg bg-slate-100 dark:bg-slate-800 px-3.5 py-2.5 font-mono text-[0.85rem] text-slate-800 dark:text-slate-200 overflow-x-auto break-all">{{ suggest_url }}?q=hello</code>
+  </section>
+
+{% endblock %}

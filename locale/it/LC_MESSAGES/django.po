@@ -1,0 +1,2006 @@
+# Italian translation for Seurch
+# Copyright (C) 2024 Seurch
+msgid ""
+msgstr ""
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-06-29 11:03+0000\n"
+"Language: it\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Sign in - Seurch"
+msgstr "Accedi - Seurch"
+
+msgid "Interface language"
+msgstr "Lingua dell'interfaccia"
+
+msgid "Go"
+msgstr ""
+
+msgid "Toggle dark mode"
+msgstr "Attiva/disattiva modalità scura"
+
+msgid "Sign In"
+msgstr "Accedi"
+
+msgid "Create Account"
+msgstr "Crea account"
+
+msgid "Username"
+msgstr "Nome utente"
+
+msgid "Password"
+msgstr "Password"
+
+msgid "Forgot your password?"
+msgstr "Hai dimenticato la password?"
+
+msgid "Invite only"
+msgstr "Solo su invito"
+
+msgid "Seurch is currently available by invitation only."
+msgstr "Seurch è attualmente disponibile solo su invito."
+
+msgid "Contact an administrator to request access."
+msgstr "Contatta un amministratore per richiedere l'accesso."
+
+msgid "Seurch - Privacy-first European search."
+msgstr "Seurch - Motore di ricerca europeo incentrato sulla privacy."
+
+msgid "Your data is never sold or used for advertising."
+msgstr "I tuoi dati non vengono mai venduti né utilizzati per la pubblicità."
+
+msgid "Back to Seurch"
+msgstr "Torna a Seurch"
+
+msgid "Change password - Seurch"
+msgstr "Cambia password - Seurch"
+
+msgid "Change password"
+msgstr "Cambia password"
+
+msgid "Enter your current password, then choose a new one."
+msgstr "Inserisci la tua password attuale, poi scegline una nuova."
+
+msgid "Current password"
+msgstr "Password attuale"
+
+msgid "New password"
+msgstr "Nuova password"
+
+msgid "Confirm new password"
+msgstr "Conferma nuova password"
+
+msgid "Update password"
+msgstr "Aggiorna password"
+
+msgid "Back to settings"
+msgstr "Torna alle impostazioni"
+
+msgid "Reset password - Seurch"
+msgstr "Reimposta password - Seurch"
+
+msgid "Reset your password"
+msgstr "Reimposta la tua password"
+
+msgid ""
+"Enter the email address linked to your account and we'll send you a reset "
+"link."
+msgstr ""
+"Inserisci l'indirizzo email collegato al tuo account e ti invieremo un link "
+"per reimpostare la password."
+
+msgid "Email address"
+msgstr "Indirizzo email"
+
+msgid "Send reset link"
+msgstr "Invia link di reimpostazione"
+
+msgid "Back to sign in"
+msgstr "Torna all'accesso"
+
+msgid "Password reset complete - Seurch"
+msgstr "Reimpostazione password completata - Seurch"
+
+msgid "Password updated!"
+msgstr "Password aggiornata!"
+
+msgid ""
+"Your password has been set successfully. You can now sign in with your new "
+"password."
+msgstr ""
+"La tua password è stata impostata con successo. Ora puoi accedere con la tua "
+"nuova password."
+
+msgid "Sign in"
+msgstr "Accedi"
+
+msgid "Set new password - Seurch"
+msgstr "Imposta nuova password - Seurch"
+
+msgid "Set a new password"
+msgstr "Imposta una nuova password"
+
+msgid "Choose a strong password you haven't used before."
+msgstr "Scegli una password complessa che non hai mai usato prima."
+
+msgid "Confirm password"
+msgstr "Conferma password"
+
+msgid "Set new password"
+msgstr "Imposta nuova password"
+
+msgid "Link expired or invalid"
+msgstr "Link scaduto o non valido"
+
+msgid ""
+"This password reset link is no longer valid. Links expire after 1 hour and "
+"can only be used once."
+msgstr ""
+"Questo link di reimpostazione della password non è più valido. I link "
+"scadono dopo 1 ora e possono essere usati una sola volta."
+
+msgid "Request a new link"
+msgstr "Richiedi un nuovo link"
+
+msgid "Check your email - Seurch"
+msgstr "Controlla la tua email - Seurch"
+
+msgid "Check your email"
+msgstr "Controlla la tua email"
+
+msgid ""
+"If that email address is registered, we've sent a password reset link. The "
+"link expires in <strong class=\"text-slate-600 dark:text-slate-300\">1 hour</"
+"strong>."
+msgstr ""
+"Se quell'indirizzo email è registrato, abbiamo inviato un link per "
+"reimpostare la password. Il link scade tra <strong class=\"text-slate-600 "
+"dark:text-slate-300\">1 ora</strong>."
+
+msgid "Too many failed sign-in attempts. Please try again later."
+msgstr "Troppi tentativi di accesso falliti. Riprova più tardi."
+
+#, python-format
+msgid ""
+"Didn't receive it? Check your spam folder or <a href=\"%(reset_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">try again</a>."
+msgstr ""
+"Non l'hai ricevuta? Controlla la cartella spam oppure <a "
+"href=\"%(reset_url)s\" class=\"text-indigo-600 dark:text-indigo-400 hover:"
+"underline\">riprova</a>."
+
+msgid "Reset your Seurch password"
+msgstr "Reimposta la tua password Seurch"
+
+#, python-format
+msgid "Hi %(username)s,"
+msgstr "Ciao %(username)s,"
+
+msgid ""
+"You requested a password reset for your Seurch account. Click the button "
+"below to choose a new password. This link is valid for <strong>1 hour</"
+"strong> and can only be used once."
+msgstr ""
+"Hai richiesto la reimpostazione della password per il tuo account Seurch. "
+"Fai clic sul pulsante qui sotto per scegliere una nuova password. Questo "
+"link è valido per <strong>1 ora</strong> e può essere usato una sola volta."
+
+msgid "Reset password"
+msgstr "Reimposta password"
+
+msgid "If the button doesn't work, copy and paste this link into your browser:"
+msgstr ""
+"Se il pulsante non funziona, copia e incolla questo link nel tuo browser:"
+
+msgid ""
+"If you didn't request a password reset, you can safely ignore this email, "
+"your password won't change."
+msgstr ""
+"Se non hai richiesto la reimpostazione della password, puoi ignorare questa "
+"email in tutta sicurezza: la tua password non cambierà."
+
+#, python-format
+msgid ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"vote"
+msgid_plural ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"votes"
+msgstr[0] ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"voto"
+msgstr[1] ""
+"<strong class=\"text-slate-700 dark:text-slate-300\">%(counter)s</strong> "
+"voti"
+
+#, python-format
+msgid "<strong>%(counter)s</strong> answer"
+msgid_plural "<strong>%(counter)s</strong> answers"
+msgstr[0] "<strong>%(counter)s</strong> risposta"
+msgstr[1] "<strong>%(counter)s</strong> risposte"
+
+#, python-format
+msgid "%(counter)s view"
+msgid_plural "%(counter)s views"
+msgstr[0] "%(counter)s visualizzazione"
+msgstr[1] "%(counter)s visualizzazioni"
+
+msgid "Accepted Answer"
+msgstr "Risposta accettata"
+
+msgid "Top Answer"
+msgstr "Risposta migliore"
+
+#, python-format
+msgid "%(counter)s vote"
+msgid_plural "%(counter)s votes"
+msgstr[0] "%(counter)s voto"
+msgstr[1] "%(counter)s voti"
+
+msgid "Read more"
+msgstr "Leggi di più"
+
+msgid "Question tags"
+msgstr "Tag della domanda"
+
+#, python-format
+msgid "View on %(site)s"
+msgstr "Vedi su %(site)s"
+
+msgid "Show more"
+msgstr "Mostra di più"
+
+msgid "Show less"
+msgstr "Mostra meno"
+
+msgid "Director & Crew"
+msgstr "Regista e troupe"
+
+msgid "Cast"
+msgstr "Cast"
+
+msgid "View on TheTVDB"
+msgstr "Vedi su TheTVDB"
+
+msgid "Metadata provided by"
+msgstr "Metadati forniti da"
+
+#, python-format
+msgid "Rating: %(rating)s out of 5"
+msgstr "Valutazione: %(rating)s su 5"
+
+#, python-format
+msgid "%(counter)s review"
+msgid_plural "%(counter)s reviews"
+msgstr[0] "%(counter)s recensione"
+msgstr[1] "%(counter)s recensioni"
+
+msgid "View on map"
+msgstr "Vedi sulla mappa"
+
+msgid "View on TripAdvisor"
+msgstr "Vedi su TripAdvisor"
+
+msgid "Read on Wikipedia"
+msgstr "Leggi su Wikipedia"
+
+msgid "English"
+msgstr "Inglese"
+
+msgid "French"
+msgstr "Francese"
+
+msgid "German"
+msgstr "Tedesco"
+
+msgid "Spanish"
+msgstr "Spagnolo"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Portuguese"
+msgstr "Portoghese"
+
+msgid "Dutch"
+msgstr "Olandese"
+
+msgid ""
+"No image provider configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">PIXABAY_API_KEY</code> in <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Nessun provider di immagini configurato. Imposta <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code> o <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">PIXABAY_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+
+msgid "Search for images"
+msgstr "Cerca immagini"
+
+msgid "Type a query above and matching images appear here."
+msgstr ""
+"Inserisci una query qui sopra e qui appariranno le immagini corrispondenti."
+
+msgid "No images found"
+msgstr "Nessuna immagine trovata"
+
+msgid "Image results"
+msgstr "Risultati immagini"
+
+# Image lightbox / similar-image suggestions
+msgid "Close"
+msgstr "Chiudi"
+
+msgid "Visit page"
+msgstr "Visita la pagina"
+
+msgid "Open image"
+msgstr "Apri immagine"
+
+msgid "Similar images"
+msgstr "Immagini simili"
+
+msgid "See all results"
+msgstr "Vedi tutti i risultati"
+
+msgid "Finding similar images…"
+msgstr "Ricerca di immagini simili…"
+
+msgid "No similar images found."
+msgstr "Nessuna immagine simile trovata."
+
+msgid "Back to results"
+msgstr "Torna ai risultati"
+
+msgid "Clear sky"
+msgstr "Cielo sereno"
+
+msgid "Mainly clear"
+msgstr "Prevalentemente sereno"
+
+msgid "Partly cloudy"
+msgstr "Parzialmente nuvoloso"
+
+msgid "Overcast"
+msgstr "Coperto"
+
+msgid "Fog"
+msgstr "Nebbia"
+
+msgid "Depositing rime fog"
+msgstr "Nebbia con galaverna"
+
+msgid "Light drizzle"
+msgstr "Pioggerella leggera"
+
+msgid "Moderate drizzle"
+msgstr "Pioggerella moderata"
+
+msgid "Dense drizzle"
+msgstr "Pioggerella intensa"
+
+msgid "Light freezing drizzle"
+msgstr "Pioggerella gelata leggera"
+
+msgid "Dense freezing drizzle"
+msgstr "Pioggerella gelata intensa"
+
+msgid "Slight rain"
+msgstr "Pioggia debole"
+
+msgid "Moderate rain"
+msgstr "Pioggia moderata"
+
+msgid "Heavy rain"
+msgstr "Pioggia forte"
+
+msgid "Light freezing rain"
+msgstr "Pioggia gelata leggera"
+
+msgid "Heavy freezing rain"
+msgstr "Pioggia gelata forte"
+
+msgid "Slight snow"
+msgstr "Neve debole"
+
+msgid "Moderate snow"
+msgstr "Neve moderata"
+
+msgid "Heavy snow"
+msgstr "Neve forte"
+
+msgid "Snow grains"
+msgstr "Granuli di neve"
+
+msgid "Slight rain showers"
+msgstr "Rovesci di pioggia leggeri"
+
+msgid "Moderate rain showers"
+msgstr "Rovesci di pioggia moderati"
+
+msgid "Violent rain showers"
+msgstr "Rovesci di pioggia violenti"
+
+msgid "Slight snow showers"
+msgstr "Rovesci di neve leggeri"
+
+msgid "Heavy snow showers"
+msgstr "Rovesci di neve forti"
+
+msgid "Thunderstorm"
+msgstr "Temporale"
+
+msgid "Thunderstorm with slight hail"
+msgstr "Temporale con leggera grandine"
+
+msgid "Thunderstorm with heavy hail"
+msgstr "Temporale con forte grandine"
+
+msgid "Unknown"
+msgstr "Sconosciuto"
+
+msgid "Base converter"
+msgstr "Convertitore di base"
+
+msgid "Value"
+msgstr "Valore"
+
+msgid "Input base"
+msgstr "Base di input"
+
+msgid "Decimal"
+msgstr "Decimale"
+
+msgid "Hex"
+msgstr "Esa"
+
+msgid "Binary"
+msgstr "Binario"
+
+msgid "Octal"
+msgstr "Ottale"
+
+msgid "Coin flip"
+msgstr "Testa o croce"
+
+msgid "Flip again"
+msgstr "Lancia di nuovo"
+
+msgid "Colour"
+msgstr "Colore"
+
+msgid "Pick colour"
+msgstr "Scegli colore"
+
+msgid "Hex value"
+msgstr "Valore esadecimale"
+
+msgid "RGB value"
+msgstr "Valore RGB"
+
+msgid "HSL value"
+msgstr "Valore HSL"
+
+msgid "Copy"
+msgstr "Copia"
+
+msgid "Currency"
+msgstr "Valuta"
+
+msgid "Cached rate"
+msgstr "Tasso memorizzato"
+
+msgid "Amount"
+msgstr "Importo"
+
+msgid "From currency"
+msgstr "Valuta di partenza"
+
+msgid "Swap"
+msgstr "Scambia"
+
+msgid "Swap currencies"
+msgstr "Scambia valute"
+
+msgid "Converted amount"
+msgstr "Importo convertito"
+
+msgid "To currency"
+msgstr "Valuta di destinazione"
+
+msgid "Dice roll"
+msgstr "Lancio di dadi"
+
+msgid "Total:"
+msgstr "Totale:"
+
+msgid "Roll again"
+msgstr "Lancia di nuovo"
+
+msgid "Encode / decode"
+msgstr "Codifica / decodifica"
+
+msgid "Encode"
+msgstr "Codifica"
+
+msgid "Decode"
+msgstr "Decodifica"
+
+msgid "Input"
+msgstr "Input"
+
+msgid "Output"
+msgstr "Output"
+
+msgid "Copy output"
+msgstr "Copia output"
+
+msgid "Hash generator"
+msgstr "Generatore di hash"
+
+msgid "Text to hash"
+msgstr "Testo da hashare"
+
+msgid "HTTP status"
+msgstr "Stato HTTP"
+
+msgid "Info"
+msgstr "Info"
+
+msgid "Success"
+msgstr "Successo"
+
+msgid "Redirect"
+msgstr "Reindirizzamento"
+
+msgid "Error"
+msgstr "Errore"
+
+msgid "Your IP address"
+msgstr "Il tuo indirizzo IP"
+
+msgid "Copy IP"
+msgstr "Copia l'IP"
+
+msgid ""
+"This is a private/local address, behind a proxy your public IP may differ."
+msgstr ""
+"Questo è un indirizzo privato/locale: dietro un proxy il tuo IP pubblico "
+"potrebbe essere diverso."
+
+msgid "User agent"
+msgstr "User agent"
+
+msgid "JSON formatter"
+msgstr "Formattatore JSON"
+
+msgid "Paste JSON here, e.g. {\"hello\": \"world\"}"
+msgstr "Incolla qui il JSON, es. {\"hello\": \"world\"}"
+
+msgid "JSON input"
+msgstr "Input JSON"
+
+msgid "Beautify"
+msgstr "Abbellisci"
+
+msgid "Minify"
+msgstr "Minimizza"
+
+msgid "Formatted JSON"
+msgstr "JSON formattato"
+
+#, python-format
+msgid "Open map for %(name)s"
+msgstr "Apri la mappa per %(name)s"
+
+#, python-format
+msgid "Map of %(name)s"
+msgstr "Mappa di %(name)s"
+
+msgid "World map"
+msgstr "Mappa del mondo"
+
+msgid "Maps"
+msgstr "Mappe"
+
+msgid "Open in Maps"
+msgstr "Apri in Mappe"
+
+msgid "Calculator"
+msgstr "Calcolatrice"
+
+msgid "Copy result"
+msgstr "Copia risultato"
+
+msgid "You need to enable JavaScript to use this tool."
+msgstr ""
+
+msgid "Password generator"
+msgstr "Generatore di password"
+
+msgid "Copy password"
+msgstr "Copia password"
+
+msgid "Generate new"
+msgstr "Genera nuovo"
+
+msgid "Length"
+msgstr "Lunghezza"
+
+msgid ""
+"Generated in your browser with a cryptographic RNG, never sent anywhere."
+msgstr ""
+"Generata nel tuo browser con un generatore casuale crittografico: non viene "
+"mai inviata da nessuna parte."
+
+msgid "Network port"
+msgstr "Porta di rete"
+
+msgid ""
+"Not a well-known / registered port. Valid range is 0–65535; ports above 1023 "
+"are commonly used by user applications."
+msgstr ""
+"Non è una porta nota / registrata. L'intervallo valido è 0–65535; le porte "
+"superiori a 1023 sono comunemente usate dalle applicazioni utente."
+
+msgid "QR code"
+msgstr "Codice QR"
+
+msgid "QR content"
+msgstr "Contenuto del QR"
+
+msgid "Download SVG"
+msgstr "Scarica SVG"
+
+msgid "Generated locally, nothing is sent to a third party."
+msgstr "Generato localmente: nulla viene inviato a terzi."
+
+msgid "Random number"
+msgstr "Numero casuale"
+
+msgid "Generate"
+msgstr "Genera"
+
+msgid "Minimum"
+msgstr "Minimo"
+
+msgid "to"
+msgstr "a"
+
+msgid "Maximum"
+msgstr "Massimo"
+
+msgid "Regex tester"
+msgstr "Tester di regex"
+
+msgid "Pattern"
+msgstr "Pattern"
+
+msgid "global"
+msgstr "globale"
+
+msgid "ignore case"
+msgstr "ignora maiuscole"
+
+msgid "multiline"
+msgstr "multilinea"
+
+msgid "dotall"
+msgstr "dotall"
+
+msgid "Test string"
+msgstr "Stringa di test"
+
+msgid "Text to match against…"
+msgstr "Testo da confrontare…"
+
+msgid "Matches"
+msgstr "Corrispondenze"
+
+msgid "Timer"
+msgstr "Timer"
+
+msgid "Stopwatch"
+msgstr "Cronometro"
+
+msgid "Start"
+msgstr "Avvia"
+
+msgid "Pause"
+msgstr "Pausa"
+
+msgid "Reset"
+msgstr "Reimposta"
+
+msgid "Unix timestamp"
+msgstr "Timestamp Unix"
+
+msgid "seconds since 1970-01-01 UTC"
+msgstr "secondi dal 1970-01-01 UTC"
+
+msgid "Current Unix time"
+msgstr "Ora Unix attuale"
+
+msgid "Timestamp → date"
+msgstr "Timestamp → data"
+
+msgid "Epoch value"
+msgstr "Valore epoch"
+
+msgid "Local"
+msgstr "Locale"
+
+msgid "Relative"
+msgstr "Relativo"
+
+msgid "Date → timestamp"
+msgstr "Data → timestamp"
+
+msgid "Date"
+msgstr "Data"
+
+msgid "Resulting epoch"
+msgstr "Epoch risultante"
+
+#, python-format
+msgid "%(cat)s converter"
+msgstr "Convertitore di %(cat)s"
+
+msgid "From value"
+msgstr "Valore di partenza"
+
+msgid "From unit"
+msgstr "Unità di partenza"
+
+msgid "To value"
+msgstr "Valore di destinazione"
+
+msgid "To unit"
+msgstr "Unità di destinazione"
+
+msgid "UUID generator"
+msgstr "Generatore UUID"
+
+msgid "random"
+msgstr "casuale"
+
+msgid "New"
+msgstr "Nuovo"
+
+msgid "More"
+msgstr "Altro"
+
+msgid "Weather"
+msgstr "Meteo"
+
+#, python-format
+msgid "Feels like %(t)s°C"
+msgstr "Percepiti %(t)s°C"
+
+#, python-format
+msgid "Humidity %(h)s%%"
+msgstr "Umidità %(h)s%%"
+
+#, python-format
+msgid "Wind %(w)s km/h"
+msgstr "Vento %(w)s km/h"
+
+msgid "7-day forecast"
+msgstr "Previsioni a 7 giorni"
+
+msgid "Today"
+msgstr "Oggi"
+
+#, python-format
+msgid "Time in %(place)s"
+msgstr "Ora a %(place)s"
+
+msgid "Weight"
+msgstr "Peso"
+
+msgid "Temperature"
+msgstr "Temperatura"
+
+msgid "Volume"
+msgstr "Volume"
+
+msgid "Area"
+msgstr "Area"
+
+msgid "Speed"
+msgstr "Velocità"
+
+msgid "Data"
+msgstr "Dati"
+
+msgid "Time"
+msgstr "Tempo"
+
+msgid "Explore the map"
+msgstr "Esplora la mappa"
+
+msgid "Search for a place or address and it'll appear here on OpenStreetMap."
+msgstr "Cerca un luogo o un indirizzo e apparirà qui su OpenStreetMap."
+
+msgid "No places found"
+msgstr "Nessun luogo trovato"
+
+#, python-format
+msgid ""
+"We couldn't locate <strong>\"%(query)s\"</strong> on the map. Try a more "
+"specific address or place name."
+msgstr ""
+"Non siamo riusciti a localizzare <strong>«%(query)s»</strong> sulla mappa. "
+"Prova con un indirizzo o un nome di luogo più specifico."
+
+msgid "Map results"
+msgstr "Risultati mappa"
+
+msgid "Places"
+msgstr "Luoghi"
+
+#, python-format
+msgid "%(counter)s result · OpenStreetMap"
+msgid_plural "%(counter)s results · OpenStreetMap"
+msgstr[0] "%(counter)s risultato · OpenStreetMap"
+msgstr[1] "%(counter)s risultati · OpenStreetMap"
+
+msgid "Matching places"
+msgstr "Luoghi corrispondenti"
+
+msgid ""
+"You need to enable JavaScript to view the interactive map. Use the Larger "
+"map link to open it on OpenStreetMap."
+msgstr ""
+
+msgid "Directions"
+msgstr "Indicazioni"
+
+msgid "Larger map"
+msgstr "Mappa più grande"
+
+msgid ""
+"No news provider configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">WORLDNEWS_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Nessun provider di notizie configurato. Imposta <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code> o <code class=\"bg-"
+"slate-100 dark:bg-slate-800 px-1 rounded\">WORLDNEWS_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+
+msgid "Search the news"
+msgstr "Cerca tra le notizie"
+
+msgid "Type a query above and the latest articles appear here."
+msgstr ""
+"Inserisci una query qui sopra e qui appariranno gli articoli più recenti."
+
+msgid "No news found"
+msgstr "Nessuna notizia trovata"
+
+msgid "News results"
+msgstr "Risultati notizie"
+
+#, python-format
+msgid "Source: %(source)s"
+msgstr "Fonte: %(source)s"
+
+msgid "Search engines"
+msgstr "Motori di ricerca"
+
+msgid "Media & news"
+msgstr "Media e notizie"
+
+msgid "Knowledge panels"
+msgstr "Pannelli di conoscenza"
+
+msgid "Instant answers"
+msgstr "Risposte istantanee"
+
+msgid "Translation"
+msgstr "Traduzione"
+
+msgid ""
+"Privacy-focused engine with its own index. Also powers search-bar "
+"autocomplete."
+msgstr ""
+"Motore attento alla privacy con indice proprio. Alimenta anche il "
+"completamento automatico della barra di ricerca."
+
+msgid "Independent engine with its own index. Web search only."
+msgstr "Motore indipendente con indice proprio. Solo ricerca web."
+
+msgid "Non-commercial, small-web focused index. Web search only."
+msgstr "Indice non commerciale focalizzato sul piccolo web. Solo ricerca web."
+
+msgid "European index built by Qwant and Ecosia. Web search only."
+msgstr "Indice europeo realizzato da Qwant ed Ecosia. Solo ricerca web."
+
+msgid "Wikipedia"
+msgstr "Wikipedia"
+
+msgid "Encyclopedia summary panel beside web results."
+msgstr "Pannello di riepilogo enciclopedico accanto ai risultati web."
+
+msgid "TheTVDB"
+msgstr "TheTVDB"
+
+msgid "Film and TV-show panel."
+msgstr "Pannello di film e serie TV."
+
+msgid "TripAdvisor"
+msgstr "TripAdvisor"
+
+msgid "Restaurant, hotel and attraction panel."
+msgstr "Pannello di ristoranti, hotel e attrazioni."
+
+msgid "Stack Exchange"
+msgstr "Stack Exchange"
+
+msgid "Top question-and-answer panel."
+msgstr "Pannello delle migliori domande e risposte."
+
+msgid "Open-Meteo"
+msgstr "Open-Meteo"
+
+msgid "Weather instant answer."
+msgstr "Risposta immediata sul meteo."
+
+msgid "Pixabay"
+msgstr "Pixabay"
+
+msgid "Royalty-free photos blended into the Images tab."
+msgstr "Foto royalty-free integrate nella scheda Immagini."
+
+msgid "Translate"
+msgstr "Traduci"
+
+msgid "Text translation tab powered by LibreTranslate."
+msgstr "Scheda di traduzione del testo basata su LibreTranslate."
+
+msgid "Sepia"
+msgstr "Sepia"
+
+msgid "PeerTube-based video search blended into the Videos tab."
+msgstr "Ricerca video basata su PeerTube integrata nella scheda Video."
+
+msgid "World News API"
+msgstr "World News API"
+
+msgid "News articles blended into the News tab."
+msgstr "Articoli di notizie integrati nella scheda Notizie."
+
+msgid "OpenStreetMap"
+msgstr "OpenStreetMap"
+
+msgid "Maps and place search in the Maps tab."
+msgstr "Mappe e ricerca di luoghi nella scheda Mappe."
+
+msgid "Translation server not configured"
+msgstr "Server di traduzione non configurato"
+
+msgid "API key not configured"
+msgstr "Chiave API non configurata"
+
+msgid "Engine status"
+msgstr "Stato dei motori"
+
+msgid "About"
+msgstr "Informazioni"
+
+msgid "API"
+msgstr "API"
+
+msgid "Settings"
+msgstr "Impostazioni"
+
+msgid "Pagination"
+msgstr "Impaginazione"
+
+msgid "Previous"
+msgstr "Precedente"
+
+#, python-format
+msgid "Page %(page)s"
+msgstr "Pagina %(page)s"
+
+msgid "Next"
+msgstr "Successivo"
+
+# --- Footer info & legal pages (about, privacy, terms, api, legal) ---
+msgid "About - Seurch"
+msgstr "Informazioni - Seurch"
+
+msgid "About Seurch"
+msgstr "Informazioni su Seurch"
+
+msgid "One search. Multiple sources."
+msgstr "Una ricerca. Più fonti."
+
+msgid ""
+"Seurch is a privacy-first metasearch engine. It queries several independent "
+"providers at once and blends their results into one unbiased list, so you "
+"get broad coverage without handing your search history to a single company."
+msgstr ""
+"Seurch è un metamotore di ricerca attento alla privacy. Interroga più "
+"fornitori indipendenti contemporaneamente e unisce i loro risultati in "
+"un'unica lista imparziale, così ottieni un'ampia copertura senza affidare la "
+"cronologia delle ricerche a una sola azienda."
+
+msgid ""
+"Web results come from Brave, Mojeek, Marginalia and Staan, while richer "
+"answers draw on Wikipedia, Stack Exchange, OpenStreetMap and other open "
+"sources. You decide which to use from your settings."
+msgstr ""
+"I risultati web provengono da Brave, Mojeek, Marginalia e Staan, mentre le "
+"risposte più ricche si basano su Wikipedia, Stack Exchange, OpenStreetMap e "
+"altre fonti aperte. Sei tu a decidere quali usare dalle impostazioni."
+
+msgid ""
+"Seurch is built in Europe and is still in alpha, so expect the occasional "
+"rough edge as it grows. Thanks for trying it early."
+msgstr ""
+"Seurch è sviluppato in Europa ed è ancora in fase alfa, quindi è normale "
+"trovare qualche imperfezione man mano che cresce. Grazie per averlo provato "
+"in anticipo."
+
+msgid ""
+"Everyday utility queries are answered right at the top of the web results, "
+"most computed on the spot, with no third party involved. A few of the things "
+"you can type:"
+msgstr ""
+"Le richieste di utilità quotidiane ricevono risposta direttamente in cima ai "
+"risultati web, la maggior parte calcolate sul momento, senza alcun "
+"intermediario. Ecco alcune delle cose che puoi digitare:"
+
+msgid "Unit conversion"
+msgstr "Conversione di unità"
+
+msgid "World clock"
+msgstr "Orologio mondiale"
+
+msgid "Base conversion"
+msgstr "Conversione di base"
+
+msgid "Hash &amp; UUID"
+msgstr "Hash e UUID"
+
+msgid "Encode &amp; decode"
+msgstr "Codifica e decodifica"
+
+msgid "JSON &amp; Regex"
+msgstr "JSON e Regex"
+
+msgid "Unix time"
+msgstr "Tempo Unix"
+
+msgid "HTTP &amp; ports"
+msgstr "HTTP e porte"
+
+msgid "Randomisers"
+msgstr "Generatori casuali"
+
+msgid "What's my IP"
+msgstr "Il mio IP"
+
+msgid ""
+"Triggers are multilingual, they also fire in French, German, Spanish, "
+"Italian, Portuguese and Dutch (try <code>météo à Paris</code> or <code>255 "
+"en binaire</code>)."
+msgstr ""
+"Gli attivatori sono multilingue, funzionano anche in francese, tedesco, "
+"spagnolo, italiano, portoghese e olandese (prova <code>météo à Paris</code> "
+"o <code>255 en binaire</code>)."
+
+msgid "Bangs"
+msgstr "Bangs"
+
+#, fuzzy
+#| msgid ""
+#| "Bangs send your query straight to another site. Begin a search with a "
+#| "bang - <code>!w</code> for Wikipedia, <code>!gh</code> for GitHub, <code>!"
+#| "yt</code> for YouTube, and Seurch hands the rest of the query to that "
+#| "site."
+msgid ""
+"Bangs send your query straight to another site. Begin a search with a bang, "
+"<code>!w</code> for Wikipedia, <code>!gh</code> for GitHub, <code>!yt</code> "
+"for YouTube, and Seurch hands the rest of the query to that site."
+msgstr ""
+"I bang inviano la tua richiesta direttamente a un altro sito. Inizia una "
+"ricerca con un bang, <code>!w</code> per Wikipedia, <code>!gh</code> per "
+"GitHub, <code>!yt</code> per YouTube, e Seurch inoltra il resto della "
+"richiesta a quel sito."
+
+msgid "Built in, switch tab without leaving Seurch"
+msgstr "Integrati, cambia scheda senza lasciare Seurch"
+
+#, python-format
+msgid ""
+"Plus <strong>%(bang_count_display)s</strong> shortcuts to external sites, "
+"from the community bang list. Too many to list, search them here:"
+msgstr ""
+"Più <strong>%(bang_count_display)s</strong> scorciatoie verso siti esterni, "
+"dall'elenco di bang della community. Troppe da elencare, cercale qui:"
+
+msgid "Thousands more shortcuts route to external sites. Search them here:"
+msgstr "Migliaia di altre scorciatoie portano a siti esterni. Cercale qui:"
+
+msgid "Search bangs"
+msgstr "Cerca bang"
+
+msgid "Search bangs, e.g. wikipedia, github, !yt"
+msgstr "Cerca bang, es. wikipedia, github, !yt"
+
+msgid "Search"
+msgstr "Ricerca"
+
+#, python-format
+msgid "No bangs match “%(bang_query)s”."
+msgstr "Nessun bang corrisponde a «%(bang_query)s»."
+
+#, python-format
+msgid ""
+"Showing %(shown)s of %(total)s matches, refine your search to narrow it down."
+msgstr ""
+"Visualizzazione di %(shown)s corrispondenze su %(total)s, affina la ricerca "
+"per restringerla."
+
+#, python-format
+msgid "%(counter)s match."
+msgid_plural "%(counter)s matches."
+msgstr[0] "%(counter)s corrispondenza."
+msgstr[1] "%(counter)s corrispondenze."
+
+msgid "custom"
+msgstr "personalizzato"
+
+#, python-format
+msgid ""
+"Want a shortcut that isn't here? Add your own in <a class=\"text-indigo-600 "
+"dark:text-indigo-400 hover:underline\" href=\"%(settings_url)s\">your settings</a>."
+msgstr ""
+"Vuoi una scorciatoia che non è presente qui? Aggiungi la tua nelle <a "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\" "
+"href=\"%(settings_url)s\">tue impostazioni</a>."
+
+msgid "API - Seurch"
+msgstr "API - Seurch"
+
+msgid "Developer API"
+msgstr "API per sviluppatori"
+
+# --- Public API ---
+msgid "Search Seurch from your own programs."
+msgstr "Cerca su Seurch dai tuoi programmi."
+
+msgid ""
+"Seurch offers a JSON API, authenticated with a per-user API key, that "
+"exposes every search feature. Full documentation (authentication, endpoints, "
+"parameters and examples) lives on the documentation site:"
+msgstr ""
+"Seurch offre un'API JSON, autenticata con una chiave API per utente, che "
+"espone tutte le funzionalità di ricerca. La documentazione completa "
+"(autenticazione, endpoint, parametri ed esempi) si trova sul sito di "
+"documentazione:"
+
+msgid "Read the API documentation."
+msgstr "Leggi la documentazione dell’API."
+
+#, python-format
+msgid ""
+"Create and manage your API keys under <a href=\"%(create_key_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">Settings → "
+"API keys</a>."
+msgstr ""
+"Crea e gestisci le tue chiavi API in <a href=\"%(create_key_url)s\" "
+"class=\"text-indigo-600 dark:text-indigo-400 hover:underline\">Impostazioni "
+"→ Chiavi API</a>."
+
+msgid "Browser integration"
+msgstr "Integrazione browser"
+
+msgid ""
+"Seurch also publishes an OpenSearch description, so you can add it as a "
+"search engine in your browser. Most browsers offer it automatically once "
+"you've visited; you can also open the description document directly:"
+msgstr ""
+"Seurch pubblica anche una descrizione OpenSearch, così puoi aggiungerlo come "
+"motore di ricerca nel tuo browser. La maggior parte dei browser lo propone "
+"automaticamente dopo una visita; puoi anche aprire direttamente il documento "
+"di descrizione:"
+
+msgid ""
+"The same standard powers search suggestions, returned as JSON for "
+"autocomplete:"
+msgstr ""
+"Lo stesso standard alimenta i suggerimenti di ricerca, restituiti in formato "
+"JSON per il completamento automatico:"
+
+msgid "Seurch - European privacy-first search engine"
+msgstr "Seurch - Motore di ricerca europeo incentrato sulla privacy"
+
+msgid "Search the web…"
+msgstr "Cerca nel web…"
+
+msgid "Search query"
+msgstr "Query di ricerca"
+
+msgid "Clear search"
+msgstr "Cancella ricerca"
+
+msgid "Search categories"
+msgstr "Categorie di ricerca"
+
+msgid "Web"
+msgstr "Web"
+
+msgid "Images"
+msgstr "Immagini"
+
+msgid "News"
+msgstr "Notizie"
+
+msgid "Videos"
+msgstr "Video"
+
+msgid "Back"
+msgstr "Indietro"
+
+msgid "Seurch home"
+msgstr "Home di Seurch"
+
+msgid "Search type"
+msgstr "Tipo di ricerca"
+
+msgid "Search scope"
+msgstr "Ambito di ricerca"
+
+msgid "Providers"
+msgstr "Provider"
+
+msgid "Search language"
+msgstr "Lingua di ricerca"
+
+msgid "Any language"
+msgstr "Qualsiasi lingua"
+
+msgid "Safe search"
+msgstr "Ricerca sicura"
+
+msgid "Safe: On"
+msgstr "Sicuro: attivato"
+
+msgid "Safe: Off"
+msgstr "Sicuro: disattivato"
+
+msgid "Time range"
+msgstr "Intervallo di tempo"
+
+msgid "Any time"
+msgstr "Qualsiasi momento"
+
+msgid "Past year"
+msgstr "Ultimo anno"
+
+msgid "Past month"
+msgstr "Ultimo mese"
+
+msgid "Past week"
+msgstr "Ultima settimana"
+
+msgid "Past 24 hours"
+msgstr "Ultime 24 ore"
+
+msgid "Apply"
+msgstr ""
+
+msgid "Settings - Seurch"
+msgstr "Impostazioni - Seurch"
+
+msgid "General"
+msgstr "Generale"
+
+msgid "Appearance"
+msgstr "Aspetto"
+
+msgid "Language"
+msgstr "Lingua"
+
+msgid "Engines"
+msgstr "Motori"
+
+msgid "Custom bangs"
+msgstr "Bang personalizzati"
+
+msgid "Blocked sites"
+msgstr "Siti bloccati"
+
+msgid "Browser"
+msgstr "Browser"
+
+msgid "Account"
+msgstr "Account"
+
+msgid "API keys"
+msgstr "Chiavi API"
+
+msgid "Backup & sync"
+msgstr "Backup e sync"
+
+msgid "Provider status"
+msgstr "Stato dei provider"
+
+msgid "Filter explicit content"
+msgstr "Filtra contenuti espliciti"
+
+msgid "Hide explicit results and knowledge-panel cards from search"
+msgstr ""
+"Nascondi i risultati espliciti e le schede del pannello informativo dalla "
+"ricerca"
+
+msgid "Save changes"
+msgstr "Salva modifiche"
+
+msgid "Results"
+msgstr "Risultati"
+
+msgid "Open links in new tab"
+msgstr "Apri i link in una nuova scheda"
+
+msgid "Result links open in a new browser tab"
+msgstr "I link dei risultati si aprono in una nuova scheda del browser"
+
+msgid ""
+"When you open an image, show a grid of visually similar pictures. Each "
+"lookup runs an image search and counts towards your monthly search total."
+msgstr ""
+"Quando apri un'immagine, mostra una griglia di immagini visivamente simili. "
+"Ogni ricerca conta nel totale mensile delle ricerche."
+
+msgid "Privacy"
+msgstr "Privacy"
+
+msgid "Proxy images"
+msgstr "Carica immagini tramite proxy"
+
+msgid ""
+"Load result thumbnails and icons through this site instead of fetching them "
+"directly from third-party servers, hiding your IP address from them. May be "
+"slower."
+msgstr ""
+"Carica le miniature e le icone dei risultati tramite questo sito invece di "
+"recuperarle direttamente da server di terze parti, nascondendo loro il tuo "
+"indirizzo IP. Può essere più lento."
+
+msgid "Theme"
+msgstr "Tema"
+
+msgid "Color theme"
+msgstr "Tema colore"
+
+msgid "Light, dark, or system default"
+msgstr "Chiaro, scuro o predefinito di sistema"
+
+msgid "System"
+msgstr "Sistema"
+
+msgid "Light"
+msgstr "Chiaro"
+
+msgid "Dark"
+msgstr "Scuro"
+
+msgid ""
+"Sets the language of this interface. 'Auto' follows your browser settings."
+msgstr ""
+"Imposta la lingua di questa interfaccia. 'Auto' segue le impostazioni del "
+"browser."
+
+msgid "Auto-detect"
+msgstr "Rilevamento automatico"
+
+msgid "Default search language"
+msgstr "Lingua di ricerca predefinita"
+
+msgid ""
+"Auto-detect the language of each query, or always search in one language. "
+"You can still override it per search from the results page."
+msgstr ""
+"Rileva automaticamente la lingua di ogni query o cerca sempre in una lingua "
+"fissa. Puoi comunque modificarla per ogni ricerca dalla pagina dei risultati."
+
+msgid "Brave's own image search."
+msgstr "La ricerca di immagini di Brave."
+
+msgid "Brave's own news search."
+msgstr "La ricerca di notizie di Brave."
+
+msgid "Brave's own video search."
+msgstr "La ricerca di video di Brave."
+
+msgid ""
+"Pick the providers behind each kind of search. Every search type keeps "
+"its own selection, so an engine can power your web results without "
+"touching Images or News. Results from all the providers enabled for a "
+"search type are interleaved and deduplicated."
+msgstr ""
+"Scegli i fornitori dietro ogni tipo di ricerca. Ogni tipo di ricerca "
+"mantiene la propria selezione, così un motore può alimentare i tuoi "
+"risultati web senza toccare Immagini o Notizie. I risultati di tutti i "
+"fornitori attivati per un tipo di ricerca vengono alternati e deduplicati."
+
+msgid "Open source project"
+msgstr "Progetto open source"
+
+msgid "Open source"
+msgstr "Open source"
+
+msgid "Paid"
+msgstr "A pagamento"
+
+msgid "Commercial API, billed beyond any free allowance"
+msgstr "API commerciale, a pagamento oltre l'eventuale quota gratuita"
+
+#, python-format
+msgid "Enable %(label)s for %(search_type)s"
+msgstr "Attiva %(label)s per %(search_type)s"
+
+msgid "Data sources"
+msgstr "Fonti di dati"
+
+#, python-format
+msgid ""
+"Nothing is enabled for %(label)s, so that tab is hidden from the results "
+"page."
+msgstr ""
+"Non è attivo nulla per %(label)s, quindi quella scheda è nascosta nella "
+"pagina dei risultati."
+
+#, python-format
+msgid ""
+"Bangs let you jump straight to another site by prefixing your query with "
+"<code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">!trigger</"
+"code>. Define your own to override the generic shortcuts. Use <code "
+"class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">%(token)s</"
+"code> in the URL where the query should go."
+msgstr ""
+"I bang ti permettono di saltare direttamente a un altro sito anteponendo "
+"alla tua query <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 "
+"rounded\">!trigger</code>. Definisci i tuoi per sovrascrivere le scorciatoie "
+"generiche. Usa <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 "
+"rounded\">%(token)s</code> nell'URL dove deve andare la query."
+
+msgid "Add a custom bang"
+msgstr "Aggiungi un bang personalizzato"
+
+msgid "Trigger"
+msgstr "Trigger"
+
+msgid "URL template"
+msgstr "Modello URL"
+
+msgid "Add bang"
+msgstr "Aggiungi bang"
+
+msgid "Your custom bangs"
+msgstr "I tuoi bang personalizzati"
+
+#, python-format
+msgid "Remove !%(trigger)s"
+msgstr "Rimuovi !%(trigger)s"
+
+msgid "Remove"
+msgstr "Rimuovi"
+
+msgid "You haven't defined any custom bangs yet."
+msgstr "Non hai ancora definito bang personalizzati."
+
+msgid ""
+"Results from these domains never appear in your search. Subdomains are "
+"blocked automatically, adding <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-"
+"slate-800 rounded\">example.com</code> also blocks <code class=\"px-1 py-0.5 "
+"bg-slate-100 dark:bg-slate-800 rounded\">www.example.com</code> and <code "
+"class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">blog.example."
+"com</code>."
+msgstr ""
+"I risultati di questi domini non appaiono mai nelle tue ricerche. I "
+"sottodomini vengono bloccati automaticamente: aggiungere <code class=\"px-1 "
+"py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">example.com</code> blocca "
+"anche <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">www."
+"example.com</code> e <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-"
+"slate-800 rounded\">blog.example.com</code>."
+
+msgid "Add a domain"
+msgstr "Aggiungi un dominio"
+
+msgid "Block site"
+msgstr "Blocca sito"
+
+msgid "Your blocked sites"
+msgstr "I tuoi siti bloccati"
+
+#, python-format
+msgid "Unblock %(domain)s"
+msgstr "Sblocca %(domain)s"
+
+msgid "Unblock"
+msgstr "Sblocca"
+
+msgid ""
+"You haven't blocked any sites yet. Use the small \"Block\" link next to each "
+"result to add one quickly."
+msgstr ""
+"Non hai ancora bloccato alcun sito. Usa il piccolo link «Blocca» accanto a "
+"ogni risultato per aggiungerne uno rapidamente."
+
+msgid "Add Seurch to your browser"
+msgstr "Aggiungi Seurch al tuo browser"
+
+msgid ""
+"Make Seurch your browser's default search engine so you can search straight "
+"from the address bar. Follow the steps for your browser below."
+msgstr ""
+"Imposta Seurch come motore di ricerca predefinito del tuo browser per "
+"cercare direttamente dalla barra degli indirizzi. Segui i passaggi per il "
+"tuo browser qui sotto."
+
+msgid ""
+"Go to <strong>Settings → Search</strong> (or type <code class=\"px-1 py-0.5 "
+"bg-slate-100 dark:bg-slate-800 rounded\">about:preferences#search</code> in "
+"the address bar)"
+msgstr ""
+"Vai su <strong>Impostazioni → Ricerca</strong> (oppure digita <code "
+"class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded\">about:"
+"preferences#search</code> nella barra degli indirizzi)"
+
+msgid "Scroll down to <strong>\"Search Shortcuts\"</strong>"
+msgstr "Scorri fino a <strong>«Scorciatoie di ricerca»</strong>"
+
+msgid ""
+"Click <strong>\"Find more search engines\"</strong>, or look for Seurch if "
+"it's already listed"
+msgstr ""
+"Fai clic su <strong>«Trova altri motori di ricerca»</strong>, oppure cerca "
+"Seurch se è già elencato"
+
+msgid ""
+"If Seurch is not listed, right-click the search bar on the Seurch homepage "
+"and select <strong>\"Add Search Engine\"</strong>"
+msgstr ""
+"Se Seurch non è elencato, fai clic con il tasto destro sulla barra di "
+"ricerca nella homepage di Seurch e seleziona <strong>«Aggiungi motore di "
+"ricerca»</strong>"
+
+msgid ""
+"Perform any search on Seurch (Chrome auto-discovers search engines you use)"
+msgstr ""
+"Esegui una ricerca qualsiasi su Seurch (Chrome rileva automaticamente i "
+"motori di ricerca che usi)"
+
+msgid "Go to <strong>Settings → Search engine → Manage search engines</strong>"
+msgstr ""
+"Vai su <strong>Impostazioni → Motore di ricerca → Gestisci motori di "
+"ricerca</strong>"
+
+msgid ""
+"Find <strong>Seurch</strong> under \"Site search\" and click <strong>Make "
+"default</strong>"
+msgstr ""
+"Trova <strong>Seurch</strong> in «Ricerca sito» e fai clic su "
+"<strong>Imposta come predefinito</strong>"
+
+msgid "Any browser (manual URL):"
+msgstr "Qualsiasi browser (URL manuale):"
+
+msgid "Add a custom search engine with this URL:"
+msgstr "Aggiungi un motore di ricerca personalizzato con questo URL:"
+
+msgid "Profile"
+msgstr "Profilo"
+
+msgid "Signed in as"
+msgstr "Connesso come"
+
+msgid "Email"
+msgstr "E-mail"
+
+msgid ""
+"Only used to reset your password if you forget it, never for anything else. "
+"Confirm changes with your current password."
+msgstr ""
+"Usata solo per reimpostare la password se la dimentichi, mai per altro. "
+"Conferma le modifiche con la tua password attuale."
+
+msgid "Save"
+msgstr "Salva"
+
+msgid "Remove email address"
+msgstr "Rimuovi l'indirizzo e-mail"
+
+msgid "Your account keeps working without one, but see the note below."
+msgstr ""
+"Il tuo account continua a funzionare anche senza, ma leggi la nota qui sotto."
+
+msgid "No email address is set."
+msgstr "Nessun indirizzo e-mail impostato."
+
+msgid ""
+"Without an email address there is no way to reset your password, if you "
+"forget it, your account cannot be recovered."
+msgstr ""
+"Senza un indirizzo e-mail non c'è modo di reimpostare la password, se la "
+"dimentichi, il tuo account non potrà essere recuperato."
+
+msgid "Usage"
+msgstr "Utilizzo"
+
+msgid "Searches this month"
+msgstr "Ricerche questo mese"
+
+msgid "Number of searches on this account since the start of the month."
+msgstr "Numero di ricerche effettuate su questo account dall'inizio del mese."
+
+msgid "Security"
+msgstr "Sicurezza"
+
+msgid "Update the password for your account."
+msgstr "Aggiorna la password del tuo account."
+
+msgid "Change"
+msgstr "Modifica"
+
+msgid "Private browsing"
+msgstr "Navigazione privata"
+
+msgid ""
+"A private session link signs you in instantly from a private or incognito "
+"window, which doesn't carry your normal session cookie, without typing your "
+"password. Treat it like a password: anyone with the link can sign in as you."
+msgstr ""
+"Un link di sessione privata ti fa accedere istantaneamente da una finestra "
+"privata o in incognito, che non utilizza il tuo cookie di sessione normale, "
+"senza dover digitare la password. Trattalo come una password: chiunque abbia "
+"il link può accedere al posto tuo."
+
+#, python-format
+msgid "generated %(created)s"
+msgstr "generato il %(created)s"
+
+#, python-format
+msgid "last used %(used)s"
+msgstr "ultimo utilizzo il %(used)s"
+
+msgid "never used"
+msgstr "mai utilizzata"
+
+msgid ""
+"Add it as a custom search engine in a private window, and a search there "
+"signs you in first:"
+msgstr ""
+"Aggiungilo come motore di ricerca personalizzato in una finestra privata, "
+"dove una ricerca ti farà accedere prima:"
+
+msgid "Generate new link"
+msgstr "Genera nuovo link"
+
+msgid "Turn off"
+msgstr "Disattiva"
+
+msgid "Generating a new link invalidates the old one."
+msgstr "Generare un nuovo link invalida quello precedente."
+
+msgid "Your new private session link"
+msgstr "Il tuo nuovo link di sessione privata"
+
+msgid "Copy this link now; for your security it will not be shown again."
+msgstr ""
+"Copia questo link ora; per la tua sicurezza non verrà mostrato di nuovo."
+
+msgid "A private session link is active."
+msgstr "Un link di sessione privata è attivo."
+
+msgid ""
+"Only a fingerprint of the link is stored, so it cannot be shown again. If "
+"you no longer have it, generate a new one."
+msgstr ""
+"Viene memorizzata solo un'impronta del link, quindi non può essere mostrato "
+"di nuovo. Se non ce l'hai più, generane uno nuovo."
+
+msgid "Generate link"
+msgstr "Genera link"
+
+msgid "Session"
+msgstr "Sessione"
+
+msgid "Sign out"
+msgstr "Esci"
+
+msgid "End your current session on this device."
+msgstr "Termina la tua sessione corrente su questo dispositivo."
+
+msgid ""
+"API keys let your own programs search Seurch over the JSON API. Send the key "
+"in the <code class=\"px-1 py-0.5 bg-slate-100 dark:bg-slate-800 "
+"rounded\">Authorization</code> header. Keep it secret, as anyone with the "
+"key can search as you."
+msgstr ""
+"Le chiavi API consentono ai tuoi programmi di effettuare ricerche su Seurch "
+"tramite l’API JSON. Invia la chiave nell’header <code class=\"px-1 py-0.5 bg-"
+"slate-100 dark:bg-slate-800 rounded\">Authorization</code>. Tienila segreta, "
+"perché chiunque possieda la chiave può effettuare ricerche a tuo nome."
+
+msgid "Your new API key"
+msgstr "La tua nuova chiave API"
+
+msgid "Copy this key now; for your security it will not be shown again."
+msgstr ""
+"Copia questa chiave ora; per la tua sicurezza non verrà mostrata di nuovo."
+
+msgid "Create a new key"
+msgstr "Crea una nuova chiave"
+
+msgid "Key name (e.g. my script)"
+msgstr "Nome della chiave (es. il mio script)"
+
+msgid "Key name"
+msgstr "Nome della chiave"
+
+msgid "Create key"
+msgstr "Crea chiave"
+
+msgid "Your API keys"
+msgstr "Le tue chiavi API"
+
+#, python-format
+msgid "created %(created)s"
+msgstr "creata il %(created)s"
+
+#, python-format
+msgid "Revoke %(name)s"
+msgstr "Revoca %(name)s"
+
+msgid "Revoke"
+msgstr "Revoca"
+
+msgid "You haven't created any API keys yet."
+msgstr "Non hai ancora creato nessuna chiave API."
+
+msgid ""
+"Your preferences, custom bangs and blocked sites sync automatically across "
+"every device you sign in on. You can also keep an offline copy: download "
+"everything as a file, or restore it from one."
+msgstr ""
+"Le tue preferenze, i bang personalizzati e i siti bloccati si sincronizzano "
+"automaticamente su ogni dispositivo su cui accedi. Puoi anche conservare una "
+"copia offline: scarica tutto come file o ripristinalo da un file."
+
+msgid "Export & import"
+msgstr "Esporta e importa"
+
+msgid "Export to a file"
+msgstr "Esporta in un file"
+
+msgid "Download all your settings as a JSON file."
+msgstr "Scarica tutte le tue impostazioni come file JSON."
+
+msgid "Export"
+msgstr "Esporta"
+
+msgid "Import from a file"
+msgstr "Importa da un file"
+
+msgid "Replaces your current preferences, custom bangs and blocked sites."
+msgstr ""
+"Sostituisce le tue preferenze attuali, bang personalizzati e siti bloccati."
+
+msgid "Import"
+msgstr "Importa"
+
+msgid "Settings saved."
+msgstr "Impostazioni salvate."
+
+# Provider status page
+msgid "Provider status - Seurch"
+msgstr "Stato dei provider - Seurch"
+
+msgid "Some providers are reporting issues"
+msgstr "Alcuni provider segnalano problemi"
+
+#, python-format
+msgid "%(operational)s of %(total)s operational"
+msgstr "%(operational)s su %(total)s operativi"
+
+msgid "All providers operational"
+msgstr "Tutti i provider sono operativi"
+
+msgid "Awaiting provider data"
+msgstr "In attesa dei dati dei provider"
+
+msgid "Checked via health endpoint"
+msgstr "Verificato tramite un endpoint di stato"
+
+msgid "Checked from searches"
+msgstr "Verificato dalle ricerche"
+
+msgid "Operational"
+msgstr "Operativo"
+
+msgid "Down"
+msgstr "Non disponibile"
+
+msgid "No recent data"
+msgstr "Nessun dato recente"
+
+#, python-format
+msgid "last worked %(t)s ago"
+msgstr "ha funzionato %(t)s fa"
+
+#, python-format
+msgid "checked %(t)s ago"
+msgstr "verificato %(t)s fa"
+
+msgid "not checked yet"
+msgstr "non ancora verificato"
+
+msgid ""
+"Providers with a public health endpoint are checked directly every few "
+"minutes. The others reflect the outcome of recent searches, so a provider "
+"that hasn't been queried recently may show no recent data."
+msgstr ""
+"I provider con un endpoint di stato pubblico vengono verificati direttamente "
+"ogni pochi minuti. Gli altri riflettono l'esito delle ricerche recenti, "
+"quindi un provider interrogato di rado di recente potrebbe non mostrare dati "
+"recenti."
+
+msgid "Source language"
+msgstr "Lingua di origine"
+
+msgid "Detect language"
+msgstr "Rileva lingua"
+
+msgid "Swap languages"
+msgstr "Inverti lingue"
+
+msgid "Target language"
+msgstr "Lingua di destinazione"
+
+#, python-format
+msgid "Detected: %(name)s"
+msgstr "Rilevata: %(name)s"
+
+msgid "Source text"
+msgstr "Testo di origine"
+
+msgid "Type text to translate…"
+msgstr "Digita il testo da tradurre…"
+
+msgid "Text to translate"
+msgstr "Testo da tradurre"
+
+msgid "Translation service is unavailable. Try again later."
+msgstr "Il servizio di traduzione non è disponibile. Riprova più tardi."
+
+msgid "Translation will appear here."
+msgstr "La traduzione apparirà qui."
+
+msgid "PeerTube"
+msgstr "PeerTube"
+
+msgid ""
+"Brave API key not configured. Set <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> in <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Chiave API Brave non configurata. Imposta <code class=\"bg-slate-100 dark:bg-"
+"slate-800 px-1 rounded\">BRAVE_API_KEY</code> in <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">.env</code>."
+
+msgid "Search for videos"
+msgstr "Cerca video"
+
+msgid "Type a query above and matching videos appear here."
+msgstr ""
+"Inserisci una query qui sopra e qui appariranno i video corrispondenti."
+
+msgid "No videos found"
+msgstr "Nessun video trovato"
+
+msgid "Video results"
+msgstr "Risultati video"
+
+msgid "Did you mean:"
+msgstr "Forse cercavi:"
+
+msgid "Search the web"
+msgstr "Cerca sul web"
+
+msgid ""
+"Type a query above and results from every engine you turned on appear here."
+msgstr ""
+"Inserisci una query qui sopra e qui appariranno i risultati di ogni motore "
+"che hai attivato."
+
+msgid "No search engine is enabled. Turn one on in Settings → Engines."
+msgstr ""
+"Nessun motore di ricerca è attivo. Attivane uno in Impostazioni → Motori."
+
+msgid ""
+"No API keys configured. Set <code class=\"bg-slate-100 dark:bg-slate-800 "
+"px-1 rounded\">BRAVE_API_KEY</code>, <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">MOJEEK_API_KEY</code>, <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 "
+"rounded\">MARGINALIA_API_KEY</code>, and/or <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">STAAN_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+msgstr ""
+"Nessuna chiave API configurata. Imposta <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">BRAVE_API_KEY</code>, <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">MOJEEK_API_KEY</code>, "
+"<code class=\"bg-slate-100 dark:bg-slate-800 px-1 "
+"rounded\">MARGINALIA_API_KEY</code> e/o <code class=\"bg-slate-100 "
+"dark:bg-slate-800 px-1 rounded\">STAAN_API_KEY</code> in <code "
+"class=\"bg-slate-100 dark:bg-slate-800 px-1 rounded\">.env</code>."
+
+msgid "No results found"
+msgstr "Nessun risultato trovato"
+
+#, python-format
+msgid ""
+"Nothing matched <strong>\"%(query)s\"</strong>. Check the spelling, or try "
+"different keywords."
+msgstr ""
+"Nessuna corrispondenza per <strong>«%(query)s»</strong>. Controlla "
+"l'ortografia o prova altre parole chiave."
+
+msgid "More options"
+msgstr "Altre opzioni"
+
+msgid "More options for this result"
+msgstr "Altre opzioni per questo risultato"
+
+msgid "View this page on the Wayback Machine"
+msgstr "Visualizza questa pagina sulla Wayback Machine"
+
+msgid "Cached"
+msgstr "In cache"
+
+msgid "Block this site, it won't appear in future results"
+msgstr "Blocca questo sito: non apparirà nei risultati futuri"
+
+msgid "Sitelinks"
+msgstr "Sitelink"
+
+msgid "Knowledge panel"
+msgstr "Pannello informativo"
+
+#, fuzzy
+#| msgid "Load info panels separately"
+msgid "Show info panels"
+msgstr "Carica i pannelli informativi separatamente"
+
+msgid "Docs"
+msgstr "Documentazione"
+
+msgid "Source"
+msgstr "Codice sorgente"
+
+msgid ""
+"The public JSON API is disabled on this instance, only the OpenSearch "
+"browser integration below is available."
+msgstr ""
+"L'API JSON pubblica è disattivata su questa istanza, è disponibile solo "
+"l'integrazione OpenSearch del browser qui sotto."
+
+msgid ""
+"The public API is disabled on this instance. Existing keys no longer "
+"work; you can still revoke them below."
+msgstr ""
+"L'API pubblica è disattivata su questa istanza. Le chiavi esistenti non "
+"funzionano più; puoi comunque revocarle qui sotto."
