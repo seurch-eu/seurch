@@ -35,8 +35,18 @@ ignore = [
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-# The version lives in [project] above; commitizen reads and rewrites it there.
-version_provider = "pep621"
+# The version lives in [project] above; the uv provider reads and rewrites it
+# there and keeps the "seurch" entry in uv.lock in step, so a bump no longer
+# leaves the lockfile behind.
+version_provider = "uv"
+# Everything else carrying the version. Each entry is "path:regex": only lines
+# matching the regex *and* containing the outgoing version are rewritten, so
+# the regexes stay anchored to the root "version" keys and leave the
+# dependency entries below them alone.
+version_files = [
+    'package.json:^  "version":',
+    'package-lock.json:^ {2,6}"version":',
+]
 # Matches the tag pattern .github/workflows/docker.yml builds images for.
 tag_format = "v$version"
 annotated_tag = true

@@ -87,6 +87,8 @@ check-commits: ## Validate the commit messages on this branch against main
 changelog: ## Preview the changelog entries for the unreleased commits
 	uv run cz changelog --unreleased-version "Unreleased" --dry-run
 
+# --check-consistency aborts if pyproject.toml, uv.lock and the package*.json
+# files have drifted apart, rather than tagging a half-updated tree.
 bump: ## Bump the version, write CHANGELOG.md and create the release tag
-	uv run cz bump
+	uv run cz bump --check-consistency
 	@echo "Push the release with: git push --follow-tags origin main"

@@ -607,8 +607,8 @@ changelog, so it is worth getting right.
 
 ### Cutting a release
 
-The version lives in `[project].version` in `pyproject.toml` and is currently
-`0.0.0`, the pre-release baseline: nothing has been tagged yet.
+The canonical version lives in `[project].version` in `pyproject.toml`; the
+last tag is what `cz` measures against.
 
 ```bash
 make changelog   # preview what the unreleased commits will produce
@@ -620,16 +620,27 @@ git push --follow-tags origin main
 itself - `fix:` bumps the patch, `feat:` the minor. `major_version_zero` is
 on, so a breaking change bumps the minor rather than jumping to 1.0.0 while
 the project is still pre-1.0. Tags are annotated and named `v$version`
-(`v0.0.1`), which is the pattern `docker.yml` builds images for.
+(`v0.1.3`), which is the pattern `docker.yml` builds images for.
 
-The first release is a patch bump off the `0.0.0` baseline, which needs to be
-asked for explicitly (there is no previous tag for commitizen to measure
-against):
+One bump rewrites every file that carries the version, and they all land in
+the single `bump:` commit alongside `CHANGELOG.md`:
 
-```bash
-uv run cz bump --increment PATCH   # 0.0.0 → 0.0.1, tagged v0.0.1
-git push --follow-tags origin main
-```
+| File | How it is updated |
+| --- | --- |
+| `pyproject.toml` | `[project].version`, via `version_provider = "uv"` |
+| `uv.lock` | the `seurch` package entry, same provider - no follow-up `uv lock` commit |
+| `package.json` | the root `version` key, via `version_files` |
+| `package-lock.json` | both root `version` keys, via `version_files` |
+
+`version_files` entries are `path:regex` pairs, and a line is only rewritten
+when it matches the regex *and* carries the outgoing version - which is why
+the regexes are anchored to the indentation of the root `version` keys rather
+than matching every `"version":` in the npm lockfile.
+
+`make bump` passes `--check-consistency`, so a bump aborts if one of those
+files has drifted off the current version instead of tagging a half-updated
+tree. It aborts mid-write, so reset the working tree (`git checkout -- .`),
+put the stray file back on the current version, and bump again.
 
 Pushing the tag is what publishes the release image; see below.
 
