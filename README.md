@@ -37,6 +37,13 @@ at this time.
   calculator, colour/base converters, QR codes, world clock, regex/JSON tools,
   hashes & UUIDs, HTTP status & port lookups, dice/coin/random, timer, and more
   (most computed locally; see [Instant answers](#instant-answers)).
+- **Bangs**, start a query with `!` to send it straight to another site, `!w`
+  Wikipedia, `!gh` GitHub, `!yt` YouTube, over 13,000 shortcuts from the
+  community list, plus tab bangs (`!images`, `!n`, `!maps`, …) that switch tab
+  without leaving Seurch and a lucky `!` that jumps to the first result.
+- **Custom bangs**, define your own trigger and URL template under **Settings →
+  Custom bangs**; they override a built-in shortcut of the same name and sync
+  across your devices (see [Bangs](#bangs)).
 - **Per-user settings**, engines, safe search, search & interface language,
   theme, link behaviour, image proxying, lazy-loaded cards, custom bangs, blocked
   sites and which supplementary data sources are enabled, synced automatically
@@ -47,7 +54,7 @@ at this time.
   off, and public `/status/health` endpoints (one per provider, plus a roll-up)
   answer 200 or 500 for an external uptime monitor (see
   [Provider status](#provider-status)).
-- **Public JSON API** — every search feature (web, images, news, videos, maps,
+- **Public JSON API** - every search feature (web, images, news, videos, maps,
   translate, instant answers, knowledge cards, suggestions, provider status) is
   available programmatically over a Django REST Framework API, authenticated
   with per-user API keys and rate-limited per key (see [Public API](#public-api)).
@@ -354,6 +361,67 @@ If you run behind a network allowlist, permit `api.frankfurter.dev`,
 `geocoding-api.open-meteo.com`, and `api.open-meteo.com` for those two to work. The
 local answers need no network. Prewarm/refresh rates with `make refresh-currency`.
 
+## Bangs
+
+A **bang** sends a query straight where it belongs: put `!trigger` anywhere in
+the search and Seurch redirects, handing the rest of the query to the target.
+Bangs are resolved before any provider is called, so they cost no API quota and
+count for nothing against the monthly search total. `search/bangs.py` holds the
+server-side resolution; `search/static/search/bangs.js` intercepts the form
+submit and redirects straight from the browser when JavaScript is on, with the
+server path as the fallback. The **About** page (`/about`) documents them for
+users and has a searchable index of every shortcut.
+
+Four kinds are recognised.
+
+**Tab bangs** switch tab without leaving Seurch:
+
+| Bang | Tab |
+|------|-----|
+| `!web` | Web |
+| `!images`, `!i` | Images |
+| `!news`, `!n` | News |
+| `!videos`, `!v` | Videos |
+| `!maps`, `!m` | Maps |
+| `!translate` | Translate |
+
+A tab bang for a tab the user doesn't have, `!news` while on a web-only engine,
+or `!maps` with OpenStreetMap switched off, is deactivated rather than routed to
+a hidden tab: the query runs as a normal search on the first available tab.
+
+**Custom bangs** are per-user, defined under **Settings → Custom bangs** as a
+trigger plus a URL template with `{{{s}}}` where the query belongs, e.g. `gh` →
+`https://github.com/search?q={{{s}}}`. A custom bang **shadows** the built-in
+trigger of the same name, so `!gh` can point wherever you like. Unlike the rest
+of the preferences they live in the database (the `search_custom_bang` table,
+unique per user and trigger), not the cookie, and sync across devices with
+everything else under **Settings → Backup & sync**.
+
+**External bangs** are the community list, over 13,000 triggers (aliases
+included) covering Wikipedia, GitHub, YouTube, Stack Overflow, Amazon, npm and
+so on.
+They ship committed in the repository, so a fresh clone has bangs out of the
+box. Refresh them with:
+
+```bash
+make bangs      # uv run python manage.py fetch_bangs
+```
+
+That downloads [kagisearch/bangs](https://github.com/kagisearch/bangs) and
+writes two files: `search/data/bangs.json` (server-side resolution) and
+`search/static/search/bangs.min.json` (the copy the browser fetches). Triggers
+reserved for a tab bang (`translate`) are dropped. Commit both files when you
+refresh them.
+
+**The lucky bang**, a standalone `!` in the query, is "I'm feeling lucky" and is
+checked before the other three: the web search runs and the first result (after
+your blocked sites are filtered out) is opened directly. With no result to jump
+to, the terms are searched normally. Otherwise a tab bang wins, then one of your
+custom bangs, then the external list.
+
+Bangs are skipped on the **Translate** tab, where a query starting with `!` is
+text to translate rather than a shortcut.
+
 ## Provider status
 
 A **`/status`** page (linked from the footer and **Settings**) shows whether
@@ -390,10 +458,10 @@ Machine-readable siblings of the page, for an external uptime monitor such as
 both public (no login) and both answering **200** when healthy and **500** when
 not, which is what an uptime service alerts on:
 
-- **`/status/health/<provider>`** — one endpoint per upstream, so each service
+- **`/status/health/<provider>`** - one endpoint per upstream, so each service
   gets its own check and an alert names what actually broke. See
   [Per-provider endpoints](#per-provider-endpoints) below for the full list.
-- **`/status/health`** — the roll-up across every watched provider, handy as a
+- **`/status/health`** - the roll-up across every watched provider, handy as a
   single "is anything wrong" check.
 
 Point a monitor at `https://your-instance/status/health` and it gets:
@@ -607,8 +675,8 @@ changelog, so it is worth getting right.
 
 ### Cutting a release
 
-The canonical version lives in `[project].version` in `pyproject.toml`; the
-last tag is what `cz` measures against.
+The version lives in `[project].version` in `pyproject.toml` and is currently
+`0.0.0`, the pre-release baseline: nothing has been tagged yet.
 
 ```bash
 make changelog   # preview what the unreleased commits will produce
@@ -620,27 +688,16 @@ git push --follow-tags origin main
 itself - `fix:` bumps the patch, `feat:` the minor. `major_version_zero` is
 on, so a breaking change bumps the minor rather than jumping to 1.0.0 while
 the project is still pre-1.0. Tags are annotated and named `v$version`
-(`v0.1.3`), which is the pattern `docker.yml` builds images for.
+(`v0.0.1`), which is the pattern `docker.yml` builds images for.
 
-One bump rewrites every file that carries the version, and they all land in
-the single `bump:` commit alongside `CHANGELOG.md`:
+The first release is a patch bump off the `0.0.0` baseline, which needs to be
+asked for explicitly (there is no previous tag for commitizen to measure
+against):
 
-| File | How it is updated |
-| --- | --- |
-| `pyproject.toml` | `[project].version`, via `version_provider = "uv"` |
-| `uv.lock` | the `seurch` package entry, same provider - no follow-up `uv lock` commit |
-| `package.json` | the root `version` key, via `version_files` |
-| `package-lock.json` | both root `version` keys, via `version_files` |
-
-`version_files` entries are `path:regex` pairs, and a line is only rewritten
-when it matches the regex *and* carries the outgoing version - which is why
-the regexes are anchored to the indentation of the root `version` keys rather
-than matching every `"version":` in the npm lockfile.
-
-`make bump` passes `--check-consistency`, so a bump aborts if one of those
-files has drifted off the current version instead of tagging a half-updated
-tree. It aborts mid-write, so reset the working tree (`git checkout -- .`),
-put the stray file back on the current version, and bump again.
+```bash
+uv run cz bump --increment PATCH   # 0.0.0 → 0.0.1, tagged v0.0.1
+git push --follow-tags origin main
+```
 
 Pushing the tag is what publishes the release image; see below.
 
@@ -724,6 +781,70 @@ Report security problems privately through
 [GitHub security advisories](https://github.com/seurch-eu/seurch/security/advisories/new)
 rather than as a public issue.
 
+## Acknowledgements
+
+Seurch is a metasearch engine: almost nothing it shows is its own. It stands on
+the indexes, open data and free software below, and is grateful to all of them.
+
+**Search & data providers**
+
+- [Brave Search API](https://brave.com/search/api/), the primary index, and the
+  source for the Images, News and Videos tabs.
+- [Mojeek](https://www.mojeek.com/services/search/api/), an independent UK web
+  index with a crawler of its own.
+- [Marginalia Search](https://about.marginalia-search.com/article/api/), a
+  non-commercial index for the small, non-commercial web.
+- [Staan](https://staan.ai/) / European Search Perspective, the European index
+  built by Qwant and Ecosia's joint venture.
+- [Pixabay](https://pixabay.com/), [World News API](https://worldnewsapi.com/)
+  and [Sepia](https://sepiasearch.org/) (the PeerTube search index), the
+  supplementary Images, News and Videos providers.
+- [OpenStreetMap](https://www.openstreetmap.org/) contributors and
+  [Nominatim](https://nominatim.openstreetmap.org/), the Maps tab and the map
+  quick answer. © OpenStreetMap contributors, data under
+  [ODbL](https://www.openstreetmap.org/copyright).
+- [LibreTranslate](https://github.com/LibreTranslate/LibreTranslate), the
+  self-hosted engine behind the Translate tab.
+- [Wikipedia](https://www.wikipedia.org/) and
+  [Wikidata](https://www.wikidata.org/), knowledge-card detection and content,
+  under CC BY-SA.
+- [TheTVDB](https://thetvdb.com/), [Tripadvisor](https://www.tripadvisor.com/)
+  and [Stack Exchange](https://api.stackexchange.com/docs), the film/TV, places and
+  Q&A knowledge cards.
+- [Open-Meteo](https://open-meteo.com/), weather instant answers, and
+  [Frankfurter](https://frankfurter.dev/), exchange rates from European Central
+  Bank data, both free and keyless.
+- [kagisearch/bangs](https://github.com/kagisearch/bangs), the community bang
+  list Kagi maintains in the open, which is what `make bangs` fetches and what
+  every external [bang](#bangs) resolves through.
+
+Each provider's API terms apply to the results they return; Seurch's own
+[licence](#license) does not extend to them.
+
+**Built with**
+
+- [Django](https://www.djangoproject.com/) and
+  [Django REST Framework](https://www.django-rest-framework.org/), the
+  application and the public API.
+- [httpx](https://www.python-httpx.org/) for every upstream call,
+  [psycopg](https://www.psycopg.org/) for PostgreSQL,
+  [django-environ](https://django-environ.readthedocs.io/) for configuration.
+- [Gunicorn](https://gunicorn.org/) and
+  [WhiteNoise](https://whitenoise.readthedocs.io/), serving the app and its
+  static files in the container.
+- [lingua](https://github.com/pemistahl/lingua-py) for language detection and
+  [segno](https://segno.readthedocs.io/) for QR-code instant answers.
+- [Tailwind CSS](https://tailwindcss.com/) and
+  [Font Awesome Free](https://fontawesome.com/), the interface, self-hosted, no
+  CDN.
+- [uv](https://github.com/astral-sh/uv), [Ruff](https://docs.astral.sh/ruff/),
+  [Commitizen](https://commitizen-tools.github.io/commitizen/),
+  [Podman](https://podman.io/), [PostgreSQL](https://www.postgresql.org/) and
+  [Mailpit](https://mailpit.axllent.org/), the development toolchain.
+
+And to [DuckDuckGo](https://duckduckgo.com/), whose bangs and instant answers
+are the obvious inspiration for two of the features above.
+
 ## License
 
 Seurch is free software, licensed under the **GNU Affero General Public License
@@ -732,5 +853,6 @@ v3.0 only** (AGPL-3.0-only). The full text is in [LICENSE](LICENSE).
 This covers Seurch's own code. The upstream search APIs it queries, and the
 vendored third-party assets under `search/static/search/vendor/` (Font Awesome
 Free, which is CC BY 4.0 / SIL OFL 1.1 / MIT depending on the part), carry their
-own terms — see [Search providers](#search-providers) and
+own terms - see [Search providers](#search-providers) and
 [Frontend](#frontend-tailwind-css--font-awesome).
+
