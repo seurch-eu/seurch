@@ -19,7 +19,7 @@
     </div>
 
     <div class="w-full max-w-[560px] flex flex-col gap-3">
-      <form class="flex items-center bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-full pl-5 pr-1.5 shadow-md focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-[3px] focus-within:ring-indigo-500/15 transition-all" action="{% url 'search:results' %}" method="get" role="search" style="position:relative;">
+      <form id="search-form" class="flex items-center bg-white dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-full pl-5 pr-1.5 shadow-md focus-within:border-indigo-500 dark:focus-within:border-indigo-500 focus-within:ring-[3px] focus-within:ring-indigo-500/15 transition-all" action="{% url 'search:results' %}" method="get" role="search" style="position:relative;">
         <input
           type="search"
           name="q"
@@ -40,10 +40,10 @@
 
       <nav class="flex items-center justify-center gap-1 flex-wrap md:flex-nowrap md:self-center" aria-label="{% trans "Search categories" %}">
         {% for t in tabs %}
-        <a href="{{ t.url }}" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[0.85rem] text-slate-500 dark:text-slate-400 border border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:text-slate-700 dark:hover:text-slate-300 transition-all">
+        <button type="submit" form="search-form" name="tab" value="{{ t.key }}" class="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-[0.85rem] text-slate-500 dark:text-slate-400 border border-transparent hover:bg-slate-100 dark:hover:bg-slate-800 hover:border-slate-200 dark:hover:border-slate-700 hover:text-slate-700 dark:hover:text-slate-300 transition-all">
           <i class="fa-solid {{ t.icon }} text-[14px]" aria-hidden="true"></i>
           {{ t.label }}
-        </a>
+        </button>
         {% endfor %}
       </nav>
     </div>
