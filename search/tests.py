@@ -1295,6 +1295,17 @@ class IndexViewTests(TestCase):
         self.assertEqual(resp.status_code, 200)
         self.assertContains(resp, 'Seurch')
 
+    def test_index_tabs_submit_the_search_form(self):
+        # Picking a search type on the home page must keep what was typed, so
+        # each type submits the search form (carrying ``q``) instead of linking
+        # to a bare ``?tab=`` URL that drops the query.
+        resp = self.client.get(reverse('search:index'))
+        self.assertContains(resp, '<form id="search-form"')
+        self.assertContains(
+            resp, 'type="submit" form="search-form" name="tab" value="images"'
+        )
+        self.assertNotContains(resp, '?tab=images')
+
 
 class FooterPagesTests(TestCase):
     """The informational pages linked from the site footer."""
@@ -4212,9 +4223,9 @@ class TabAvailabilityTests(TestCase):
     def test_index_shows_news_for_mojeek(self):
         _set_prefs(self.client, only_engine='mojeek')
         resp = self.client.get(reverse('search:index'))
-        self.assertContains(resp, 'tab=web')
-        self.assertContains(resp, 'tab=videos')  # Sepia-powered
-        self.assertContains(resp, 'tab=news')  # World News-powered
+        self.assertContains(resp, 'name="tab" value="web"')
+        self.assertContains(resp, 'name="tab" value="videos"')  # Sepia-powered
+        self.assertContains(resp, 'name="tab" value="news"')  # World News-powered
 
     # --- bang deactivation through the results view ---
     def test_news_bang_active_for_all_engine(self):
@@ -4505,7 +4516,7 @@ class TranslateTabViewTests(TestCase):
     @patch('search.views.fetch_languages', return_value=[('en', 'English'), ('fr', 'French')])
     def test_translate_link_shown_on_index_when_enabled(self, mock_languages):
         resp = self.client.get(reverse('search:index'))
-        self.assertContains(resp, 'tab=translate')
+        self.assertContains(resp, 'name="tab" value="translate"')
 
 
 class TranslateDisabledTests(TestCase):
@@ -4528,7 +4539,7 @@ class TranslateDisabledTests(TestCase):
     @override_settings(LIBRETRANSLATE_URL='')
     def test_translate_link_hidden_from_index_when_url_unset(self):
         resp = self.client.get(reverse('search:index'))
-        self.assertNotContains(resp, 'tab=translate')
+        self.assertNotContains(resp, 'value="translate"')
 
     @override_settings(LIBRETRANSLATE_URL='http://localhost:5000')
     def test_translate_tab_falls_back_to_web_when_user_disables_it(self):
