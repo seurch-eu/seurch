@@ -134,10 +134,11 @@ _TAB_ICONS = {
 }
 
 
-def _tab_nav(available, tab_urls):
+def _tab_nav(available, tab_urls=None):
     """The tab nav in display order: one entry per tab this user can use."""
+    tab_urls = tab_urls or {}
     return [
-        {'key': key, 'label': label, 'icon': _TAB_ICONS[key], 'url': tab_urls[key]}
+        {'key': key, 'label': label, 'icon': _TAB_ICONS[key], 'url': tab_urls.get(key)}
         for key, label, _icon in preferences.SEARCH_TYPES if key in available
     ]
 
@@ -172,10 +173,7 @@ def _with_db_cleanup(fn, *args, **kwargs):
 @login_required
 def index(request):
     available = _available_tabs(preferences.load(request))
-    results_url = reverse('search:results')
-    return render(request, 'search/index.html', {
-        'tabs': _tab_nav(available, {t: f'{results_url}?tab={t}' for t in available}),
-    })
+    return render(request, 'search/index.html', {'tabs': _tab_nav(available)})
 
 
 @login_required
