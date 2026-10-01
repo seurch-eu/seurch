@@ -47,7 +47,14 @@ from maps.services import (
 )
 from news.services import fetch_news
 from search import health
-from search.clients import _brave_request, _staan_request, brave_safesearch
+from search.clients import (
+    USER_AGENT,
+    WIKIDATA_API_BASE,
+    _brave_request,
+    _staan_request,
+    _wikidata_request,
+    brave_safesearch,
+)
 from search.models import ProviderStatus
 from videos.services import fetch_videos
 from web.services import (
@@ -82,6 +89,31 @@ def _fake_httpx_client(payloads):
     cm.__enter__.return_value = client
     cm.__exit__.return_value = False
     return cm, client
+
+
+def _wikidata_search(*hits):
+    """A Wikidata ``generator=search`` + ``prop=pageimages`` body for ``(item id,
+    file name)`` hits, given in search rank. The API lists pages in page-id
+    order rather than rank, so the ids here deliberately run the other way."""
+    pages = [
+        {'pageid': 1000 - rank, 'ns': 0, 'title': item_id, 'index': rank, 'pageimage': name,
+         'thumbnail': {'source': f'https://upload.wikimedia.org/wikipedia/commons/thumb/{name}/500px-{name}',
+                       'width': 500, 'height': 375}}
+        for rank, (item_id, name) in enumerate(hits, start=1)
+    ]
+    return {'batchcomplete': True, 'query': {'pages': pages[::-1]}}
+
+
+def _wikidata_entities(lang='en', **terms):
+    """A ``wbgetentities`` body: ``item id=(label, description)`` in *lang*,
+    an empty string leaving that term out."""
+    def term(value):
+        return {lang: {'language': lang, 'value': value}} if value else {}
+    return {'success': 1, 'entities': {
+        item_id: {'type': 'item', 'id': item_id,
+                  'labels': term(label), 'descriptions': term(description)}
+        for item_id, (label, description) in terms.items()
+    }}
 
 
 def _disabled_providers(only_engine=None, providers_off=()):
@@ -515,6 +547,40 @@ class StaanRequestTests(TestCase):
         self.assertEqual(mock_down.call_args[0][0], 'staan')
 
 
+class WikidataRequestTests(TestCase):
+    """The Wikidata Action API client: keyless, JSON, a descriptive User-Agent,
+    and an error body treated as no answer."""
+
+    def test_asks_for_json_with_a_descriptive_user_agent(self):
+        cm, client = _fake_httpx_client([{'query': {'pages': []}}])
+        with patch('httpx.Client', return_value=cm):
+            data = _wikidata_request({'action': 'query'})
+        self.assertEqual(data, {'query': {'pages': []}})
+        self.assertEqual(client.get.call_args[0][0], WIKIDATA_API_BASE)
+        self.assertEqual(client.get.call_args.kwargs['params'],
+                         {'action': 'query', 'format': 'json', 'formatversion': 2})
+        # Wikimedia refuses requests without one (httpx's default is generic).
+        self.assertEqual(client.get.call_args.kwargs['headers']['User-Agent'], USER_AGENT)
+
+    def test_api_error_body_is_no_answer(self):
+        # The Action API reports a bad request inside an HTTP 200 body.
+        cm, _ = _fake_httpx_client([{'error': {
+            'code': 'badvalue', 'info': 'Unrecognized value for parameter "q": secret query',
+        }}])
+        with patch('httpx.Client', return_value=cm), \
+                self.assertLogs('search.clients', 'WARNING') as logs:
+            self.assertIsNone(_wikidata_request({'action': 'query'}))
+        self.assertIn('badvalue', logs.output[0])
+        # The message can echo the query, which is only logged on opt-in.
+        self.assertNotIn('secret query', logs.output[0])
+
+    def test_upstream_error_returns_none_and_records_down(self):
+        with patch('httpx.Client', side_effect=RuntimeError('boom')), \
+                patch('search.clients.health.record_down') as mock_down:
+            self.assertIsNone(_wikidata_request({'action': 'query'}))
+        self.assertEqual(mock_down.call_args[0][0], 'wikidata')
+
+
 class FetchStaanWebTests(TestCase):
     """Staan's slice of the web results: request shape, normalisation, and the
     key gate that keeps it out of a search entirely when unconfigured."""
@@ -653,13 +719,22 @@ class FetchSuggestionsTests(TestCase):
 
 
 class FetchImagesTests(TestCase):
+    """The keyed providers, Brave and Pixabay (Wikidata has its own tests)."""
+
+    def setUp(self):
+        # Wikidata needs no key, so it joins every search by default; here it
+        # answers nothing rather than reach the real API.
+        patcher = patch('images.services._wikidata_request', return_value=None)
+        patcher.start()
+        self.addCleanup(patcher.stop)
+
     @override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
     def test_no_key_returns_empty(self):
-        self.assertEqual(fetch_images('q', 'all'), [])
+        self.assertEqual(fetch_images('q', 'all', wikidata_enabled=False), [])
 
     @override_settings(BRAVE_API_KEY='test-key', PIXABAY_API_KEY='')
     def test_non_brave_engine_returns_empty(self):
-        self.assertEqual(fetch_images('q', 'mojeek'), [])
+        self.assertEqual(fetch_images('q', 'mojeek', wikidata_enabled=False), [])
 
     @override_settings(BRAVE_API_KEY='test-key')
     @patch('images.services._brave_request')
@@ -739,6 +814,182 @@ class FetchImagesTests(TestCase):
         self.assertEqual(results[0]['source'], 'Pixabay')
 
 
+@override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
+class FetchWikidataImagesTests(TestCase):
+    """Wikidata's slice of the Images tab: an item search limited to items
+    with an image, normalised onto the shared image shape. It needs no key, so
+    it is on by default, and sits out explicit subjects under safe search."""
+
+    def _fetch(self, responses, query='eiffel tower', **kwargs):
+        with patch('images.services._wikidata_request', side_effect=responses) as mock_wd:
+            results = fetch_images(query, 'all', **kwargs)
+        return results, mock_wd
+
+    def test_serves_the_tab_without_any_key(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q243', 'Tour_Eiffel.jpg')),
+            _wikidata_entities(Q243=('Eiffel Tower', 'tower in Paris')),
+        ])
+        self.assertEqual(len(results), 1)
+        img = results[0]
+        self.assertEqual(img['title'], 'Eiffel Tower')
+        self.assertEqual(img['source'], 'Wikidata')
+        # Linked to the Commons file page, which names the author and licence.
+        self.assertEqual(img['url'], 'https://commons.wikimedia.org/wiki/File:Tour_Eiffel.jpg')
+        self.assertEqual(
+            img['thumbnail']['src'],
+            'https://upload.wikimedia.org/wikipedia/commons/thumb/Tour_Eiffel.jpg/500px-Tour_Eiffel.jpg',
+        )
+
+    def test_search_is_limited_to_items_with_an_image(self):
+        _, mock_wd = self._fetch([_wikidata_search()], query='cats', page=2)
+        params = mock_wd.call_args.args[0]
+        self.assertEqual(params['generator'], 'search')
+        self.assertEqual(params['gsrsearch'], 'cats haswbstatement:P18')
+        self.assertEqual(params['gsrlimit'], 10)
+        self.assertEqual(params['gsroffset'], 10)  # page 2
+        self.assertEqual(params['prop'], 'pageimages')
+        self.assertEqual(params['pithumbsize'], 500)
+
+    def test_results_follow_search_rank(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'First.jpg'), ('Q2', 'Second.jpg'), ('Q3', 'Third.jpg')),
+            _wikidata_entities(Q1=('first', ''), Q2=('second', ''), Q3=('third', '')),
+        ])
+        self.assertEqual([r['title'] for r in results], ['first', 'second', 'third'])
+
+    def test_labels_fetched_together_in_the_search_language(self):
+        _, mock_wd = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg'), ('Q2', 'B.jpg')),
+            _wikidata_entities('fr', Q1=('a', ''), Q2=('b', '')),
+        ], lang='fr')
+        self.assertEqual(mock_wd.call_count, 2)
+        search, terms = (call.args[0] for call in mock_wd.call_args_list)
+        self.assertEqual(search['uselang'], 'fr')
+        self.assertEqual(terms['action'], 'wbgetentities')
+        self.assertEqual(terms['ids'], 'Q1|Q2')
+        self.assertEqual(terms['props'], 'labels|descriptions')
+        self.assertEqual(terms['languages'], 'fr')
+        self.assertTrue(terms['languagefallback'])
+
+    def test_unsupported_language_falls_back_to_english(self):
+        # An arbitrary ?lang= would get the whole request rejected upstream.
+        _, mock_wd = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg')), _wikidata_entities(Q1=('a', '')),
+        ], lang='xx')
+        search, terms = (call.args[0] for call in mock_wd.call_args_list)
+        self.assertEqual(search['uselang'], 'en')
+        self.assertEqual(terms['languages'], 'en')
+
+    def test_label_taken_from_the_fallback_chain(self):
+        # Asked for French, Wikidata answered with its English fallback.
+        results, _ = self._fetch([
+            _wikidata_search(('Q243', 'Tour_Eiffel.jpg')),
+            _wikidata_entities('en', Q243=('Eiffel Tower', '')),
+        ], lang='fr')
+        self.assertEqual(results[0]['title'], 'Eiffel Tower')
+
+    def test_unlabelled_item_captioned_with_its_file_name(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'Tour_Eiffel_(night).jpg')), _wikidata_entities(Q1=('', '')),
+        ])
+        self.assertEqual(results[0]['title'], 'Tour Eiffel (night)')
+
+    def test_file_page_url_is_escaped(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q12418', 'Mona Lisa (Louvre).jpg')),
+            _wikidata_entities(Q12418=('Mona Lisa', '')),
+        ])
+        self.assertEqual(results[0]['url'],
+                         'https://commons.wikimedia.org/wiki/File:Mona_Lisa_%28Louvre%29.jpg')
+
+    def test_hit_without_an_image_is_skipped(self):
+        body = _wikidata_search(('Q1', 'A.jpg'), ('Q2', 'B.jpg'))
+        next(p for p in body['query']['pages'] if p['title'] == 'Q2').pop('thumbnail')
+        results, mock_wd = self._fetch([body, _wikidata_entities(Q1=('a', ''))])
+        self.assertEqual([r['title'] for r in results], ['a'])
+        self.assertEqual(mock_wd.call_args.args[0]['ids'], 'Q1')
+
+    def test_no_hits_skips_the_label_request(self):
+        results, mock_wd = self._fetch([_wikidata_search()])
+        self.assertEqual(results, [])
+        self.assertEqual(mock_wd.call_count, 1)
+
+    def test_results_are_cached(self):
+        first, _ = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg')), _wikidata_entities(Q1=('a', '')),
+        ])
+        again, mock_wd = self._fetch([])
+        mock_wd.assert_not_called()
+        self.assertEqual(again, first)
+
+    def test_failed_search_is_not_cached(self):
+        results, _ = self._fetch([None])
+        self.assertEqual(results, [])
+        # The next search asks again instead of being served an empty slice.
+        results, mock_wd = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg')), _wikidata_entities(Q1=('a', '')),
+        ])
+        self.assertEqual(mock_wd.call_count, 2)
+        self.assertEqual(len(results), 1)
+
+    def test_failed_label_request_drops_the_slice_uncached(self):
+        results, _ = self._fetch([_wikidata_search(('Q1', 'A.jpg')), None])
+        self.assertEqual(results, [])
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg')), _wikidata_entities(Q1=('a', '')),
+        ])
+        self.assertEqual([r['title'] for r in results], ['a'])
+
+    def test_disabled_source_is_not_queried(self):
+        results, mock_wd = self._fetch([], wikidata_enabled=False)
+        self.assertEqual(results, [])
+        mock_wd.assert_not_called()
+
+    def test_safe_search_sits_out_an_explicit_query(self):
+        results, mock_wd = self._fetch([], query='fellatio', safe_search='on')
+        self.assertEqual(results, [])
+        mock_wd.assert_not_called()
+
+    def test_safe_search_drops_explicit_hits(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg'), ('Q2', 'B.jpg'), ('Q3', 'C.jpg')),
+            _wikidata_entities(
+                Q1=('Fellatio', ''),
+                Q2=('Untitled', '1972 pornographic film'),
+                Q3=('Eiffel Tower', 'tower in Paris'),
+            ),
+        ], query='paris', safe_search='on')
+        self.assertEqual([r['title'] for r in results], ['Eiffel Tower'])
+
+    def test_safe_search_off_keeps_explicit_subjects(self):
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg')), _wikidata_entities(Q1=('Fellatio', '')),
+        ], query='fellatio', safe_search='off')
+        self.assertEqual([r['title'] for r in results], ['Fellatio'])
+
+    @override_settings(BRAVE_API_KEY='test-key', PIXABAY_API_KEY='pix-key')
+    @patch('images.services._pixabay_request')
+    @patch('images.services._brave_request')
+    def test_blended_after_brave_and_pixabay(self, mock_brave, mock_pixabay):
+        mock_brave.return_value = {'results': [
+            {'title': f'b{i}', 'url': f'https://ex.com/{i}', 'source': 'example.com',
+             'thumbnail': {'src': f'https://imgs.brave.com/{i}.jpg'}}
+            for i in range(2)
+        ]}
+        mock_pixabay.return_value = {'hits': [
+            {'tags': f'p{i}', 'pageURL': f'https://pixabay.com/p/{i}/',
+             'webformatURL': f'https://cdn.pixabay.com/{i}.jpg'}
+            for i in range(2)
+        ]}
+        results, _ = self._fetch([
+            _wikidata_search(('Q1', 'A.jpg'), ('Q2', 'B.jpg')),
+            _wikidata_entities(Q1=('a', ''), Q2=('b', '')),
+        ])
+        self.assertEqual([r['source'] for r in results],
+                         ['example.com', 'Pixabay', 'Wikidata'] * 2)
+
+
 class CleanCaptionTests(TestCase):
     """Reducing an image caption to a search-friendly subject phrase."""
 
@@ -811,6 +1062,15 @@ class FetchSimilarImagesTests(TestCase):
     def test_no_seed_skips_search(self, mock_fetch):
         self.assertEqual(fetch_similar_images('', query='', engine='all'), ('', []))
         mock_fetch.assert_not_called()  # nothing to search for, no upstream call
+
+    @patch('images.services.fetch_images', return_value=[])
+    def test_source_toggles_reach_the_search(self, mock_fetch):
+        # The grid draws on the same sources the opened image's search did.
+        fetch_similar_images('cats', engine=[], pixabay_enabled=False, wikidata_enabled=False)
+        self.assertFalse(mock_fetch.call_args.kwargs['pixabay_enabled'])
+        self.assertFalse(mock_fetch.call_args.kwargs['wikidata_enabled'])
+        fetch_similar_images('cats', engine=[])
+        self.assertTrue(mock_fetch.call_args.kwargs['wikidata_enabled'])
 
 
 class ImageSimilarEndpointTests(TestCase):
@@ -1553,6 +1813,11 @@ class ResultsViewTests(TestCase):
     def setUp(self):
         self.user = User.objects.create_user('bob', password='pass')
         self.client.login(username='bob', password='pass')
+        # Keyless Wikidata joins every Images search; it answers nothing here
+        # rather than reach the real API (a test needing it patches it itself).
+        patcher = patch('images.services._wikidata_request', return_value=None)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_no_query_returns_200(self):
         resp = self.client.get(reverse('search:results'))
@@ -1780,6 +2045,23 @@ class ResultsViewTests(TestCase):
         self.assertContains(resp, 'https://pixabay.com/p/1/')  # links back to the source page
         self.assertContains(resp, '>Pixabay<')  # attribution badge rendered
 
+    @override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
+    @patch('images.services._wikidata_request')
+    def test_wikidata_image_credits_its_commons_file_page(self, mock_wd):
+        # Most Commons licences require crediting the author: the badge and the
+        # "Visit page" link lead to the file page, which names author and licence.
+        mock_wd.side_effect = [
+            _wikidata_search(('Q243', 'Tour_Eiffel.jpg')),
+            _wikidata_entities(Q243=('Eiffel Tower', 'tower in Paris')),
+        ]
+        resp = self.client.get(reverse('search:results') + '?q=eiffel+tower&tab=images')
+        self.assertEqual(resp.status_code, 200)
+        self.assertContains(resp, 'href="https://commons.wikimedia.org/wiki/File:Tour_Eiffel.jpg"')
+        self.assertContains(resp, '>Wikidata<')
+        self.assertContains(resp, 'alt="Eiffel Tower"')
+        # Commons allows hotlinking, so with proxying off the thumbnail is direct.
+        self.assertContains(resp, 'src="https://upload.wikimedia.org/wikipedia/commons/thumb/')
+
     @override_settings(BRAVE_API_KEY='', WORLDNEWS_API_KEY='wn-key')
     @patch('news.services._worldnews_request')
     def test_news_result_shows_provider_badge(self, mock_wn):
@@ -1847,6 +2129,24 @@ class EmptyStateTests(TestCase):
         self.assertContains(resp, 'No images found')
         self.assertContains(resp, 'zzznotathing')
         self.assertNotContains(resp, 'Search for images')
+
+    @override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
+    @patch('search.views.fetch_images', return_value=[])
+    def test_keyless_wikidata_answers_without_image_keys(self, mock_images):
+        # No Brave or Pixabay key, but Wikidata needs none and was searched, so
+        # an empty answer means nothing matched, not a configuration problem.
+        resp = self.client.get(reverse('search:results') + '?q=zzznotathing&tab=images')
+        self.assertContains(resp, 'No images found')
+        self.assertNotContains(resp, 'No image provider configured')
+
+    @override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
+    @patch('search.views.fetch_images', return_value=[])
+    def test_image_notice_when_nothing_in_scope_is_configured(self, mock_images):
+        resp = self.client.get(
+            reverse('search:results') + '?q=cats&tab=images&scope=brave&scope=pixabay',
+        )
+        self.assertContains(resp, 'No image provider configured')
+        self.assertNotContains(resp, 'No images found')
 
     @patch('search.views.fetch_videos', return_value=[])
     def test_empty_video_search_reports_the_query(self, mock_videos):
@@ -1945,10 +2245,11 @@ class SettingsViewTests(TestCase):
         ))
         prefs = _get_prefs(self.client)
         self.assertNotIn('brave', preferences.enabled_engines(prefs, 'web'))
-        self.assertEqual(preferences.enabled_providers(prefs, 'images'), ['brave', 'pixabay'])
+        self.assertEqual(preferences.enabled_providers(prefs, 'images'),
+                         ['brave', 'pixabay', 'wikidata'])
 
     def test_save_per_type_selection(self):
-        # "For images I want just Brave" — Pixabay off, Web untouched.
+        # "For images I want just Brave" — Pixabay and Wikidata off, Web untouched.
         self.client.post(reverse('search:settings'), {
             'setting': 'providers', 'search_type': 'images', 'pane': 'engine',
             'provider_brave': 'on',
@@ -2162,8 +2463,9 @@ class SearchScopeTests(TestCase):
 
 class TabScopeTests(TestCase):
     """The provider picker works on every blended tab, not just Web: each tab
-    offers its own providers (Images → Brave + Pixabay, News → Brave + World
-    News, Videos → Brave + Sepia) and the scope decides which of them run."""
+    offers its own providers (Images → Brave + Pixabay + Wikidata, News → Brave
+    + World News, Videos → Brave + Sepia) and the scope decides which of them
+    run."""
 
     def setUp(self):
         self.user = User.objects.create_user('vera', password='pass')
@@ -2178,18 +2480,28 @@ class TabScopeTests(TestCase):
         self._results('?q=cats&tab=images&scope=pixabay')
         self.assertEqual(mock_images.call_args[0][1], [])  # no engine → no Brave
         self.assertTrue(mock_images.call_args[1]['pixabay_enabled'])
+        self.assertFalse(mock_images.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_images', return_value=[])
     def test_images_scoped_to_brave_drops_pixabay(self, mock_images):
         self._results('?q=cats&tab=images&scope=brave')
         self.assertEqual(mock_images.call_args[0][1], ['brave'])
         self.assertFalse(mock_images.call_args[1]['pixabay_enabled'])
+        self.assertFalse(mock_images.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_images', return_value=[])
-    def test_images_default_uses_both_providers(self, mock_images):
+    def test_images_scoped_to_wikidata_drops_the_others(self, mock_images):
+        self._results('?q=cats&tab=images&scope=wikidata')
+        self.assertEqual(mock_images.call_args[0][1], [])
+        self.assertFalse(mock_images.call_args[1]['pixabay_enabled'])
+        self.assertTrue(mock_images.call_args[1]['wikidata_enabled'])
+
+    @patch('search.views.fetch_images', return_value=[])
+    def test_images_default_uses_every_provider(self, mock_images):
         self._results('?q=cats&tab=images')
         self.assertEqual(mock_images.call_args[0][1], ['brave'])
         self.assertTrue(mock_images.call_args[1]['pixabay_enabled'])
+        self.assertTrue(mock_images.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_images', return_value=[])
     def test_images_engine_excludes_web_only_engines(self, mock_images):
@@ -2271,11 +2583,13 @@ class TabScopeTests(TestCase):
         self.assertEqual(resp.context['search_count'], 1)
 
     # --- Picker rendering ---------------------------------------------------
-    def test_picker_offers_the_tabs_own_providers(self):
+    @patch('search.views.fetch_images', return_value=[])
+    def test_picker_offers_the_tabs_own_providers(self, mock_images):
         resp = self._results('?q=cats&tab=images')
         self.assertEqual([o['key'] for o in resp.context['scope_options']],
-                         ['brave', 'pixabay'])
+                         ['brave', 'pixabay', 'wikidata'])
         self.assertContains(resp, 'name="scope" value="pixabay"')
+        self.assertContains(resp, 'name="scope" value="wikidata"')
         self.assertNotContains(resp, 'name="scope" value="mojeek"')
 
     def test_picker_labels_supplementary_provider(self):
@@ -2307,7 +2621,8 @@ class TabScopeTests(TestCase):
         resp = self._results('?q=cats&tab=images&scope=pixabay')
         self.assertContains(resp, '<input type="hidden" name="scope" value="pixabay">')
 
-    def test_default_scope_is_not_pinned_to_links(self):
+    @patch('search.views.fetch_images', return_value=[])
+    def test_default_scope_is_not_pinned_to_links(self, mock_images):
         # Nothing narrowed → no scope on the links, so the saved preferences keep
         # applying (rather than being frozen into every URL).
         resp = self._results('?q=cats&tab=images')
@@ -2328,12 +2643,21 @@ class ImagesScopeCarryTests(TestCase):
         self.client.get(reverse('search:image_similar') + '?q=dogs&scope=pixabay')
         self.assertEqual(mock_sim.call_args[1]['engine'], [])
         self.assertTrue(mock_sim.call_args[1]['pixabay_enabled'])
+        self.assertFalse(mock_sim.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_similar_images', return_value=('dogs', []))
     def test_similar_endpoint_scoped_to_brave(self, mock_sim):
         self.client.get(reverse('search:image_similar') + '?q=dogs&scope=brave')
         self.assertEqual(mock_sim.call_args[1]['engine'], ['brave'])
         self.assertFalse(mock_sim.call_args[1]['pixabay_enabled'])
+        self.assertFalse(mock_sim.call_args[1]['wikidata_enabled'])
+
+    @patch('search.views.fetch_similar_images', return_value=('dogs', []))
+    def test_similar_endpoint_scoped_to_wikidata(self, mock_sim):
+        self.client.get(reverse('search:image_similar') + '?q=dogs&scope=wikidata')
+        self.assertEqual(mock_sim.call_args[1]['engine'], [])
+        self.assertFalse(mock_sim.call_args[1]['pixabay_enabled'])
+        self.assertTrue(mock_sim.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_similar_images', return_value=('dogs', []))
     def test_similar_endpoint_defaults_to_saved_providers(self, mock_sim):
@@ -2341,6 +2665,7 @@ class ImagesScopeCarryTests(TestCase):
         self.client.get(reverse('search:image_similar') + '?q=dogs')
         self.assertEqual(mock_sim.call_args[1]['engine'], ['brave'])
         self.assertFalse(mock_sim.call_args[1]['pixabay_enabled'])
+        self.assertTrue(mock_sim.call_args[1]['wikidata_enabled'])
 
     @patch('search.views.fetch_images')
     def test_grid_carries_scope_to_lightbox_and_detail_link(self, mock_images):
@@ -2431,7 +2756,7 @@ class EngineSettingsDisplayTests(TestCase):
         self.assertEqual(str(brave['desc']), "Brave's own image search.")
 
     def test_empty_search_type_is_flagged(self):
-        _set_prefs(self.client, disabled_providers={'images': ['brave', 'pixabay']})
+        _set_prefs(self.client, disabled_providers={'images': ['brave', 'pixabay', 'wikidata']})
         resp = self.client.get(reverse('search:settings_pane', kwargs={'pane': 'engines'}))
         self.assertEqual(_type_group(resp, 'images')['enabled_count'], 0)
         self.assertContains(resp, 'Nothing is enabled for Images')
@@ -2462,7 +2787,8 @@ class EngineSettingsDisplayTests(TestCase):
         for search_type, provider in (('web', 'marginalia'), ('web', 'wikipedia'),
                                       ('web', 'thetvdb'), ('web', 'tripadvisor'),
                                       ('web', 'stackexchange'), ('web', 'weather'),
-                                      ('images', 'pixabay'), ('videos', 'sepia'),
+                                      ('images', 'pixabay'), ('images', 'wikidata'),
+                                      ('videos', 'sepia'),
                                       ('maps', 'openstreetmap'), ('translate', 'translate')):
             self.assertNotIn('Paid', _provider_row(content, search_type, provider),
                              f'{search_type}/{provider}')
@@ -2502,6 +2828,16 @@ class EngineSettingsDisplayTests(TestCase):
         self.assertContains(resp, 'TripAdvisor')
         self.assertContains(resp, 'Open-Meteo')
         self.assertContains(resp, 'Pixabay')
+
+    @override_settings(BRAVE_API_KEY='', PIXABAY_API_KEY='')
+    def test_keyless_wikidata_toggle_stays_available(self):
+        # Without image keys Brave and Pixabay can't be switched on, but
+        # Wikidata needs none and stays a working choice.
+        resp = self.client.get(reverse('search:settings_pane', kwargs={'pane': 'engines'}))
+        content = resp.content.decode()
+        self.assertIn('disabled', _provider_input(content, 'images', 'pixabay'))
+        self.assertNotIn('disabled', _provider_input(content, 'images', 'wikidata'))
+        self.assertIn('Open source', _provider_row(content, 'images', 'wikidata'))
 
     @override_settings(THETVDB_API_KEY='', TRIPADVISOR_API_KEY='test-key', PIXABAY_API_KEY='test-key')
     def test_data_source_without_api_key_is_disabled(self):
@@ -3450,6 +3786,17 @@ class DataSourceSettingTests(TestCase):
         self.client.get(reverse('search:results') + '?q=cats&tab=images')
         self.assertTrue(mock_images.call_args.kwargs['pixabay_enabled'])
 
+    @patch('search.views.fetch_images', return_value=[])
+    def test_wikidata_disable_flag_passed_to_fetch_images(self, mock_images):
+        _set_prefs(self.client, providers_off=['wikidata'])
+        self.client.get(reverse('search:results') + '?q=cats&tab=images')
+        self.assertFalse(mock_images.call_args.kwargs['wikidata_enabled'])
+
+    @patch('search.views.fetch_images', return_value=[])
+    def test_wikidata_enabled_flag_by_default(self, mock_images):
+        self.client.get(reverse('search:results') + '?q=cats&tab=images')
+        self.assertTrue(mock_images.call_args.kwargs['wikidata_enabled'])
+
     @patch('search.views.fetch_news', return_value=[])
     def test_worldnews_disable_flag_passed_to_fetch_news(self, mock_news):
         _set_prefs(self.client, providers_off=['worldnews'])
@@ -3572,13 +3919,13 @@ class PreferencesModuleTests(TestCase):
         self.assertEqual(view, {'brave': True, 'mojeek': True,
                                 'marginalia': False, 'staan': True})
         self.assertEqual({o['key']: o['paid'] for o in preferences.scope_view('images', [])},
-                         {'brave': True, 'pixabay': False})
+                         {'brave': True, 'pixabay': False, 'wikidata': False})
 
     @override_settings(PAID_PROVIDERS=['pixabay'])
     def test_scope_view_paid_follows_the_setting(self):
         from search import preferences
         self.assertEqual({o['key']: o['paid'] for o in preferences.scope_view('images', [])},
-                         {'brave': False, 'pixabay': True})
+                         {'brave': False, 'pixabay': True, 'wikidata': False})
 
     def test_scope_view_marks_checked(self):
         from search import preferences
@@ -3593,7 +3940,7 @@ class PreferencesModuleTests(TestCase):
     def test_scope_view_covers_each_tabs_providers(self):
         from search import preferences
         self.assertEqual([o['key'] for o in preferences.scope_view('images', [])],
-                         ['brave', 'pixabay'])
+                         ['brave', 'pixabay', 'wikidata'])
         self.assertEqual([o['key'] for o in preferences.scope_view('videos', ['sepia'])],
                          ['brave', 'sepia'])
         # Single-provider tabs have nothing to pick.
@@ -3617,7 +3964,7 @@ class PreferencesModuleTests(TestCase):
         }})
         self.assertEqual(preferences.enabled_providers(prefs, 'web'),
                          ['mojeek', 'marginalia', 'staan'])
-        self.assertEqual(preferences.enabled_providers(prefs, 'images'), [])
+        self.assertEqual(preferences.enabled_providers(prefs, 'images'), ['wikidata'])
         self.assertEqual(preferences.enabled_providers(prefs, 'news'), ['worldnews'])
 
     def test_enabled_providers_is_read_per_tab(self):
@@ -3626,7 +3973,8 @@ class PreferencesModuleTests(TestCase):
         prefs = preferences.coerce({'disabled_providers': {'web': ['brave']}})
         self.assertEqual(preferences.enabled_providers(prefs, 'web'),
                          ['mojeek', 'marginalia', 'staan'])
-        self.assertEqual(preferences.enabled_providers(prefs, 'images'), ['brave', 'pixabay'])
+        self.assertEqual(preferences.enabled_providers(prefs, 'images'),
+                         ['brave', 'pixabay', 'wikidata'])
         self.assertEqual(preferences.enabled_providers(prefs, 'videos'), ['brave', 'sepia'])
 
     def test_paid_providers_defaults_to_the_metered_apis(self):
@@ -4166,15 +4514,21 @@ class TabAvailabilityTests(TestCase):
 
     def test_mojeek_rides_on_fallback_providers(self):
         # Mojeek has no news/image/video search of its own, but News rides on
-        # World News, Images on Pixabay and Videos on Sepia (all on by default),
-        # so every tab is still available.
+        # World News, Images on Pixabay and Wikidata and Videos on Sepia (all on
+        # by default), so every tab is still available.
         tabs = _available_tabs(_prefs(only_engine='mojeek'))
         self.assertEqual(tabs, {'web', 'images', 'news', 'videos', 'maps'})
 
-    def test_marginalia_without_pixabay_has_no_images(self):
-        # Pixabay off + no Brave → no Images; News (World News) and Videos
-        # (Sepia) still come from their fallback providers.
+    def test_wikidata_alone_keeps_images(self):
+        # Pixabay off + no Brave still leaves keyless Wikidata on Images.
         tabs = _available_tabs(_prefs(only_engine='marginalia', providers_off=['pixabay']))
+        self.assertIn('images', tabs)
+
+    def test_marginalia_without_pixabay_or_wikidata_has_no_images(self):
+        # Pixabay and Wikidata off + no Brave → no Images; News (World News)
+        # and Videos (Sepia) still come from their fallback providers.
+        tabs = _available_tabs(_prefs(only_engine='marginalia',
+                                      providers_off=['pixabay', 'wikidata']))
         self.assertEqual(tabs, {'web', 'news', 'videos', 'maps'})
 
     def test_news_hidden_without_brave_and_worldnews(self):

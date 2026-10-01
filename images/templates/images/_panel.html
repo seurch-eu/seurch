@@ -7,7 +7,7 @@
     {% trans "Search for images" as empty_title %}
     {% trans "Type a query above and matching images appear here." as empty_sub %}
     {% include 'search/_empty.html' with icon="🖼️" title=empty_title sub=empty_sub only %}
-  {% elif brave_key_missing and pixabay_key_missing %}
+  {% elif images_unconfigured %}
     {% blocktrans asvar empty_sub %}No image provider configured. Set <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">BRAVE_API_KEY</code> or <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">PIXABAY_API_KEY</code> in <code class="bg-slate-100 dark:bg-slate-800 px-1 rounded">.env</code>.{% endblocktrans %}
     {% include 'search/_empty.html' with icon="⚙️" sub=empty_sub only %}
   {% else %}
