@@ -323,6 +323,7 @@ def results(request):
     engine = list(scope) if tab == 'web' else preferences.enabled_engines(prefs)
     media_engine = ['brave'] if 'brave' in scope else []
     pixabay_enabled = 'pixabay' in scope
+    wikidata_enabled = 'wikidata' in scope
     worldnews_enabled = 'worldnews' in scope
     sepia_enabled = 'sepia' in scope
 
@@ -331,6 +332,9 @@ def results(request):
     # Notice flags for the web panel when it can't return anything.
     no_engines_enabled = not engine
     engines_unconfigured = bool(engine) and all(key_missing[e] for e in engine)
+    # Same notice for the Images tab: every provider in scope needs a key this
+    # deployment lacks. Wikidata needs none, so it alone keeps the tab served.
+    images_unconfigured = all(key_missing.get(p, False) for p in scope)
 
     # Bangs are a search-query feature; on the translate tab the query is plain
     # text to translate (which may legitimately start with "!"), so skip them.
@@ -391,8 +395,8 @@ def results(request):
         'defer_cards': False,
         'no_engines_enabled': no_engines_enabled,
         'engines_unconfigured': engines_unconfigured,
+        'images_unconfigured': images_unconfigured,
         'brave_key_missing': key_missing['brave'],
-        'pixabay_key_missing': key_missing['pixabay'],
         'worldnews_key_missing': key_missing['worldnews'],
         'open_links_new_tab': open_links_new_tab,
         'proxy_images': prefs['proxy_images'],
@@ -510,7 +514,10 @@ def results(request):
             context['map_osm_url'] = primary.get('osm_url') or WORLD_OSM_URL
     elif tab == 'images':
         context['image_results'] = filter_blocked(
-            fetch_images(query, media_engine, page, safe_search, lang, pixabay_enabled=pixabay_enabled), blocked,
+            fetch_images(
+                query, media_engine, page, safe_search, lang,
+                pixabay_enabled=pixabay_enabled, wikidata_enabled=wikidata_enabled,
+            ), blocked,
         )
     elif tab == 'news':
         context['news_results'] = filter_blocked(
@@ -633,6 +640,7 @@ def _similar_images_for(request, title, query, *, limit=12):
         safe_search=request.GET.get('safe', prefs['safe_search']),
         lang=request.GET.get('lang', ''),
         pixabay_enabled='pixabay' in scope,
+        wikidata_enabled='wikidata' in scope,
         exclude_url=request.GET.get('src', '').strip(),
     )
     if seed:

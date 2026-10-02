@@ -22,6 +22,7 @@ STAAN_API_BASE = 'https://api.staan.ai/v2'
 SEPIA_API_BASE = 'https://sepiasearch.org/api/v1'
 PIXABAY_API_BASE = 'https://pixabay.com/api/'
 WORLDNEWS_API_BASE = 'https://api.worldnewsapi.com'
+WIKIDATA_API_BASE = 'https://www.wikidata.org/w/api.php'
 
 RESULTS_PER_PAGE = 10
 
@@ -183,3 +184,20 @@ def _worldnews_request(params):
         'worldnews', f'{WORLDNEWS_API_BASE}/search-news', params,
         {'x-api-key': settings.WORLDNEWS_API_KEY},
     )
+
+
+def _wikidata_request(params):
+    """Wikidata's MediaWiki Action API, free and keyless."""
+    data = _provider_request(
+        'wikidata', WIKIDATA_API_BASE,
+        {**params, 'format': 'json', 'formatversion': 2},
+        {'User-Agent': USER_AGENT},
+    )
+    if data is not None and 'error' in data:
+        # Only the error code: the message can echo request parameters, and a
+        # query is only ever logged when the operator opted in (query_label).
+        error = data['error']
+        logger.warning('wikidata api error: %s',
+                       error.get('code') if isinstance(error, dict) else 'unknown')
+        return None
+    return data

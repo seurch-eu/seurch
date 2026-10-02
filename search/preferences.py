@@ -44,6 +44,7 @@ SOURCES = (
     ('stackexchange', _('Stack Exchange'), _('Top question-and-answer panel.')),
     ('weather', _('Open-Meteo'), _('Weather instant answer.')),
     ('pixabay', _('Pixabay'), _('Royalty-free photos blended into the Images tab.')),
+    ('wikidata', _('Wikidata'), _('Freely licensed Wikimedia Commons images blended into the Images tab.')),
     ('translate', _('Translate'), _('Text translation tab powered by LibreTranslate.')),
     ('sepia', _('Sepia'), _('PeerTube-based video search blended into the Videos tab.')),
     ('worldnews', _('World News API'), _('News articles blended into the News tab.')),
@@ -61,6 +62,7 @@ SOURCE_FLAGS = {
     'stackexchange': '🇺🇸',
     'weather': '🇨🇭',
     'pixabay': '🇩🇪',
+    'wikidata': '🇺🇸',
     'translate': '🇫🇷',
     'sepia': '🇪🇺',
     'worldnews': '🇩🇪',
@@ -72,6 +74,7 @@ OPEN_SOURCE = frozenset({
     'marginalia',
     'sepia',
     'wikipedia',
+    'wikidata',
     'weather',
     'translate',
     'openstreetmap',
@@ -103,7 +106,7 @@ SEARCH_TYPE_KEYS = tuple(key for key, _label, _icon in SEARCH_TYPES)
 # them.
 TYPE_PROVIDERS = {
     'web': (*REAL_ENGINES, 'wikipedia', 'thetvdb', 'tripadvisor', 'stackexchange', 'weather'),
-    'images': ('brave', 'pixabay'),
+    'images': ('brave', 'pixabay', 'wikidata'),
     'news': ('brave', 'worldnews'),
     'videos': ('brave', 'sepia'),
     'maps': ('openstreetmap',),
