@@ -15,9 +15,9 @@ Usefull links:
 - **Web search across four engines**, Brave, Mojeek, Marginalia and Staan.
 - **Search scope**, a quick per-search provider picker on the results page, on
   every tab that blends providers. 
-- **Images, News and Videos** via the Brave Search API, each with an extra
-  provider blended in, **Pixabay** (Images), the **World News API** (News) and
-  **Sepia/PeerTube** (Videos). 
+- **Images, News and Videos** via the Brave Search API, each with extra
+  providers blended in, **Pixabay** and **Wikidata** (Images), the **World News
+  API** (News) and **Sepia/PeerTube** (Videos). 
 - **Maps** via OpenStreetMap (Nominatim geocoding + an embedded map).
 - **Translate** tab powered by [LibreTranslate](https://libretranslate.com/).
 - **Knowledge panel** beside the web results, Wikipedia, TheTVDB (film/TV),
@@ -164,7 +164,9 @@ the indexes, open data and free software below, and is grateful to all of them.
   self-hosted engine behind the Translate tab.
 - [Wikipedia](https://www.wikipedia.org/) and
   [Wikidata](https://www.wikidata.org/), knowledge-card detection and content,
-  under CC BY-SA.
+  under CC BY-SA. Wikidata also supplies the Images tab with its items' images
+  from [Wikimedia Commons](https://commons.wikimedia.org/), each under its own
+  free licence.
 - [TheTVDB](https://thetvdb.com/), [Tripadvisor](https://www.tripadvisor.com/)
   and [Stack Exchange](https://api.stackexchange.com/docs), the film/TV, places and
   Q&A knowledge cards.

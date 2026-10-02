@@ -960,6 +960,12 @@ msgstr "Pixabay"
 msgid "Royalty-free photos blended into the Images tab."
 msgstr "Fotos libres de derechos integradas en la pestaña Imágenes."
 
+msgid "Wikidata"
+msgstr "Wikidata"
+
+msgid "Freely licensed Wikimedia Commons images blended into the Images tab."
+msgstr "Imágenes con licencia libre de Wikimedia Commons integradas en la pestaña Imágenes."
+
 msgid "Translate"
 msgstr "Traducir"
 
